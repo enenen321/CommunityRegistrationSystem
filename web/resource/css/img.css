@@ -1,0 +1,40 @@
+
+/*第一屏*/
+.onepage{
+    height: 360px;
+}
+.onepage-bg{
+    height: 350px;
+    width:100%;
+    position: absolute;
+    background-position: center center;
+    background-size: cover;
+}
+#onepagebg{
+    background-image: url("../image/index-1.jpg");
+}
+ 
+.title-text{
+    margin-left:50px;
+}
+.headh1content{
+    margin-top: 90px;
+    line-height: 75px;
+}
+ 
+.headfontsize h1{
+    font-size: 50pt;
+    color: #fff;
+}
+ 
+.headfontsize h3,.headfontsize p{
+    color: #fff;
+}
+ 
+.headfontsize .headtext{
+    color: #d1e973;
+    font-size: 12pt;
+}
+.btn-app-store{
+    margin-top:15px;
+}
