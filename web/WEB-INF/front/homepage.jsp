@@ -18,6 +18,10 @@
     <script src="${pageContext.request.contextPath }/resource/js/bootstrap.js"></script>
     <title>社团活动报名系统</title>
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
         .line-limit-length {
             max-width: 600px;
             overflow: hidden;
@@ -31,46 +35,141 @@
             -webkit-box-orient:vertical;
             -webkit-line-clamp:5;
         }
+        a {
+            text-decoration: none;
+            color: black;
+        }
+        /* li在这里只去掉既有样式 不规定宽度 */
+        li {
+            line-height: 20px;
+            list-style: none;
+        }
+        /* flex布局每个作为item的section */
+        .conta {
+            margin: 50px auto;
+            width: 40%;
+            height: 50px;
+            display: flex;
+            justify-content: space-evenly;
+            background-color: skyblue;
+        }
+        /* 浮动只需要在每个section里做就行 */
+        /* 给section设置"字号、文本对齐和行高" => 可继承属性 */
+        .section {
+            float:left;
+            font-size: 16px;
+            line-height: 40px;
+            text-align: center;
+        }
+        /* 整个menu一开始是看不到的 同时规定样式 */
+        .menu {
+            display: none;
+            background-color: transparent;
+        }
+        /* 悬停后就可以看到menu了 只能悬停父盒子 */
+        .section:hover .menu {
+            left: auto;
+            top: 50px;
+            padding-bottom: 15px;
+            position: absolute;
+            transition:height 0.3s;
+            display: block;
+        }
+        /* 规定悬停时li的样式 */
+        .menu li:hover {
+            background-color: orange;
+        }
     </style>
 </head>
 <body>
 <% HttpSession s = request.getSession();%>
 <div class="blog-masthead">
-    <div class="container">
+    <div class="container"  style="display: block">
         <nav class="blog-nav">
-            <a class="blog-nav-item active"
-               href="${pageContext.request.contextPath }/front/homepage">
-                主页
-            </a>
-            <a class="blog-nav-item" href="${pageContext.request.contextPath }/user/userInfomation/<%=s.getAttribute("userId")%>">
-                社团管理
-            </a>
-            <a class="blog-nav-item" href="${pageContext.request.contextPath }/user/userInfomation/<%=s.getAttribute("userId")%>">
-                用户管理
-            </a>
+            <div class="section">
+            <a class="blog-nav-item active" href="${pageContext.request.contextPath }/front/homepage">主页</a>
+            </div>
+            <div class="section" style="background-color: yellow">
+            <a class="blog-nav-item" href="${pageContext.request.contextPath }/user/userInfomation/<%=s.getAttribute("userId")%>">社团管理</a>
+                <ul class="menu">
+                    <li href="#">社团人员管理</li>
+                    <li href="#">社团活动报名</li>
+                    <li href="#">社团活动列表</li>
+                    <li href="#">学生报名审核</li>
+                </ul>
+            </div>
+            <div class="section">
+            <a class="blog-nav-item" href="${pageContext.request.contextPath }/user/userInfomation/<%=s.getAttribute("userId")%>">用户管理</a>
+            </div>
+            <div class="section">
             <a class="blog-nav-item" href="${pageContext.request.contextPath }/user/userInfomation/<%=s.getAttribute("userId")%>">
                 个人信息
             </a>
+            </div>
+            <div class="section">
             <a class="blog-nav-item" href="${pageContext.request.contextPath }/user/userInfomation/<%=s.getAttribute("userId")%>">
                 系统日志
             </a>
-            <a class="blog-nav-item navbar-right" href="${pageContext.request.contextPath }/login/register">
+            </div>
+            <div class="section navbar-right">
+            <a class="blog-nav-item " href="${pageContext.request.contextPath }/login/register">
                 注册
             </a>
-            <a  class="blog-nav-item navbar-right" href="${pageContext.request.contextPath }/loginOrLogout/back">
+            </div>
+            <div class="section navbar-right">
+            <a  class="blog-nav-item " href="${pageContext.request.contextPath }/loginOrLogout/back">
                 注销
             </a>
+            </div>
             <%--登录用户--%>
-            <a class="blog-nav-item navbar-right del">
-                <%=s.getAttribute("username")%>
-            </a>
+            <div class="section navbar-right">
+                <a class="blog-nav-item">
+                    <%=s.getAttribute("username")%>
+                </a>
+            </div>
             <%--头像--%>
-            <div class="blog-nav-item navbar-right" style="width: 25px;height: 25px;margin-top: -2px;margin-right: 3px">
-                <img onclick="imgSelect()" title="点击更换头像" width="25px" height="25px" rel="icon" src="${pageContext.request.contextPath }/resource/images/avatars/<%=s.getAttribute("avatar")%>">
+            <div class="section navbar-right">
+                <div class="blog-nav-item " style="width: 25px;height: 25px;margin-top: -2px;margin-right: 3px">
+                    <img onclick="imgSelect()" title="点击更换头像" width="25px" height="25px" rel="icon" src="${pageContext.request.contextPath }/resource/images/avatars/<%=s.getAttribute("avatar")%>">
+                </div>
             </div>
         </nav>
     </div>
 </div>
+
+<%--测试样式--%>
+<%--<div class="blog-masthead">--%>
+<%--<div class="conta">--%>
+<%--    <nav class="blog-nav">--%>
+<%--    <div class="section">--%>
+<%--        <a href="#" class="head">写论文</a>--%>
+<%--        <ul class="menu">--%>
+<%--            <li>查资料</li>--%>
+<%--            <li>记笔记</li>--%>
+<%--            <li>复现</li>--%>
+<%--        </ul>--%>
+<%--    </div>--%>
+<%--    <div class="section">--%>
+<%--        <a href="#" class="head">学前端</a>--%>
+<%--        <ul class="menu">--%>
+<%--            <li>HTML</li>--%>
+<%--            <li>CSS</li>--%>
+<%--            <li>JavaScript</li>--%>
+<%--            <li>LeetCode</li>--%>
+<%--        </ul>--%>
+<%--    </div>--%>
+<%--    <div class="section">--%>
+<%--        <a href="#" class="head">小日子</a>--%>
+<%--        <ul class="menu">--%>
+<%--            <li>吃饭</li>--%>
+<%--            <li>睡觉</li>--%>
+<%--            <li>打豆豆</li>--%>
+<%--        </ul>--%>
+<%--    </div>--%>
+<%--    </nav>--%>
+<%--</div>--%>
+<%--</div>--%>
+
 <div class="onepage" id="pageone">
     <div class="onepage-bg" id="onepagebg"></div>
     <div class="container">
@@ -151,7 +250,6 @@
     <input type="file" name="imgToUpload" id="imgToUpload" onchange="imgUpload();" style="display:none;"/>
 </form>
 
-
 <script type="text/javascript">
     /*图片选择弹窗*/
     function imgSelect(){
@@ -192,6 +290,8 @@
         })
 
     }
+
+
 </script>
 <footer class="blog-footer" style="padding-top: 0px;height:5px;">
     <p>版权所有 XXXXXXXXXXXXXXXXXX</p>
