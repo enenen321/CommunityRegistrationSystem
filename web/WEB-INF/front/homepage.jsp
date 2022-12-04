@@ -39,26 +39,34 @@
     <div class="container">
         <nav class="blog-nav">
             <a class="blog-nav-item active"
-               href="${pageContext.request.contextPath }/front/homepage">首页</a>
-            <a class="blog-nav-item"
-               href="${pageContext.request.contextPath }/user/userInfomation/<%=s.getAttribute("userId")%>">社团管理</a>
-            <a class="blog-nav-item"
-               href="${pageContext.request.contextPath }/user/userInfomation/<%=s.getAttribute("userId")%>">用户管理</a>
-            <a class="blog-nav-item"
-               href="${pageContext.request.contextPath }/user/userInfomation/<%=s.getAttribute("userId")%>">个人信息</a>
-            <a class="blog-nav-item"
-               href="${pageContext.request.contextPath }/user/userInfomation/<%=s.getAttribute("userId")%>">系统日志</a>
-            <a class="blog-nav-item navbar-right"
-               href="${pageContext.request.contextPath }/login/register">注册</a>
-            <a  class="blog-nav-item navbar-right"
-                href="${pageContext.request.contextPath }/loginOrLogout/back">注销</a>
+               href="${pageContext.request.contextPath }/front/homepage">
+                主页
+            </a>
+            <a class="blog-nav-item" href="${pageContext.request.contextPath }/user/userInfomation/<%=s.getAttribute("userId")%>">
+                社团管理
+            </a>
+            <a class="blog-nav-item" href="${pageContext.request.contextPath }/user/userInfomation/<%=s.getAttribute("userId")%>">
+                用户管理
+            </a>
+            <a class="blog-nav-item" href="${pageContext.request.contextPath }/user/userInfomation/<%=s.getAttribute("userId")%>">
+                个人信息
+            </a>
+            <a class="blog-nav-item" href="${pageContext.request.contextPath }/user/userInfomation/<%=s.getAttribute("userId")%>">
+                系统日志
+            </a>
+            <a class="blog-nav-item navbar-right" href="${pageContext.request.contextPath }/login/register">
+                注册
+            </a>
+            <a  class="blog-nav-item navbar-right" href="${pageContext.request.contextPath }/loginOrLogout/back">
+                注销
+            </a>
             <%--登录用户--%>
             <a class="blog-nav-item navbar-right del">
                 <%=s.getAttribute("username")%>
             </a>
             <%--头像--%>
-            <div class="blog-nav-item navbar-right" style="width: 25px;height: 25px;">
-                <img onclick="imgSelect()" title="点击更换头像" width="25px" height="25px" rel="icon" src="${pageContext.request.contextPath }/resource/images/head.png">
+            <div class="blog-nav-item navbar-right" style="width: 25px;height: 25px;margin-top: -2px;margin-right: 3px">
+                <img onclick="imgSelect()" title="点击更换头像" width="25px" height="25px" rel="icon" src="${pageContext.request.contextPath }/resource/images/avatars/<%=s.getAttribute("avatar")%>">
             </div>
         </nav>
     </div>
@@ -138,8 +146,9 @@
     </div>
 </div>
 
+<%--图片选择框--%>
 <form id="form_face" enctype="multipart/form-data" style="width:auto;">
-    <input type="file" name="imgToUpload" id="imgToUpload" onchange="imgUpload();" style="display:none;">
+    <input type="file" name="imgToUpload" id="imgToUpload" onchange="imgUpload();" style="display:none;"/>
 </form>
 
 
@@ -148,8 +157,39 @@
     function imgSelect(){
         document.getElementById("imgToUpload").click();
     }
+
+    /*图片判断*/
+    function isImage(ext) {
+        return ['png', 'jpg', 'jpeg', 'bmp', 'gif', 'webp', 'psd', 'svg', 'tiff'].indexOf(ext.toLowerCase()) !== -1;
+    }
+
     /*图片上传*/
     function imgUpload(){
+        var name = document.getElementById("imgToUpload").value;
+        if (name == ""){
+            return alert("请选择文件");
+        }
+        var index = name.lastIndexOf(".");
+        var ext = name.substring(index+1);
+        if (!isImage(ext)){
+            return alert("文件格式错误");
+        }
+        var file = document.getElementById("imgToUpload").files[0];
+        var formData = new FormData();
+        var userId = <%=s.getAttribute("userId")%>
+        formData.append("file",file);
+        formData.append("userId",userId);
+        $.ajax({
+            url: "${pageContext.request.contextPath}/sysUser/upload-file",
+            type:"post",
+            contentType:false,
+            processData:false,
+            data:formData,
+            success:function (){
+                //刷新页面
+                history.go(0);
+            }
+        })
 
     }
 </script>

@@ -5,8 +5,9 @@ import com.crs.service.SysUserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
-
+import javax.servlet.http.HttpServletRequest;
 /**
  * @author LZ
  * @date 2022-12-02 10:08:37
@@ -71,5 +72,12 @@ public class SysUserController {
         return null;
     }
 
+    /**
+     * 更换头像
+     */
+    @PostMapping("/upload-file")
+    public void upload(MultipartFile file,Long userId,HttpServletRequest request){
+        sysUserService.upload(file,userId,request);
+    }
 }
 

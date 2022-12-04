@@ -62,6 +62,7 @@ public class LoginOrLogoutController {
             session.setAttribute("msg","密码错误");
             return modelAndView;
         }
+        session.setAttribute("avatar",sysUser.getAvatar());
         session.setAttribute("username",sysUser.getUsername());
         session.setAttribute("userId",sysUser.getId());
         modelAndView.setViewName("front/homepage");
