@@ -36,13 +36,15 @@
             -webkit-box-orient:vertical;
             -webkit-line-clamp:5;
         }
-        a {
-            text-decoration: none;
-            color: black;
-        }
+        /*a {*/
+        /*    !*text-decoration: none;*!*/
+        /*    color: black;*/
+        /*}*/
         /* li在这里只去掉既有样式 不规定宽度 */
         li {
-            line-height: 20px;
+            line-height: 30px;
+            text-underline-style: single;
+            text-underline-color: black;
             list-style: none;
         }
         /* 菜单选择器，标识菜单的头，浮动只需要在每个section里做就行 */
@@ -69,27 +71,29 @@
         .menu {
             overflow: hidden;
             background-color: transparent;
-            margin-top: 11px;
-            height: 0;
-            /*下拉延时时间*/
-            transition: 0.8s;
+            margin-top: 10px;
+            max-height: 0;
+            /*过渡时间*/
+            transition: 1.5s;
+            position: absolute;
+            top: 50px;
         }
         /* 悬停后就可以看到menu了 只能悬停父盒子 */
         .section:hover .menu {
-            left: auto;
-            top: 50px;
-            height: 145px;
-            background-color: lightgray;
-            padding-bottom: 15px;
-            position: absolute;
+            max-height: 250px;
+            background-color: cornflowerblue;
             display: block;
         }
-        .menu li{
-            padding-bottom: 15px;
+        .menu li {
+            font-family: 宋体;
+            color: #cdddeb;
+            line-height: 20px;
+            margin-top: 4px;
+            padding-bottom: 5px;
         }
         /* 规定悬停时li的样式 */
         .menu li:hover {
-            background-color: #1b6d85;
+            color: #fff;
         }
     </style>
 </head>
@@ -103,25 +107,29 @@
             </div>
             <div class="section">
             <a class="blog-nav-item" href="${pageContext.request.contextPath }/user/userInfomation/<%=s.getAttribute("userId")%>">社团管理</a>
-                <ul class="menu">
-                    <li href="#">社团人员管理</li>
+                <ul class="menu" id="meu">
                     <li href="#">社团活动报名</li>
                     <li href="#">社团活动列表</li>
-                    <li href="#">学生报名审核</li>
                 </ul>
             </div>
-            <div class="section">
-            <a class="blog-nav-item" href="${pageContext.request.contextPath }/user/userInfomation/<%=s.getAttribute("userId")%>">用户管理</a>
-            </div>
-            <div class="section">
-            <a class="blog-nav-item" href="${pageContext.request.contextPath }/user/userInfomation/<%=s.getAttribute("userId")%>">
-                个人信息
-            </a>
-            </div>
+            <%--普通用户不展示该选项--%>
+            <%if (Integer.parseInt(s.getAttribute("roleId").toString()) == 1 || Integer.parseInt(s.getAttribute("roleId").toString()) == 2 || Integer.parseInt(s.getAttribute("roleId").toString()) == 3) {%>
             <div class="section">
             <a class="blog-nav-item" href="${pageContext.request.contextPath }/user/userInfomation/<%=s.getAttribute("userId")%>">
                 系统日志
             </a>
+            </div>
+            <div class="section">
+                <a class="blog-nav-item" href="${pageContext.request.contextPath }/user/userInfomation/<%=s.getAttribute("userId")%>">系统用户管理</a>
+            </div>
+            <%}%>
+            <div class="section">
+            <a class="blog-nav-item" href="${pageContext.request.contextPath }/user/userInfomation/<%=s.getAttribute("userId")%>">个人管理</a>
+                <ul class="menu">
+                    <li href="#">社团活动详情</li>
+                    <li href="#">个人信息</li>
+                    <li href="#">参与的社团</li>
+                </ul>
             </div>
             <div class="section navbar-right">
             <a class="blog-nav-item " href="${pageContext.request.contextPath }/login/register">
@@ -149,38 +157,6 @@
     </div>
 </div>
 
-<%--测试样式--%>
-<%--<div class="blog-masthead">--%>
-<%--<div class="conta">--%>
-<%--    <nav class="blog-nav">--%>
-<%--    <div class="section">--%>
-<%--        <a href="#" class="head">写论文</a>--%>
-<%--        <ul class="menu">--%>
-<%--            <li>查资料</li>--%>
-<%--            <li>记笔记</li>--%>
-<%--            <li>复现</li>--%>
-<%--        </ul>--%>
-<%--    </div>--%>
-<%--    <div class="section">--%>
-<%--        <a href="#" class="head">学前端</a>--%>
-<%--        <ul class="menu">--%>
-<%--            <li>HTML</li>--%>
-<%--            <li>CSS</li>--%>
-<%--            <li>JavaScript</li>--%>
-<%--            <li>LeetCode</li>--%>
-<%--        </ul>--%>
-<%--    </div>--%>
-<%--    <div class="section">--%>
-<%--        <a href="#" class="head">小日子</a>--%>
-<%--        <ul class="menu">--%>
-<%--            <li>吃饭</li>--%>
-<%--            <li>睡觉</li>--%>
-<%--            <li>打豆豆</li>--%>
-<%--        </ul>--%>
-<%--    </div>--%>
-<%--    </nav>--%>
-<%--</div>--%>
-<%--</div>--%>
 
 <div class="onepage" id="pageone">
     <div class="onepage-bg" id="onepagebg"></div>
@@ -286,7 +262,7 @@
         }
         var file = document.getElementById("imgToUpload").files[0];
         var formData = new FormData();
-        var userId = <%=s.getAttribute("userId")%>
+        var userId = <%=s.getAttribute("userId")%>;
         formData.append("file",file);
         formData.append("userId",userId);
         $.ajax({
@@ -303,6 +279,17 @@
 
     }
 
+    /*向ui追加li*/
+    var roleId = <%=s.getAttribute("roleId")%>;
+    if (roleId == 1 || roleId == 2 || roleId == 3){
+        var elementById = document.getElementById("meu");
+        elementById.innerHTML +=
+        "<li href='#'>社团活动创建</li>"+
+        "<li href='#'>社团人员管理</li>"+
+        "<li href='#'>社团经费审核</li>"+
+        "<li href='#'>人员报名审核</li>"+
+        " <li href='#'>社团创建</li>";
+    }
 
 </script>
 <footer class="blog-footer" style="padding-top: 0px;height:5px;">
