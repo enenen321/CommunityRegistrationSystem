@@ -1151,13 +1151,13 @@ hr {
 }
 .sr-only {
   position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  border: 0;
+  width:  73px;
+  height: 20px;
+  float: left;
+  text-align: center;
+  margin-top: 20px;
+  margin-left: -24px;
+  display: block;
 }
 .sr-only-focusable:active,
 .sr-only-focusable:focus {
@@ -2548,9 +2548,10 @@ output {
 }
 .form-control {
   display: block;
-  width: 100%;
+  width: 80%;
+  margin: 0 auto;
   height: 34px;
-  padding: 6px 12px;
+  padding: 4px 10px;
   font-size: 14px;
   line-height: 1.42857143;
   color: #555;
@@ -3454,7 +3455,8 @@ fieldset[disabled] .btn-link:focus {
 }
 .btn-block {
   display: block;
-  width: 100%;
+  width: 80%;
+  margin: 0 auto;
 }
 .btn-block + .btn-block {
   margin-top: 5px;
