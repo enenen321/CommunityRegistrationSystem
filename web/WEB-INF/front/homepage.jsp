@@ -18,6 +18,7 @@
     <script src="${pageContext.request.contextPath }/resource/js/bootstrap.js"></script>
     <title>社团活动报名系统</title>
     <style>
+        /*默认通配符*/
         * {
             margin: 0;
             padding: 0;
@@ -44,52 +45,63 @@
             line-height: 20px;
             list-style: none;
         }
-        /* flex布局每个作为item的section */
-        .conta {
-            margin: 50px auto;
-            width: 40%;
-            height: 50px;
-            display: flex;
-            justify-content: space-evenly;
-            background-color: skyblue;
-        }
-        /* 浮动只需要在每个section里做就行 */
-        /* 给section设置"字号、文本对齐和行高" => 可继承属性 */
+        /* 菜单选择器，标识菜单的头，浮动只需要在每个section里做就行 */
         .section {
             float:left;
             font-size: 16px;
             line-height: 40px;
             text-align: center;
+            height: 60px;
+            overflow: hidden;
+            animation-name: selectFrames;
+            animation-duration: 0.5s;
         }
-        /* 整个menu一开始是看不到的 同时规定样式 */
+        /*菜单栏动画效果*/
+        @keyframes selectFrames {
+            from{
+                height: 0;
+            }
+            to{
+                height: 60px;
+            }
+        }
+        /* 菜单缓慢下拉样式 ，隐藏撑出部分*/
         .menu {
-            display: none;
+            overflow: hidden;
             background-color: transparent;
+            margin-top: 11px;
+            height: 0;
+            /*下拉延时时间*/
+            transition: 0.8s;
         }
         /* 悬停后就可以看到menu了 只能悬停父盒子 */
         .section:hover .menu {
             left: auto;
             top: 50px;
+            height: 145px;
+            background-color: lightgray;
             padding-bottom: 15px;
             position: absolute;
-            transition:height 0.3s;
             display: block;
+        }
+        .menu li{
+            padding-bottom: 15px;
         }
         /* 规定悬停时li的样式 */
         .menu li:hover {
-            background-color: orange;
+            background-color: #1b6d85;
         }
     </style>
 </head>
 <body>
 <% HttpSession s = request.getSession();%>
 <div class="blog-masthead">
-    <div class="container"  style="display: block">
+    <div class="container"  style="display: block;margin-bottom: 200px;">
         <nav class="blog-nav">
             <div class="section">
             <a class="blog-nav-item active" href="${pageContext.request.contextPath }/front/homepage">主页</a>
             </div>
-            <div class="section" style="background-color: yellow">
+            <div class="section">
             <a class="blog-nav-item" href="${pageContext.request.contextPath }/user/userInfomation/<%=s.getAttribute("userId")%>">社团管理</a>
                 <ul class="menu">
                     <li href="#">社团人员管理</li>
@@ -258,7 +270,7 @@
 
     /*图片判断*/
     function isImage(ext) {
-        return ['png', 'jpg', 'jpeg', 'bmp', 'gif', 'webp', 'psd', 'svg', 'tiff'].indexOf(ext.toLowerCase()) !== -1;
+        return ['png', 'jpg', 'jpeg', 'bmp', 'webp'].indexOf(ext.toLowerCase()) !== -1;
     }
 
     /*图片上传*/

@@ -45,7 +45,9 @@ public class SysUserServiceImpl  extends ServiceImpl<SysUserMapper, SysUser> imp
             File file = new File(path + "/web/resource/images/avatars/" + avatar);
             //删除原来头像，写入新头像
             File oldFile = new File(path + "/web/resource/images/avatars/"+sysUser.getAvatar());
-            oldFile.delete();
+            if (oldFile.exists()) {
+                oldFile.delete();
+            }
             BufferedOutputStream outputStream = FileUtil.getOutputStream(file);
             IoUtil.copy(inputStream, outputStream);
         } catch (IOException e) {

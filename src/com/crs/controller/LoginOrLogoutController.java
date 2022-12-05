@@ -4,9 +4,14 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.crs.common.annotation.SystemLog;
 import com.crs.dto.LoginFormDto;
 import com.crs.entity.SysUser;
+import com.crs.entity.SysUserRole;
+import com.crs.service.SysUserRoleService;
 import com.crs.service.SysUserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -22,6 +27,8 @@ import javax.servlet.http.HttpSession;
 public class LoginOrLogoutController {
 
     private final SysUserService sysUserService;
+    private final SysUserRoleService sysUserRoleService;
+
 
     /**
      * 关闭或注销返回首页
@@ -62,6 +69,9 @@ public class LoginOrLogoutController {
             session.setAttribute("msg","密码错误");
             return modelAndView;
         }
+        //查找角色id
+        SysUserRole role = sysUserRoleService.lambdaQuery().eq(SysUserRole::getUserId, sysUser.getId()).one();
+        session.setAttribute("roleId",role.getRoleId());
         session.setAttribute("avatar",sysUser.getAvatar());
         session.setAttribute("username",sysUser.getUsername());
         session.setAttribute("userId",sysUser.getId());
