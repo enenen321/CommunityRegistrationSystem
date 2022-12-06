@@ -6,6 +6,7 @@ import com.crs.service.ActvService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 /**
  * @author LZ
@@ -66,6 +67,14 @@ public class ActvController {
     @DeleteMapping("/delete")
     public ResponseEntity<Boolean> deleteById(Long id) {
         return null;
+    }
+
+    /**
+     * 跳转到创建社团的页面
+     */
+    @GetMapping("/createCmt")
+    public ModelAndView createCmty(){
+        return new ModelAndView("front/cmtyCreate");
     }
 
 }
