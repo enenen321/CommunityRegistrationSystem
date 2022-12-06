@@ -156,11 +156,8 @@ h6, .h6 {
 
 .blog-footer {
   padding: 5px 0;
-  color: #999;
   height: 5px;
   text-align: center;
-  background-color: #f9f9f9;
-  border-top: 1px solid #e5e5e5;
 }
 .blog-footer p:last-child {
   margin-bottom: 0;

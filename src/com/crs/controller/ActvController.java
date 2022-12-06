@@ -14,7 +14,7 @@ import org.springframework.web.servlet.ModelAndView;
  */
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/actvReport")
+@RequestMapping("/actv")
 public class ActvController {
 
     private final ActvService actvService;
@@ -68,14 +68,5 @@ public class ActvController {
     public ResponseEntity<Boolean> deleteById(Long id) {
         return null;
     }
-
-    /**
-     * 跳转到创建社团的页面
-     */
-    @GetMapping("/createCmt")
-    public ModelAndView createCmty(){
-        return new ModelAndView("front/cmtyCreate");
-    }
-
 }
 

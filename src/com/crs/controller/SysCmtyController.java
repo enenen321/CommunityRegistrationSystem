@@ -2,10 +2,16 @@ package com.crs.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.crs.entity.SysCmty;
+import com.crs.entity.SysUser;
 import com.crs.service.SysCmtyService;
+import com.crs.service.SysUserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 /**
  * @author LZ
@@ -13,10 +19,11 @@ import org.springframework.web.bind.annotation.*;
  */
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("sysCmty")
+@RequestMapping("/sysCmty")
 public class SysCmtyController {
 
     private final SysCmtyService sysCmtyService;
+
 
     /**
      * 分页查询
@@ -69,5 +76,12 @@ public class SysCmtyController {
         return null;
     }
 
+    /**
+     * 跳转到创建社团的页面
+     */
+    @GetMapping("/createCmt")
+    public ModelAndView createCmty(){
+        return new ModelAndView("front/cmtyCreate");
+    }
 }
 

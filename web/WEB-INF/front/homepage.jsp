@@ -42,6 +42,7 @@
         /*}*/
         /* li在这里只去掉既有样式 不规定宽度 */
         li {
+            cursor: pointer;
             line-height: 30px;
             text-underline-style: single;
             text-underline-color: black;
@@ -55,8 +56,8 @@
             text-align: center;
             height: 60px;
             overflow: hidden;
-            animation-name: selectFrames;
-            animation-duration: 0.5s;
+            /*animation-name: selectFrames;*/
+            /*animation-duration: 0.5s;*/
         }
         /*菜单栏动画效果*/
         @keyframes selectFrames {
@@ -91,8 +92,12 @@
             margin-top: 4px;
             padding-bottom: 5px;
         }
-        /* 规定悬停时li的样式 */
-        .menu li:hover {
+        .menu li a {
+            text-decoration: none;
+            font-family: 宋体;
+            color: #cdddeb;
+        }
+        .menu li a:hover{
             color: #fff;
         }
     </style>
@@ -103,32 +108,36 @@
     <div class="container"  style="display: block;margin-bottom: 200px;">
         <nav class="blog-nav">
             <div class="section">
-            <a class="blog-nav-item active" href="${pageContext.request.contextPath }/front/homepage">主页</a>
+            <a class="blog-nav-item active" href="${pageContext.request.contextPath }/base/homePage">主页</a>
             </div>
             <div class="section">
-            <a class="blog-nav-item" href="${pageContext.request.contextPath }/user/userInfomation/<%=s.getAttribute("userId")%>">社团管理</a>
+            <a class="blog-nav-item">社团管理</a>
                 <ul class="menu" id="meu">
-                    <li href="#">社团活动报名</li>
-                    <li href="#">社团活动列表</li>
+                    <li id="actv_report"><a href="${pageContext.request.contextPath }/base/homePage">社团活动报名</a></li>
+                    <li id="cmty_actv"><a href="${pageContext.request.contextPath }/base/homePage">社团活动列表</a></li>
+                    <li id="cmty_user"><a href="${pageContext.request.contextPath }/base/homePage">社团人员管理</a></li>
+                    <li id="cmty_spend"><a href="${pageContext.request.contextPath }/base/homePage">社团经费审核</a></li>
+                    <li id="report_review"><a href="${pageContext.request.contextPath }/base/homePage">人员报名审核</a></li>
+                    <li id="cmty_create"><a href="${pageContext.request.contextPath }/sysCmty/createCmt">社团创建</a></li>
                 </ul>
             </div>
             <%--普通用户不展示该选项--%>
             <%if (Integer.parseInt(s.getAttribute("roleId").toString()) == 1 || Integer.parseInt(s.getAttribute("roleId").toString()) == 2 || Integer.parseInt(s.getAttribute("roleId").toString()) == 3) {%>
             <div class="section">
+                <a class="blog-nav-item" href="${pageContext.request.contextPath }/user/userInfomation/<%=s.getAttribute("userId")%>">系统用户管理</a>
+            </div>
+            <div class="section">
             <a class="blog-nav-item" href="${pageContext.request.contextPath }/user/userInfomation/<%=s.getAttribute("userId")%>">
                 系统日志
             </a>
-            </div>
-            <div class="section">
-                <a class="blog-nav-item" href="${pageContext.request.contextPath }/user/userInfomation/<%=s.getAttribute("userId")%>">系统用户管理</a>
             </div>
             <%}%>
             <div class="section">
             <a class="blog-nav-item" href="${pageContext.request.contextPath }/user/userInfomation/<%=s.getAttribute("userId")%>">个人管理</a>
                 <ul class="menu">
-                    <li href="#">社团活动详情</li>
-                    <li href="#">个人信息</li>
-                    <li href="#">参与的社团</li>
+                    <li><a href="${pageContext.request.contextPath }/sysCmty/createCmt">社团活动详情</a></li>
+                    <li><a href="${pageContext.request.contextPath }/sysUser/detail/<%=s.getAttribute("userId")%>">个人信息</a></li>
+                    <li><a href="${pageContext.request.contextPath }/sysCmty/createCmt">参与的社团</a></li>
                 </ul>
             </div>
             <div class="section navbar-right">
@@ -138,7 +147,7 @@
             </div>
             <div class="section navbar-right">
             <a  class="blog-nav-item " href="${pageContext.request.contextPath }/base/back">
-                注销
+                退出
             </a>
             </div>
             <%--登录用户--%>
@@ -276,19 +285,23 @@
         })
 
     }
-
-    /*向ui追加li*/
+    /*删除li*/
     var roleId = <%=s.getAttribute("roleId")%>;
-    if (roleId == 1 || roleId == 2 || roleId == 3){
-        var elementById = document.getElementById("meu");
-        elementById.innerHTML +=
-        "<li href='#'>社团活动创建</li>"+
-        "<li href='#'>社团人员管理</li>"+
-        "<li href='#'>社团经费审核</li>"+
-        "<li href='#'>人员报名审核</li>"+
-        " <li href='#'>社团创建</li>";
+    if (roleId != 1 && roleId != 2 && roleId != 3){
+        $("#cmty_user").remove();
+        $("#cmty_spend").remove();
+        $("#report_review").remove();
+        $("#cmty_create").remove();
     }
-
+    if (roleId == 2){
+        $("#cmty_spend").remove();
+        $("#cmty_create").remove();
+    }
+    if (roleId == 3){
+        $("#cmty_spend").remove();
+        $("#cmty_user").remove();
+        $("#cmty_create").remove();
+    }
 </script>
 <footer class="blog-footer" style="padding-top: 0px;height:5px;">
     <p>版权所有 XXXXXXXXXXXXXXXXXX</p>

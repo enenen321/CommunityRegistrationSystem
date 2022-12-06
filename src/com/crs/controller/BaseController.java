@@ -8,8 +8,10 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.crs.common.annotation.SystemLog;
 import com.crs.dto.LoginFormDto;
 import com.crs.dto.RegisterDto;
+import com.crs.entity.SysColl;
 import com.crs.entity.SysUser;
 import com.crs.entity.SysUserRole;
+import com.crs.service.SysCollService;
 import com.crs.service.SysUserRoleService;
 import com.crs.service.SysUserService;
 import lombok.RequiredArgsConstructor;
@@ -34,6 +36,7 @@ public class BaseController {
 
     private final SysUserService sysUserService;
     private final SysUserRoleService sysUserRoleService;
+    private final SysCollService sysCollService;
 
 
     /**
@@ -79,10 +82,12 @@ public class BaseController {
         }
         //查找角色id
         SysUserRole role = sysUserRoleService.lambdaQuery().eq(SysUserRole::getUserId, sysUser.getId()).one();
+        SysColl coll = sysCollService.getById(sysUser.getCollId());
         session.setAttribute("roleId",role.getRoleId());
         session.setAttribute("avatar",sysUser.getAvatar());
         session.setAttribute("username",sysUser.getUsername());
         session.setAttribute("userId",sysUser.getId());
+        session.setAttribute("collname",coll.getCollName());
         modelAndView.setViewName("front/homepage");
         return modelAndView;
     }
@@ -153,5 +158,13 @@ public class BaseController {
         }
         session.setAttribute("msg","注册失败！");
         return new ModelAndView("redirect:/base/register-page");
+    }
+
+    /**
+     * 跳转到主页
+     */
+    @GetMapping("/homePage")
+    public ModelAndView homePage(){
+        return new ModelAndView("/front/homepage");
     }
 }
