@@ -16,6 +16,10 @@ public class Actv extends BaseEntity {
      */
     private String actvName;
     /**
+     * 活动内容
+     */
+    private String actvContent;
+    /**
      * 社团id
      */
     private Long cmtyId;
