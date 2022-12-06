@@ -1,13 +1,11 @@
 package com.crs.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.crs.entity.ActvReport;
-import com.crs.dao.ActvReportMapper;
-import com.crs.service.ActvReportService;
+import com.crs.entity.Actv;
+import com.crs.dao.ActvMapper;
+import com.crs.service.ActvService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
-import javax.annotation.Resource;
 
 /**
  * @author LZ
@@ -15,6 +13,6 @@ import javax.annotation.Resource;
  */
 @Service
 @RequiredArgsConstructor
-public class ActvReportServiceImpl extends ServiceImpl<ActvReportMapper,ActvReport> implements ActvReportService {
+public class ActvServiceImpl extends ServiceImpl<ActvMapper, Actv> implements ActvService {
 
 }

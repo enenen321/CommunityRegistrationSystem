@@ -1,9 +1,7 @@
 package com.crs.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.crs.entity.ActvReport;
 import com.crs.entity.SysColl;
-import com.crs.service.ActvReportService;
 import com.crs.service.SysCollService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

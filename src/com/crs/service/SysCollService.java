@@ -1,7 +1,6 @@
 package com.crs.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.crs.entity.ActvReport;
 import com.crs.entity.SysColl;
 
 /**

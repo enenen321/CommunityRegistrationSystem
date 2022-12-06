@@ -1,8 +1,8 @@
 package com.crs.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.crs.entity.ActvReport;
-import com.crs.service.ActvReportService;
+import com.crs.entity.Actv;
+import com.crs.service.ActvService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,17 +14,17 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/actvReport")
-public class ActvReportController {
+public class ActvController {
 
-    private final ActvReportService actvReportService;
+    private final ActvService actvService;
 
     /**
      * 分页查询
-     * @param actvReport 筛选条件
+     * @param actv 筛选条件
      * @return 查询结果
      */
     @GetMapping("/list")
-    public ResponseEntity<Page<ActvReport>> queryByPage(ActvReport actvReport) {
+    public ResponseEntity<Page<Actv>> queryByPage(Actv actv) {
         return null;
     }
 
@@ -34,27 +34,27 @@ public class ActvReportController {
      * @return 单条数据
      */
     @GetMapping("/{id}")
-    public ResponseEntity<ActvReport> queryById(@PathVariable("id") Long id) {
+    public ResponseEntity<Actv> queryById(@PathVariable("id") Long id) {
         return null;
     }
 
     /**
      * 新增数据
-     * @param actvReport 实体
+     * @param actv 实体
      * @return 新增结果
      */
     @PostMapping("/add")
-    public ResponseEntity<ActvReport> add(ActvReport actvReport) {
+    public ResponseEntity<Actv> add(Actv actv) {
         return null;
     }
 
     /**
      * 编辑数据
-     * @param actvReport 实体
+     * @param actv 实体
      * @return 编辑结果
      */
     @PutMapping("/update")
-    public ResponseEntity<ActvReport> edit(ActvReport actvReport) {
+    public ResponseEntity<Actv> edit(Actv actv) {
         return null;
     }
 

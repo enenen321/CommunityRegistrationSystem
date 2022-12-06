@@ -9,7 +9,7 @@ import java.util.Date;
  * @date 2022-12-02 16:58:49
  */
 @Data
-public class ActvReport extends BaseEntity {
+public class Actv extends BaseEntity {
 
     /**
      * 活动名称

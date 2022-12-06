@@ -1,11 +1,8 @@
 package com.crs.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.crs.dao.ActvReportMapper;
 import com.crs.dao.SysCollMapper;
-import com.crs.entity.ActvReport;
 import com.crs.entity.SysColl;
-import com.crs.service.ActvReportService;
 import com.crs.service.SysCollService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
