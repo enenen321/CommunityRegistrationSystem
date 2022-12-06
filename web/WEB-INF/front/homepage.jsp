@@ -137,7 +137,7 @@
             </a>
             </div>
             <div class="section navbar-right">
-            <a  class="blog-nav-item " href="${pageContext.request.contextPath }/loginOrLogout/back">
+            <a  class="blog-nav-item " href="${pageContext.request.contextPath }/base/back">
                 注销
             </a>
             </div>
@@ -148,10 +148,8 @@
                 </a>
             </div>
             <%--头像--%>
-            <div class="section navbar-right">
-                <div class="blog-nav-item " style="width: 25px;height: 25px;margin-top: -2px;margin-right: 3px">
-                    <img onclick="imgSelect()" title="点击更换头像" width="25px" height="25px" rel="icon" src="${pageContext.request.contextPath }/resource/images/avatars/<%=s.getAttribute("avatar")%>">
-                </div>
+            <div class="section navbar-right" style="margin-right: -3px">
+                <img onclick="imgSelect()" style="margin-top:15px;" title="点击更换头像" width="25px" height="25px" rel="icon" src="${pageContext.request.contextPath }/resource/images/avatars/<%=s.getAttribute("avatar")%>">
             </div>
         </nav>
     </div>

@@ -20,6 +20,10 @@ public class SysUser extends BaseEntity {
      */
     private String username;
     /**
+     * 学号
+     */
+    private String sno;
+    /**
      * 密码
      */
     private String password;

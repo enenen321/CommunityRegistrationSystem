@@ -16,7 +16,7 @@
 </head>
 <body>
 <script>
-    window.location.href="<%=basePath%>/loginOrLogout/index";
+    window.location.href="<%=basePath%>/base/index";
 </script>
 </body>
 </html>
