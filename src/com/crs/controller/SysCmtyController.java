@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.jws.WebParam;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
@@ -28,11 +29,6 @@ import java.util.List;
 public class SysCmtyController {
 
     private final SysCmtyService sysCmtyService;
-
-    private final SysUserRoleService sysUserRoleService;
-
-    private final SysUserService sysUserService;
-
 
     /**
      * 分页查询
@@ -56,13 +52,12 @@ public class SysCmtyController {
 
     /**
      * 新增数据
-     *
      * @param sysCmty 实体
      * @return 新增结果
      */
     @PostMapping("/add")
-    public ResponseEntity<SysCmty> add(SysCmty sysCmty) {
-        return null;
+    public ModelAndView add(SysCmty sysCmty,HttpServletRequest request) {
+        return sysCmtyService.add(sysCmty,request);
     }
 
     /**
@@ -90,19 +85,7 @@ public class SysCmtyController {
      */
     @GetMapping("/createCmt")
     public ModelAndView createCmty(HttpServletRequest request){
-        List<SysUserRole> sysUserRoles = sysUserRoleService.lambdaQuery().notIn(SysUserRole::getRoleId, 1, 2, 3).list();
-        List<Long> user = new ArrayList<>();
-        sysUserRoles.forEach(sysUserRole -> user.add(sysUserRole.getUserId()));
-        List<SysUser> list = sysUserService.lambdaQuery().in(SysUser::getId, user).list();
-        List<UserVo> userVoList = new ArrayList<>();
-        list.forEach(userList->{
-            UserVo userVo = new UserVo();
-            userVo.setUserId(userList.getId()).setUsername(userList.getUsername());
-            userVoList.add(userVo);
-        });
-        HttpSession session = request.getSession();
-        session.setAttribute("userList",userVoList);
-        return new ModelAndView("front/cmtyCreate");
+      return sysCmtyService.createCmty(request);
     }
 }
 

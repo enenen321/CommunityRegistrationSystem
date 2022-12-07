@@ -1,11 +1,24 @@
 package com.crs.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.conditions.update.UpdateChainWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.crs.entity.SysCmty;
 import com.crs.dao.SysCmtyMapper;
+import com.crs.entity.SysUser;
+import com.crs.entity.SysUserRole;
 import com.crs.service.SysCmtyService;
+import com.crs.service.SysUserRoleService;
+import com.crs.service.SysUserService;
+import com.crs.vo.UserVo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.servlet.ModelAndView;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author LZ
@@ -14,5 +27,40 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class SysCmtyServiceImpl extends ServiceImpl<SysCmtyMapper,SysCmty> implements SysCmtyService {
+    private final SysUserRoleService sysUserRoleService;
+    private final SysUserService sysUserService;
 
+    @Override
+    public ModelAndView createCmty(HttpServletRequest request){
+        List<SysUserRole> sysUserRoles = sysUserRoleService.lambdaQuery().notIn(SysUserRole::getRoleId, 1, 2, 3).list();
+        List<UserVo> userVoList = new ArrayList<>();
+        if(null != sysUserRoles){
+            List<Long> user = new ArrayList<>();
+            sysUserRoles.forEach(sysUserRole -> user.add(sysUserRole.getUserId()));
+            if (user.size() != 0) {
+                List<SysUser> list = sysUserService.lambdaQuery().in(SysUser::getId, user).list();
+                list.forEach(userList -> {
+                    UserVo userVo = new UserVo();
+                    userVo.setUserId(userList.getId()).setUsername(userList.getUsername());
+                    userVoList.add(userVo);
+                });
+            }
+        }
+        HttpSession session = request.getSession();
+        session.setAttribute("userList",userVoList);
+        return new ModelAndView("front/cmtyCreate");
+    }
+
+    @Override
+    public ModelAndView add(SysCmty cmty,HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        boolean save = this.save(cmty);
+        if (!save){
+            session.setAttribute("msg","未知异常，创建失败！");
+            return new ModelAndView("front/cmtyCreate");
+        }
+        sysUserRoleService.update().set("role_id", 2).eq("user_id", cmty.getManagerId());
+        session.setAttribute("msg","创建成功！");
+        return new ModelAndView("front/cmtyCreate");
+    }
 }

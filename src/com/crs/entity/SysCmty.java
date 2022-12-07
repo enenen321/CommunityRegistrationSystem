@@ -14,5 +14,17 @@ public class SysCmty extends BaseEntity {
      * 社团名称
      */
     private String cmtyName;
+    /**
+     * 社团类型
+     */
+    private Integer cmtyType;
+    /**
+     * 社团团长
+     */
+    private Long managerId;
+    /**
+     * 所属学院
+     */
+    private Long collId;
 }
 

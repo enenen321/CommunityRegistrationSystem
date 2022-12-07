@@ -116,7 +116,7 @@
         }
         .select2-container--default .select2-selection--single .select2-selection__arrow{
             top: 15px;
-            margin-right: -30px;
+           right: -35px;
         }
         .select2-container--open .select2-dropdown--below{
             margin-left:35px;
@@ -131,13 +131,25 @@
             margin-top: 3px;
             padding-left: 17px;
         }
+        .select2-container--default .select2-selection--single .select2-selection__placeholder{
+            font-size: 15px;
+            margin-left: -4px;
+        }
+
+        .register-back{
+            float: left;
+            display: inline-block;
+            width: 36%;
+            margin-left: 35px;
+            margin-bottom: 10px;
+        }
 
     </style>
 </head>
 <body style="padding-top:0px;">
 <% HttpSession s = request.getSession();%>
 <div class="blog-masthead">
-    <div class="container"  style="margin-bottom: 80px;">
+    <div class="container"  style="margin-bottom: 100px;">
         <nav class="blog-nav">
             <div class="section">
                 <a class="blog-nav-item" href="${pageContext.request.contextPath }/base/homePage">主页</a>
@@ -179,7 +191,7 @@
             </div>
             <div class="section navbar-right">
                 <a  class="blog-nav-item " href="${pageContext.request.contextPath }/base/back">
-                    注销
+                    退出
                 </a>
             </div>
             <%--登录用户--%>
@@ -190,26 +202,50 @@
             </div>
             <%--头像--%>
             <div class="section navbar-right" style="margin-right: -3px">
-                <img onclick="imgSelect()" style="margin-top:15px;" title="点击更换头像" width="25px" height="25px" rel="icon" src="${pageContext.request.contextPath }/resource/images/avatars/<%=s.getAttribute("avatar")%>">
+                <img onclick="imgSelect()" style="margin-top:20px;" title="点击更换头像" width="25px" height="25px" rel="icon" src="${pageContext.request.contextPath }/resource/images/avatars/<%=s.getAttribute("avatar")%>">
             </div>
         </nav>
     </div>
 </div>
 
 
+<button style="visibility: hidden" class="btn btn-primary btn-lg"
+        data-toggle="modal" data-target="#myModal" id="dialog"></button>
+<!-- 模态框（Modal） -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title" id="myModalLabel">
+                    注册提示
+                </h4>
+            </div>
+            <div class="modal-body">
+                <%=s.getAttribute("msg")  %>
+            </div>
+            <div class="modal-footer">
+                <button type="button" onclick="reset()"
+                        class="btn btn-default" data-dismiss="modal">
+                    确认
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <%--社团创建--%>
 <h3 class="crs_header">>>&nbsp;社团管理</h3>
 <div id="register-div" class="container" style="background-color: lightblue;">
-    <form class="form-signin" id="cmty" method="post" action="${pageContext.request.contextPath }/base/register">
+    <form class="form-signin" id="cmty" method="post" action="${pageContext.request.contextPath }/sysCmty/add">
         <h2 class="form-signin-heading" style="text-align:center; margin: 0 auto">社团创建</h2>
-        <label class="sr-only" for="inputSno" style="margin-top: 9px">学号:</label>
-        <input style="margin-top: 10px" value="" type="text" name="sno" id="inputSno" required autofocus
-               class="form-control" placeholder="请填写学号">
-        <label for="inputPhone" class="sr-only" style="margin-left: -32px">
+        <label for="cmtyName" class="sr-only" style="margin-left: -32px">
             社团名称:
         </label>
-        <input style="margin-top: 10px" type="phone" name="phone" id="inputPhone" required
-               class="form-control" placeholder="请填写社团名称" value="" pattern="^1((34[0-8])|(8\d{2})|(([35][0-35-9]|4[579]|66|7[35678]|9[1389])\d{1}))\d{7}$">
+        <input style="margin-top: 10px" type="text" name="cmtyName" id="cmtyName" required
+               class="form-control" placeholder="请填写社团名称" value="">
         <label for="cmtyManager" class="sr-only" style="margin-left: -32px">
             社团团长:
         </label>
@@ -219,13 +255,13 @@
             </c:forEach>
         </select>
         <label for="cmtyType" class="sr-only" style="margin-left: -32px">
-            社团种类:
+            社团类型:
         </label>
         <select id="cmtyType" name="cmtyType" required style="margin-top: 10px" class="form-control">
             <option value="1">文艺类</option>
             <option value="2">运动类</option>
         </select>
-        <label style="margin-top: 10px;margin-left: -38px" for="coll" class="sr-only">
+        <label style="margin-top: 20px;margin-left: -34px" for="coll" class="sr-only">
             所属学院:
         </label>
         <select id="coll" name="collId" required style="margin-top: 10px" class="form-control">
@@ -245,6 +281,14 @@
 </form>
 
 <script type="text/javascript">
+    var msg = "<%=session.getAttribute("msg")%>";
+    if (msg != 'null') {
+        $(function () {
+            $("#myModal").modal({
+                keyboard: true
+            });
+        })};
+
     /*图片选择弹窗*/
     function imgSelect(){
         document.getElementById("imgToUpload").click();
@@ -302,11 +346,13 @@
         $("#cmty_user").remove();
         $("#cmty_create").remove();
     }
+
     $("#cmtyManager").select2({
-        placeholder:"按名称搜索"
+        placeholder:"按用户名搜索"
     });
+
 </script>
-<footer class="blog-footer" style="padding-top: 0px;height:20px;margin-top: 30px">
-    <p>版权所有 XXXXXXXXXXXXXXXXXX</p>
+<footer class="blog-footer" style="padding-top:60px;height:5px;">
+    <p style="margin-top: 155px">版权所有 XXXXXXXXXXXXXXXXXX</p>
 </footer>
 </body>

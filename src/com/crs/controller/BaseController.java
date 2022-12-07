@@ -109,11 +109,9 @@ public class BaseController {
         ModelAndView modelAndView = new ModelAndView();
         String msg = session.getAttribute("msg").toString();
         if ("注册成功！".equals(msg)){
-            session.invalidate();
             modelAndView.setViewName("redirect:/base/index");
             return modelAndView;
         }else {
-            session.invalidate();
             modelAndView.setViewName("front/register");
             return modelAndView;
         }
@@ -154,7 +152,7 @@ public class BaseController {
         boolean userRoleSave = sysUserRoleService.save(sysUserRole);
         if (userSave && userRoleSave){
             session.setAttribute("msg","注册成功！");
-            return new ModelAndView("redirect:/base/index");
+            return new ModelAndView("redirect:/base/register-page");
         }
         session.setAttribute("msg","注册失败！");
         return new ModelAndView("redirect:/base/register-page");
