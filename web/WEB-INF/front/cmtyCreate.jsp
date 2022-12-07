@@ -15,9 +15,11 @@
     <link href="${pageContext.request.contextPath}/resource/css/bootstrap.css" rel="stylesheet">
     <link href="${pageContext.request.contextPath}/resource/css/blog.css" rel="stylesheet">
     <link href="${pageContext.request.contextPath}/resource/css/signin.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/resource/css/select2.css" rel="stylesheet">
     <script src="${pageContext.request.contextPath}/resource/js/jquery-3.2.1.js"></script>
     <script src="${pageContext.request.contextPath}/resource/js/bootstrap.js"></script>
     <script src="${pageContext.request.contextPath}/resource/js/jquery.cookie.js"></script>
+    <script src="${pageContext.request.contextPath}/resource/js/select2.min.js"></script>
     <style>
         /*默认通配符*/
         * {
@@ -37,10 +39,6 @@
             -webkit-box-orient:vertical;
             -webkit-line-clamp:5;
         }
-        /*a {*/
-        /*    !*text-decoration: none;*!*/
-        /*    color: black;*/
-        /*}*/
         /* li在这里只去掉既有样式 不规定宽度 */
         li {
             cursor: pointer;
@@ -102,17 +100,36 @@
         .menu li a:hover{
             color: #fff;
         }
-        .cmty_manager{
+        .crs_header{
             margin-left: 260px;
             margin-top: -60px;
             float: left;
             position: absolute;
             color: black;
         }
-        #cmty{
-            float: left;
-            padding: 20px;
-            display: inline-block;
+        /*下拉框样式*/
+        .select2-container .select2-selection--single{
+            height: 40px;
+            width: 298px;
+            margin-left: 35px;
+            margin-top: 10px;
+        }
+        .select2-container--default .select2-selection--single .select2-selection__arrow{
+            top: 15px;
+            margin-right: -30px;
+        }
+        .select2-container--open .select2-dropdown--below{
+            margin-left:35px;
+            width: 296px;
+            border: 1px solid #ccc;
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+        }
+
+        .select2-container .select2-selection--single .select2-selection__rendered{
+            margin-top: 3px;
+            padding-left: 17px;
         }
 
     </style>
@@ -181,28 +198,33 @@
 
 
 <%--社团创建--%>
-<h3 class="cmty_manager">>>&nbsp;社团管理</h3>
+<h3 class="crs_header">>>&nbsp;社团管理</h3>
 <div id="register-div" class="container" style="background-color: lightblue;">
     <form class="form-signin" id="cmty" method="post" action="${pageContext.request.contextPath }/base/register">
-        <h2 class="form-signin-heading" style="text-align:center; margin-top: 45px">社团创建</h2>
+        <h2 class="form-signin-heading" style="text-align:center; margin: 0 auto">社团创建</h2>
         <label class="sr-only" for="inputSno" style="margin-top: 9px">学号:</label>
         <input style="margin-top: 10px" value="" type="text" name="sno" id="inputSno" required autofocus
                class="form-control" placeholder="请填写学号">
         <label for="inputPhone" class="sr-only" style="margin-left: -32px">
-            手机号:
+            社团名称:
         </label>
         <input style="margin-top: 10px" type="phone" name="phone" id="inputPhone" required
-               class="form-control" placeholder="请填写手机号" value="" pattern="^1((34[0-8])|(8\d{2})|(([35][0-35-9]|4[579]|66|7[35678]|9[1389])\d{1}))\d{7}$">
-        <label for="inputUsername" class="sr-only" style="margin-left: -32px">
-            用户名:
+               class="form-control" placeholder="请填写社团名称" value="" pattern="^1((34[0-8])|(8\d{2})|(([35][0-35-9]|4[579]|66|7[35678]|9[1389])\d{1}))\d{7}$">
+        <label for="cmtyManager" class="sr-only" style="margin-left: -32px">
+            社团团长:
         </label>
-        <input style="margin-top: 10px" value="" type="text" name="username" id="inputUsername"
-               class="form-control" placeholder="请填写用户名" required>
-        <label for="inputPassword" class="sr-only">
-            密码:
+        <select id="cmtyManager" name="managerId" required style="margin-top: 10px;"  class="form-control">
+            <c:forEach items='<%=s.getAttribute("userList")%>' var="user">
+                <option value=${user.userId}>${user.username}</option>
+            </c:forEach>
+        </select>
+        <label for="cmtyType" class="sr-only" style="margin-left: -32px">
+            社团种类:
         </label>
-        <input style="margin-top: 10px" value="" type="password" name="password" id="inputPassword"
-               class="form-control" placeholder="请填写密码" required>
+        <select id="cmtyType" name="cmtyType" required style="margin-top: 10px" class="form-control">
+            <option value="1">文艺类</option>
+            <option value="2">运动类</option>
+        </select>
         <label style="margin-top: 10px;margin-left: -38px" for="coll" class="sr-only">
             所属学院:
         </label>
@@ -211,16 +233,7 @@
             <option value="2">经管学院</option>
             <option value="3">动科学院</option>
         </select>
-        <label style="margin-top: 20px;" for="role" class="sr-only">
-            角色:
-        </label>
-        <select id="role" name="roleId" required disabled style="margin-top: 10px;" class="form-control">
-            <option value="4">普通用户</option>
-            <option value="1">社团管理员</option>
-            <option value="3">辅导员</option>
-            <option value="2">社团团长</option>
-        </select>
-        <button style="margin-top: 10px;" onclick="remove()" class="btn btn-lg btn-primary btn-block register-back" type="submit">注册</button>
+        <button style="margin-top: 10px;" onclick="remove()" class="btn btn-lg btn-primary btn-block register-back" type="submit">创建</button>
         <button style="margin-top: 10px;" class="btn btn-lg btn-primary btn-block btn register-back" type="button" onclick="window.history.go(-1)">返回</button>
     </form>
 </div>
@@ -274,7 +287,6 @@
 
     /*删除li*/
     var roleId = <%=s.getAttribute("roleId")%>;
-    console.log(roleId);
     if (roleId != 1 && roleId != 2 && roleId != 3){
         $("#cmty_user").remove();
         $("#cmty_spend").remove();
@@ -290,6 +302,9 @@
         $("#cmty_user").remove();
         $("#cmty_create").remove();
     }
+    $("#cmtyManager").select2({
+        placeholder:"按名称搜索"
+    });
 </script>
 <footer class="blog-footer" style="padding-top: 0px;height:20px;margin-top: 30px">
     <p>版权所有 XXXXXXXXXXXXXXXXXX</p>

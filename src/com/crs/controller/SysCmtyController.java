@@ -3,8 +3,11 @@ package com.crs.controller;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.crs.entity.SysCmty;
 import com.crs.entity.SysUser;
+import com.crs.entity.SysUserRole;
 import com.crs.service.SysCmtyService;
+import com.crs.service.SysUserRoleService;
 import com.crs.service.SysUserService;
+import com.crs.vo.UserVo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,6 +15,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author LZ
@@ -23,6 +28,10 @@ import javax.servlet.http.HttpSession;
 public class SysCmtyController {
 
     private final SysCmtyService sysCmtyService;
+
+    private final SysUserRoleService sysUserRoleService;
+
+    private final SysUserService sysUserService;
 
 
     /**
@@ -80,7 +89,19 @@ public class SysCmtyController {
      * 跳转到创建社团的页面
      */
     @GetMapping("/createCmt")
-    public ModelAndView createCmty(){
+    public ModelAndView createCmty(HttpServletRequest request){
+        List<SysUserRole> sysUserRoles = sysUserRoleService.lambdaQuery().notIn(SysUserRole::getRoleId, 1, 2, 3).list();
+        List<Long> user = new ArrayList<>();
+        sysUserRoles.forEach(sysUserRole -> user.add(sysUserRole.getUserId()));
+        List<SysUser> list = sysUserService.lambdaQuery().in(SysUser::getId, user).list();
+        List<UserVo> userVoList = new ArrayList<>();
+        list.forEach(userList->{
+            UserVo userVo = new UserVo();
+            userVo.setUserId(userList.getId()).setUsername(userList.getUsername());
+            userVoList.add(userVo);
+        });
+        HttpSession session = request.getSession();
+        session.setAttribute("userList",userVoList);
         return new ModelAndView("front/cmtyCreate");
     }
 }

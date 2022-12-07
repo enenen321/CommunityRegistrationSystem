@@ -141,7 +141,7 @@
                 </ul>
             </div>
             <div class="section navbar-right">
-            <a class="blog-nav-item " href="${pageContext.request.contextPath }/login/register">
+            <a class="blog-nav-item " href="${pageContext.request.contextPath}/base/register-page">
                 注册
             </a>
             </div>
@@ -158,7 +158,7 @@
             </div>
             <%--头像--%>
             <div class="section navbar-right" style="margin-right: -3px">
-                <img onclick="imgSelect()" style="margin-top:15px;" title="点击更换头像" width="25px" height="25px" rel="icon" src="${pageContext.request.contextPath }/resource/images/avatars/<%=s.getAttribute("avatar")%>">
+                <img id="img" onclick="imgSelect()" style="margin-top:15px;" title="点击更换头像" width="25px" height="25px" rel="icon" src="${pageContext.request.contextPath }/resource/images/avatars/<%=s.getAttribute("avatar")%>">
             </div>
         </nav>
     </div>
@@ -279,7 +279,7 @@
             processData:false,
             data:formData,
             success:function (){
-                //刷新页面
+                //刷新页面显示头像
                 history.go(0);
             }
         })

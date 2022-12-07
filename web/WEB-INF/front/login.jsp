@@ -42,7 +42,7 @@
         <label for="password" class="sr-only">密码:</label>
         <input style="margin-top: 10px" type="password" name="password" id="password" class="form-control" placeholder="请输入密码" required>
         <input class="blog-nav-item" type="checkbox" id="remember" name="remember" style="margin-left: 40px"> 记住密码
-        <label style="margin-left:115px">没有账号？<a onclick="register()">注册</a></label>
+        <label style="margin-left:115px">没有账号？<a href="#">注册</a></label>
         <button style="margin-top: 10px" class="btn btn-lg btn-primary btn-block" type="submit" onclick="login()">登录
         </button>
     </form>
@@ -137,11 +137,6 @@
             $.cookie("sNo", "", {expires: -1});
             $.cookie("password", "", {expires: -1});
         }
-    }
-
-    /*跳转注册页*/
-    function register(){
-        window.location.href="${pageContext.request.contextPath}/base/register-page";
     }
 </script>
 </body>
