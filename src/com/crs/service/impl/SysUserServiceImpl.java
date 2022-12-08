@@ -12,10 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 
 
 /**
@@ -30,30 +27,31 @@ public class SysUserServiceImpl  extends ServiceImpl<SysUserMapper, SysUser> imp
         //图片后缀
         String filename = multipartFile.getOriginalFilename();
         String name = filename.substring(filename.lastIndexOf("."));
-        //头像名
+        //用户名+时间戳+图片后缀名，便于浏览器识别及时加载
         String avatar = userId +"_"+ System.currentTimeMillis() + name;
         HttpSession session = request.getSession();
-        //删除缓存重载头像并删除本地原来图片
+        //删除缓存重载头像并删除项目路径原来图片
         session.removeAttribute("avatar");
-        //保存到项目路径下，并且保存到tomcat服务路径便于及时展示
+        //保存到项目路径下，并且保存到资源路径便于及时展示
         String contextPath = request.getContextPath().replaceAll("/","");
         String path = this.getClass().getResource("/").getPath();
-        String projectPath = path.substring(1,path.length()-16);
+        String projectPath = path.substring(1,path.length() - 16);
         int index = path.indexOf(contextPath);
         path = path.substring(1, index + contextPath.length());
         try {
             InputStream inputStream = multipartFile.getInputStream();
-            //本地资源路径
+            //本地资源路径，图片先保存到项目，再从本地项目路径读取流加载到资源，不然重启服务后图片资源无法加载
             File file = new File(path + "/web/resource/images/avatars/" + avatar);
             BufferedOutputStream outputStream = FileUtil.getOutputStream(file);
-            //资源加载路径
-            File imgResource = new File(projectPath+"resource/images/avatars/" + avatar);
-            BufferedOutputStream resource = FileUtil.getOutputStream(imgResource);
-            //资源加载路径copy
-            IoUtil.copy(inputStream,resource);
-            //存到本地路径copy
+            //项目路径copy
             IoUtil.copy(inputStream, outputStream);
             IoUtil.close(outputStream);
+            //从项目路径读取流加载到资源路径
+            BufferedInputStream localFileInputStream = FileUtil.getInputStream(file);
+            File imgResource = new File(projectPath + "resource/images/avatars/" + avatar);
+            BufferedOutputStream resource = FileUtil.getOutputStream(imgResource);
+            IoUtil.copy(localFileInputStream,resource);
+            //关闭流
             IoUtil.close(resource);
             IoUtil.close(inputStream);
         } catch (IOException e) {

@@ -2,7 +2,6 @@ package com.crs.entity;
 
 import com.crs.common.mybati.base.BaseEntity;
 import lombok.Data;
-import java.util.Date;
 
 /**
  * @author LZ
@@ -12,9 +11,9 @@ import java.util.Date;
 public class Actv extends BaseEntity {
 
     /**
-     * 活动名称
+     * 活动主题
      */
-    private String actvName;
+    private String actvTitle;
     /**
      * 活动内容
      */
@@ -26,10 +25,10 @@ public class Actv extends BaseEntity {
     /**
      * 报名截止日期
      */
-    private Date deadlineTime;
+    private String deadline;
     /**
      * 是否关闭
      */
-    private Integer isClosed;
+    private Integer isClosed = 0;
 }
 

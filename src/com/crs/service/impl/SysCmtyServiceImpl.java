@@ -47,13 +47,13 @@ public class SysCmtyServiceImpl extends ServiceImpl<SysCmtyMapper,SysCmty> imple
         }
         HttpSession session = request.getSession();
         session.setAttribute("userList",userVoList);
-        return new ModelAndView("front/cmtyCreate");
+        return new ModelAndView("front/cmtycreate");
     }
 
     @Override
     public ModelAndView add(SysCmty cmty,HttpServletRequest request) {
         HttpSession session = request.getSession();
-        ModelAndView modelAndView = new ModelAndView("front/cmtyCreate");
+        ModelAndView modelAndView = new ModelAndView("front/cmtycreate");
         SysCmty one = this.lambdaQuery().eq(SysCmty::getCollId, cmty.getCollId()).eq(SysCmty::getCmtyName, cmty.getCmtyName()).one();
         if (null != one){
             session.setAttribute("msg","该社团已存在");

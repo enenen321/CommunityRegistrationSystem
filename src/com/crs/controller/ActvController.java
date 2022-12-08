@@ -8,6 +8,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
+
 /**
  * @author LZ
  * @date 2022-12-02 16:58:49
@@ -45,8 +47,8 @@ public class ActvController {
      * @return 新增结果
      */
     @PostMapping("/add")
-    public ResponseEntity<Actv> add(Actv actv) {
-        return null;
+    public ModelAndView add(@RequestBody Actv actv, HttpServletRequest request) {
+        return actvService.add(actv,request);
     }
 
     /**
@@ -67,6 +69,19 @@ public class ActvController {
     @DeleteMapping("/delete")
     public ResponseEntity<Boolean> deleteById(Long id) {
         return null;
+    }
+
+    /**
+     * 跳转到创建社团活动页面
+     */
+    @GetMapping("/createActv")
+    public ModelAndView createActv(HttpServletRequest request){
+        return actvService.createActv(request);
+    }
+
+    @GetMapping("createActv-reset")
+    public ModelAndView createActvRest(HttpServletRequest request){
+        return actvService.createActvReset(request);
     }
 }
 

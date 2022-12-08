@@ -102,7 +102,7 @@
         }
         .crs_header{
             margin-left: 260px;
-            margin-top: -60px;
+            margin-top: -90px;
             float: left;
             position: absolute;
             color: black;
@@ -162,6 +162,7 @@
                     <li id="cmty_user"><a href="${pageContext.request.contextPath }/base/homePage">社团人员管理</a></li>
                     <li id="cmty_spend"><a href="${pageContext.request.contextPath }/base/homePage">社团经费审核</a></li>
                     <li id="report_review"><a href="${pageContext.request.contextPath }/base/homePage">人员报名审核</a></li>
+                    <li id="actv_create"><a href="${pageContext.request.contextPath }/actv/createActv">社团活动创建</a></li>
                     <li id="cmty_create"><a href="${pageContext.request.contextPath }/sysCmty/createCmt">社团创建</a></li>
                 </ul>
             </div>
@@ -220,7 +221,7 @@
                     &times;
                 </button>
                 <h4 class="modal-title" id="myModalLabel">
-                    注册提示
+                    社团创建提示
                 </h4>
             </div>
             <div class="modal-body">
@@ -336,15 +337,18 @@
         $("#cmty_spend").remove();
         $("#report_review").remove();
         $("#cmty_create").remove();
+        $("#actv_create").remove();
     }
     if (roleId == 2){
         $("#cmty_spend").remove();
         $("#cmty_create").remove();
+        $("#actv_create").remove();
     }
     if (roleId == 3){
         $("#cmty_spend").remove();
         $("#cmty_user").remove();
         $("#cmty_create").remove();
+        $("#actv_create").remove();
     }
 
     $("#cmtyManager").select2({

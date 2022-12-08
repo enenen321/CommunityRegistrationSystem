@@ -1,8 +1,8 @@
-<%@ page language="java" import="java.util.*" pageEncoding="UTF-8" %>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt"  prefix="fmt"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <html lang="zh-CN">
 <head>
     <meta charset="utf-8">
@@ -10,15 +10,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
-    <link rel="icon" href="<%=request.getContextPath()%>/resource/images/title.png">
+    <link rel="icon" href="${pageContext.request.contextPath }/resource/images/title.png">
+    <link href="${pageContext.request.contextPath }/resource/css/bootstrap.css" rel="stylesheet">
+    <link rel="stylesheet" href="${pageContext.request.contextPath }/resource/css/img.css" type="text/css">
+    <link href="${pageContext.request.contextPath }/resource/css/blog.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/resource/css/select2.css" rel="stylesheet">
+    <script src="${pageContext.request.contextPath }/resource/js/jquery-3.2.1.js"></script>
+    <script src="${pageContext.request.contextPath }/resource/js/bootstrap.js"></script>
+    <script src="${pageContext.request.contextPath}/resource/js/select2.min.js"></script>
+    <script src="${pageContext.request.contextPath }/resource/js/wangEditor.min.js"></script>
+    <script src="${pageContext.request.contextPath }/resource/js/wangEditor-fullscreen-plugin.js"></script>
     <title>社团活动报名系统</title>
-    <link href="${pageContext.request.contextPath}/resource/css/bootstrap.css" rel="stylesheet">
-    <link href="${pageContext.request.contextPath}/resource/css/blog.css" rel="stylesheet">
-    <link href="${pageContext.request.contextPath}/resource/css/signin.css" rel="stylesheet">
-    <script src="${pageContext.request.contextPath}/resource/js/jquery-3.2.1.js"></script>
-    <script src="${pageContext.request.contextPath}/resource/js/bootstrap.js"></script>
-    <script src="${pageContext.request.contextPath}/resource/js/jquery.cookie.js"></script>
-
     <style>
         /*默认通配符*/
         * {
@@ -98,33 +100,93 @@
         .menu li a:hover{
             color: #fff;
         }
+        /*下拉框样式*/
+        .select2-container .select2-selection--single{
+            height: 40px;
+            width: 467px;
+            margin-left: 162px;
+            margin-top: 10px;
+        }
+        .select2-container--default .select2-selection--single .select2-selection__arrow{
+            top: 15px;
+            right: 45px;
+        }
+        .select2-container--open .select2-dropdown--below{
+            margin-left:162px;
+            max-width: 467px;
+            border: 1px solid #ccc;
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+        }
 
+        .select2-container .select2-selection--single .select2-selection__rendered{
+            margin-top: 3px;
+            padding-left: 17px;
+        }
+        .select2-container--default .select2-selection--single .select2-selection__placeholder{
+            font-size: 15px;
+            margin-left: -4px;
+        }
         .register-back{
             float: left;
             display: inline-block;
-            width: 36%;
-            margin-left: 35px;
-            margin-bottom: 10px;
+            width: 15%;
+            margin-bottom: 0px;
         }
+        .crs_header{
+            margin-left: 260px;
+            margin-top: -68px;
+            float: left;
+            position: absolute;
+            color: black;
+        }
+        h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6{
+            margin-top: 1px;
+            margin-left: 347px;
+        }
+        .w-e-toolbar{
+            margin-left: 160px;
+            margin-top: 10px;
+            width: 469px;
+        }
+        .w-e-text-container{
+            width: 469px;
+            margin-left: 160px;
+        }
+        .w-e-text p{
+            line-height: 1px;
+        }
+
+        @media screen and (-webkit-min-device-pixel-ratio: 0) {
+            input[type="datetime-local"].form-control {
+                margin-left: 158px;
+                width: 250px;
+            }
+        }
+        .sr-only{
+            margin-left: 70px;
+        }
+
     </style>
 </head>
 <body style="padding-top:0px;">
 <% HttpSession s = request.getSession();%>
 <div class="blog-masthead">
-    <div class="container"  style="margin-bottom: 10px;">
+    <div class="container"  style="margin-bottom: 100px;">
         <nav class="blog-nav">
             <div class="section">
                 <a class="blog-nav-item" href="${pageContext.request.contextPath }/base/homePage">主页</a>
             </div>
             <div class="section">
-                <a class="blog-nav-item">社团管理</a>
+                <a class="blog-nav-item active">社团管理</a>
                 <ul class="menu" id="meu">
                     <li id="actv_report"><a href="${pageContext.request.contextPath }/base/homePage">社团活动报名</a></li>
                     <li id="cmty_actv"><a href="${pageContext.request.contextPath }/base/homePage">社团活动列表</a></li>
                     <li id="cmty_user"><a href="${pageContext.request.contextPath }/base/homePage">社团人员管理</a></li>
                     <li id="cmty_spend"><a href="${pageContext.request.contextPath }/base/homePage">社团经费审核</a></li>
                     <li id="report_review"><a href="${pageContext.request.contextPath }/base/homePage">人员报名审核</a></li>
-                    <li id="actv_create"><a href="${pageContext.request.contextPath }/base/homePage">社团活动创建</a></li>
+                    <li id="actv_create"><a href="${pageContext.request.contextPath }/actv/createActv">社团活动创建</a></li>
                     <li id="cmty_create"><a href="${pageContext.request.contextPath }/sysCmty/createCmt">社团创建</a></li>
                 </ul>
             </div>
@@ -148,7 +210,7 @@
                 </ul>
             </div>
             <div class="section navbar-right">
-                <a class="blog-nav-item active" href="${pageContext.request.contextPath}/base/register-page">
+                <a class="blog-nav-item" href="${pageContext.request.contextPath}/base/register-page">
                     注册
                 </a>
             </div>
@@ -171,8 +233,6 @@
     </div>
 </div>
 
-
-
 <button style="visibility: hidden" class="btn btn-primary btn-lg"
         data-toggle="modal" data-target="#myModal" id="dialog"></button>
 <!-- 模态框（Modal） -->
@@ -184,7 +244,7 @@
                     &times;
                 </button>
                 <h4 class="modal-title" id="myModalLabel">
-                    注册提示
+                    社团活动创建提示
                 </h4>
             </div>
             <div class="modal-body">
@@ -200,51 +260,48 @@
     </div>
 </div>
 
-<%--注册框--%>
-<h2 class="form-signin-heading" style="text-align:center; margin-top: 50px">社团活动报名系统</h2>
-<div id="register-div" class="container" style="background-color: lightblue;">
-    <form class="form-signin" id="register" method="post" action="${pageContext.request.contextPath }/base/register">
-        <h2 class="form-signin-heading" style="text-align:center; margin-top: 45px">用户注册</h2>
-        <label class="sr-only" for="inputSno" style="margin-top: 9px">学号:</label>
-        <input style="margin-top: 10px" value="" type="text" name="sno" id="inputSno" required autofocus
-               class="form-control" placeholder="请填写学号">
-        <label for="inputPhone" class="sr-only" style="margin-left: -32px">
-            手机号:
-        </label>
-        <input style="margin-top: 10px" type="phone" name="phone" id="inputPhone" required
-               class="form-control" placeholder="请填写手机号" value="" pattern="^1((34[0-8])|(8\d{2})|(([35][0-35-9]|4[579]|66|7[35678]|9[1389])\d{1}))\d{7}$">
-        <label for="inputUsername" class="sr-only" style="margin-left: -32px">
-            用户名:
-        </label>
-        <input style="margin-top: 10px" value="" type="text" name="username" id="inputUsername"
-               class="form-control" placeholder="请填写用户名" required>
-        <label for="inputPassword" class="sr-only">
-            密码:
-        </label>
-        <input style="margin-top: 10px" value="" type="password" name="password" id="inputPassword"
-               class="form-control" placeholder="请填写密码" required>
-        <label style="margin-top: 10px;margin-left: -38px" for="coll" class="sr-only">
-            所属学院:
-        </label>
-        <select id="coll" name="collId" required style="margin-top: 10px" class="form-control">
-            <option value="1">信息学院</option>
-            <option value="2">经管学院</option>
-            <option value="3">动科学院</option>
-        </select>
-        <label style="margin-top: 20px;" for="role" class="sr-only">
-            角色:
-        </label>
-        <select id="role" name="roleId" required  style="margin-top: 10px;" class="form-control">
-            <option value="4">普通用户</option>
-            <option value="1">社团管理员</option>
-            <option value="3">辅导员</option>
-            <option value="2">社团团长</option>
-        </select>
-        <button style="margin-top: 10px;" onclick="remove()" class="btn btn-lg btn-primary btn-block register-back" type="submit">注册</button>
-        <button style="margin-top: 10px;" class="btn btn-lg btn-primary btn-block btn register-back" type="button" onclick="window.history.go(-1)">返回</button>
-    </form>
+<%--社团活动创建--%>
+<h3 class="crs_header">>>&nbsp;社团管理</h3>
+<div class="container" >
+    <div id="comment-place">
+        <div class="comment-post" id="comment-post">
+            <h3>
+                <i class="fa fa-commenting-o fa-fw" style="margin-left: 50px"></i>
+                社团活动创建 <i class="icon-comment-alt"></i>
+            </h3>
+            <form class="form-horizontal" role="form" id="comment-form" style="margin-left: 100px">
+                <label for="cmtyId" class="sr-only">
+                    社团名称:
+                </label>
+                <select id="cmtyId" name="cmtyId" required style="margin-top: 10px;"  class="form-control">
+                    <c:forEach items='<%=s.getAttribute("cmtyList")%>' var="cmty">
+                        <option value=${cmty.id}>${cmty.cmtyName}</option>
+                    </c:forEach>
+                </select>
+                <label  for="actvTitle" class="sr-only">
+                    活动主题:
+                </label>
+                <input id="actv_title" style="margin-top: 10px; width: 56%;margin-left: 160px" type="text" name="actvTitle" id="actvTitle" required
+                       class="form-control" placeholder="请填写活动主题" value="">
+                <label for="editor" class="sr-only">
+                    活动内容:
+                </label>
+                <input type="hidden" name="pid" id="comment-pid"
+                       value="0" size="22" tabindex="1">
+                <div id="editor" name="actvContent" style="width: 100%;height: 150px;">
+                    <p></p>
+                </div>
+                <label style="margin-top: 50px; width: 96px;margin-left: 43px" for="deadline" class="sr-only">
+                    报名截止日期:
+                </label>
+                <input style="margin-top: 43px;" type="datetime-local" name="deadline" id="deadline" required
+                       class="form-control" placeholder="请选择截至日期" value="">
+                <a style="margin-top: 10px; margin-left: 165px" href="javascript:addActv()" class="btn btn-lg btn-primary btn-block register-back" type="button">创建</a>
+                <button style="margin-top: 10px; margin-left: 175px" class="btn btn-lg btn-primary btn-block btn register-back" type="button" onclick="window.history.go(-1)">返回</button>
+            </form>
+        </div>
+    </div>
 </div>
-
 
 <%--图片选择框--%>
 <form id="form_face" enctype="multipart/form-data" style="width:auto;">
@@ -252,33 +309,40 @@
 </form>
 
 <script type="text/javascript">
+    var E = window.wangEditor
+    var editor = new E('#editor')
+    // 自定义菜单配置
+    editor.customConfig.menus = [
+        'bold', // 粗体
+        'italic', // 斜体
+        'underline', // 下划线
+        'list', // 列表
+        'emoticon', // 表情
+    ];
+    // debug模式下，有 JS 错误会以throw Error方式提示出来
+    editor.customConfig.debug = true;
+    // 关闭粘贴样式的过滤
+    editor.customConfig.pasteFilterStyle = false;
+    // 自定义处理粘贴的文本内容
+    editor.customConfig.pasteTextHandle = function(content) {
+        // content 即粘贴过来的内容（html 或 纯文本），可进行自定义处理然后返回
+        return content + '<p>在粘贴内容后面追加一行</p>'
+    };
+    // 插入网络图片的回调
+    editor.customConfig.linkImgCallback = function(url) {
+    };
+    editor.customConfig.zIndex = 100;
+    editor.create();
+    E.fullscreen.init('#editor');
+
+
     var msg = "<%=session.getAttribute("msg")%>";
     if (msg != 'null') {
         $(function () {
             $("#myModal").modal({
                 keyboard: true
             });
-        });
-        if (msg == "该学号已注册"){
-            var elementById = document.getElementById("inputSno");
-            console.log(elementById);
-            document.getElementById("inputSno").style.borderColor= "red";
-        }
-        if (msg == "该手机号已注册"){
-            var elementById = document.getElementById("inputPhone");
-            console.log(elementById);
-            document.getElementById("inputPhone").style.borderColor= "red";
-        }
-    }
-
-    function reset(){
-        var url="${pageContext.request.contextPath }/base/register-reset";
-        window.location.href = url;
-    }
-    /*提交表单时去掉disabled，防止后台接收不到数据*/
-    function remove(){
-        $("#role").removeAttr("disabled");
-    }
+        })};
 
     /*图片选择弹窗*/
     function imgSelect(){
@@ -313,13 +377,23 @@
             processData:false,
             data:formData,
             success:function (){
-                //刷新页面显示头像
+                //刷新页面
                 history.go(0);
             }
         })
 
     }
-    /*删除li*/
+
+    <%--var msg = "<%=session.getAttribute("msg")%>";--%>
+    <%--if (msg != 'null') {--%>
+    <%--    $(function () {--%>
+    <%--        $("#myModal").modal({--%>
+    <%--            keyboard: true--%>
+    <%--        });--%>
+    <%--    })};--%>
+
+
+        /*删除li*/
     var roleId = <%=s.getAttribute("roleId")%>;
     if (roleId != 1 && roleId != 2 && roleId != 3){
         $("#cmty_user").remove();
@@ -327,23 +401,61 @@
         $("#report_review").remove();
         $("#cmty_create").remove();
         $("#actv_create").remove();
-        $("#role").attr("disabled","disabled");
     }
     if (roleId == 2){
         $("#cmty_spend").remove();
         $("#cmty_create").remove();
         $("#actv_create").remove();
-        $("#role").attr("disabled","disabled");
     }
     if (roleId == 3){
         $("#cmty_spend").remove();
         $("#cmty_user").remove();
         $("#cmty_create").remove();
         $("#actv_create").remove();
-        $("#role").attr("disabled","disabled");
+    }
+
+    $("#cmtyId").select2({
+        placeholder:"按社团名称搜索"
+    });
+
+    function reset() {
+        var url = "${pageContext.request.contextPath }/actv/createActv-reset";
+        window.location.href = url;
+    }
+    function addActv(){
+        //获取社团id
+        var cmtyId = $("#cmtyId").val();
+        //获取活动主题
+        var actvTitle = $("#actv_title").val();
+        //获取活动内容
+        var actvContent = editor.txt.text();
+        //获取截止日期
+        var deadline = $("#deadline").val();
+        var actv = JSON.stringify({"cmtyId":cmtyId,"actvTitle":actvTitle,"actvContent":actvContent,"deadline":deadline});
+        console.log(actv);
+        $.ajax({
+            type: "post",
+            url: "${pageContext.request.contextPath}/actv/add",
+            contentType:"application/json;charset=utf-8",
+            actv,
+            success:function (){
+                // $(function(){
+                //     $("#myModal").modal({
+                //         keyboard: true
+                //     });
+                // });
+            },
+            fail:function (){
+                // $(function(){
+                //     $("#myModal").modal({
+                //         keyboard: true
+                //     });
+                // });
+            }
+        });
     }
 </script>
-<footer class="blog-footer" style="padding-top: 0px;height:5px; margin-top: 50px">
-    <p>版权所有 XXXXXXXXXXXXXXXXXX</p>
+<footer class="blog-footer" style="padding-top:40px;height:5px;">
+    <p style="margin-top: 113px">版权所有 XXXXXXXXXXXXXXXXXX</p>
 </footer>
 </body>
