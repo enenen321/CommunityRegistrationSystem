@@ -1,10 +1,9 @@
 package com.crs.service.impl;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.extension.conditions.update.UpdateChainWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.crs.entity.SysCmty;
 import com.crs.dao.SysCmtyMapper;
+import com.crs.entity.SysCmty;
 import com.crs.entity.SysUser;
 import com.crs.entity.SysUserRole;
 import com.crs.service.SysCmtyService;
@@ -54,13 +53,26 @@ public class SysCmtyServiceImpl extends ServiceImpl<SysCmtyMapper,SysCmty> imple
     @Override
     public ModelAndView add(SysCmty cmty,HttpServletRequest request) {
         HttpSession session = request.getSession();
-        boolean save = this.save(cmty);
-        if (!save){
-            session.setAttribute("msg","未知异常，创建失败！");
-            return new ModelAndView("front/cmtyCreate");
+        ModelAndView modelAndView = new ModelAndView("front/cmtyCreate");
+        SysCmty one = this.lambdaQuery().eq(SysCmty::getCollId, cmty.getCollId()).eq(SysCmty::getCmtyName, cmty.getCmtyName()).one();
+        if (null != one){
+            session.setAttribute("msg","该社团已存在");
+            return modelAndView;
         }
-        sysUserRoleService.update().set("role_id", 2).eq("user_id", cmty.getManagerId());
+        boolean save = this.save(cmty);
+        boolean update = sysUserRoleService.update(new UpdateWrapper<SysUserRole>().set("role_id", 2).eq("user_id", cmty.getManagerId()));
+        if (!save && !update){
+            session.setAttribute("msg","未知异常，创建失败！");
+            return modelAndView;
+        }
         session.setAttribute("msg","创建成功！");
-        return new ModelAndView("front/cmtyCreate");
+        return modelAndView;
+    }
+
+    @Override
+    public ModelAndView createCmtyReset(HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        session.removeAttribute("msg");
+        return this.createCmty(request);
     }
 }

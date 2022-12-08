@@ -12,7 +12,20 @@ import javax.servlet.http.HttpServletRequest;
  */
 public interface SysCmtyService extends IService<SysCmty> {
 
+    /**
+     * 跳转到创建社团的页面
+     */
     ModelAndView createCmty(HttpServletRequest request);
 
+    /**
+     * 新增数据
+     * @param cmty 实体
+     * @return 新增结果
+     */
     ModelAndView add(SysCmty cmty,HttpServletRequest request);
+
+    /**
+     * 清空缓存防止无限弹窗返回社团创建页
+     */
+    ModelAndView createCmtyReset(HttpServletRequest request);
 }

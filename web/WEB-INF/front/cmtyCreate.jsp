@@ -185,7 +185,7 @@
                 </ul>
             </div>
             <div class="section navbar-right">
-                <a class="blog-nav-item " href="${pageContext.request.contextPath }/login/register">
+                <a class="blog-nav-item " href="${pageContext.request.contextPath }/base/register-page">
                     注册
                 </a>
             </div>
@@ -350,6 +350,11 @@
     $("#cmtyManager").select2({
         placeholder:"按用户名搜索"
     });
+
+    function reset() {
+        var url = "${pageContext.request.contextPath }/sysCmty/createCmt-reset";
+        window.location.href = url;
+    }
 
 </script>
 <footer class="blog-footer" style="padding-top:60px;height:5px;">

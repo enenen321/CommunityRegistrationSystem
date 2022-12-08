@@ -101,20 +101,15 @@ public class BaseController {
     }
 
     /**
-     * 注册失败清空缓存重新跳转
+     * 注册清空缓存重新跳转
      */
     @GetMapping("/register-reset")
     public ModelAndView registerReset(HttpServletRequest request){
         HttpSession session = request.getSession();
         ModelAndView modelAndView = new ModelAndView();
-        String msg = session.getAttribute("msg").toString();
-        if ("注册成功！".equals(msg)){
-            modelAndView.setViewName("redirect:/base/index");
-            return modelAndView;
-        }else {
-            modelAndView.setViewName("front/register");
-            return modelAndView;
-        }
+        session.removeAttribute("msg");
+        modelAndView.setViewName("front/register");
+        return modelAndView;
     }
 
     /**

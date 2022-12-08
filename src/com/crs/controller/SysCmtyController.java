@@ -1,23 +1,15 @@
 package com.crs.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.crs.common.annotation.SystemLog;
 import com.crs.entity.SysCmty;
-import com.crs.entity.SysUser;
-import com.crs.entity.SysUserRole;
 import com.crs.service.SysCmtyService;
-import com.crs.service.SysUserRoleService;
-import com.crs.service.SysUserService;
-import com.crs.vo.UserVo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.jws.WebParam;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @author LZ
@@ -55,6 +47,7 @@ public class SysCmtyController {
      * @param sysCmty 实体
      * @return 新增结果
      */
+    @SystemLog(message = "创建社团")
     @PostMapping("/add")
     public ModelAndView add(SysCmty sysCmty,HttpServletRequest request) {
         return sysCmtyService.add(sysCmty,request);
@@ -86,6 +79,14 @@ public class SysCmtyController {
     @GetMapping("/createCmt")
     public ModelAndView createCmty(HttpServletRequest request){
       return sysCmtyService.createCmty(request);
+    }
+
+    /**
+     * 清空缓存防止无限弹窗返回社团创建页
+     */
+    @GetMapping("/createCmt-reset")
+    public ModelAndView createCmtReset(HttpServletRequest request){
+        return sysCmtyService.createCmtyReset(request);
     }
 }
 
