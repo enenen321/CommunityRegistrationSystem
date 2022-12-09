@@ -70,6 +70,7 @@
         }
         /* 菜单缓慢下拉样式 ，隐藏撑出部分*/
         .menu {
+            z-index: 2;
             overflow: hidden;
             background-color: transparent;
             margin-top: 10px;
@@ -136,7 +137,7 @@
         }
         .crs_header{
             margin-left: 260px;
-            margin-top: -68px;
+            margin-top: -91px;
             float: left;
             position: absolute;
             color: black;
@@ -233,6 +234,7 @@
     </div>
 </div>
 
+<%--成功框--%>
 <button style="visibility: hidden" class="btn btn-primary btn-lg"
         data-toggle="modal" data-target="#myModal" id="dialog"></button>
 <!-- 模态框（Modal） -->
@@ -248,7 +250,35 @@
                 </h4>
             </div>
             <div class="modal-body">
-                <%=s.getAttribute("msg")  %>
+                创建成功！
+            </div>
+            <div class="modal-footer">
+                <button type="button" onclick="reset()"
+                        class="btn btn-default" data-dismiss="modal">
+                    确认
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<%--创建失败框--%>
+<button style="visibility: hidden" class="btn btn-primary btn-lg"
+        data-toggle="modal" data-target="#errorModel" id="dialog"></button>
+<!-- 模态框（Modal） -->
+<div class="modal fade" id="errorModel" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title" id="myErrorLabel">
+                    社团活动创建提示
+                </h4>
+            </div>
+            <div class="modal-body">
+                未知异常，创建失败！
             </div>
             <div class="modal-footer">
                 <button type="button" onclick="reset()"
@@ -309,41 +339,6 @@
 </form>
 
 <script type="text/javascript">
-    var E = window.wangEditor
-    var editor = new E('#editor')
-    // 自定义菜单配置
-    editor.customConfig.menus = [
-        'bold', // 粗体
-        'italic', // 斜体
-        'underline', // 下划线
-        'list', // 列表
-        'emoticon', // 表情
-    ];
-    // debug模式下，有 JS 错误会以throw Error方式提示出来
-    editor.customConfig.debug = true;
-    // 关闭粘贴样式的过滤
-    editor.customConfig.pasteFilterStyle = false;
-    // 自定义处理粘贴的文本内容
-    editor.customConfig.pasteTextHandle = function(content) {
-        // content 即粘贴过来的内容（html 或 纯文本），可进行自定义处理然后返回
-        return content + '<p>在粘贴内容后面追加一行</p>'
-    };
-    // 插入网络图片的回调
-    editor.customConfig.linkImgCallback = function(url) {
-    };
-    editor.customConfig.zIndex = 100;
-    editor.create();
-    E.fullscreen.init('#editor');
-
-
-    var msg = "<%=session.getAttribute("msg")%>";
-    if (msg != 'null') {
-        $(function () {
-            $("#myModal").modal({
-                keyboard: true
-            });
-        })};
-
     /*图片选择弹窗*/
     function imgSelect(){
         document.getElementById("imgToUpload").click();
@@ -383,14 +378,6 @@
         })
 
     }
-
-    <%--var msg = "<%=session.getAttribute("msg")%>";--%>
-    <%--if (msg != 'null') {--%>
-    <%--    $(function () {--%>
-    <%--        $("#myModal").modal({--%>
-    <%--            keyboard: true--%>
-    <%--        });--%>
-    <%--    })};--%>
 
 
         /*删除li*/
@@ -432,28 +419,54 @@
         //获取截止日期
         var deadline = $("#deadline").val();
         var actv = JSON.stringify({"cmtyId":cmtyId,"actvTitle":actvTitle,"actvContent":actvContent,"deadline":deadline});
-        console.log(actv);
         $.ajax({
             type: "post",
             url: "${pageContext.request.contextPath}/actv/add",
             contentType:"application/json;charset=utf-8",
-            actv,
+            data:actv,
             success:function (){
-                // $(function(){
-                //     $("#myModal").modal({
-                //         keyboard: true
-                //     });
-                // });
+                $(function(){
+                    $("#myModal").modal({
+                        keyboard: true
+                    });
+                });
             },
             fail:function (){
-                // $(function(){
-                //     $("#myModal").modal({
-                //         keyboard: true
-                //     });
-                // });
+                $(function(){
+                    $("#errorModel").modal({
+                        keyboard: true
+                    });
+                });
             }
         });
     }
+</script>
+
+<script type="text/javascript">
+    var E = window.wangEditor
+    var editor = new E('#editor')
+    // 自定义菜单配置
+    editor.customConfig.menus = [
+        'bold', // 粗体
+        'italic', // 斜体
+        'underline', // 下划线
+        'list', // 列表
+        'emoticon', // 表情
+    ];
+    // debug模式下，有 JS 错误会以throw Error方式提示出来
+    editor.customConfig.debug = true;
+    // 关闭粘贴样式的过滤
+    editor.customConfig.pasteFilterStyle = false;
+    // 自定义处理粘贴的文本内容
+    editor.customConfig.pasteTextHandle = function(content) {
+        // content 即粘贴过来的内容（html 或 纯文本），可进行自定义处理然后返回
+        return content + '<p>在粘贴内容后面追加一行</p>'
+    };
+    // 插入网络图片的回调
+    editor.customConfig.linkImgCallback = function(url) {
+    };
+    editor.customConfig.zIndex = 100;
+    editor.create();
 </script>
 <footer class="blog-footer" style="padding-top:40px;height:5px;">
     <p style="margin-top: 113px">版权所有 XXXXXXXXXXXXXXXXXX</p>

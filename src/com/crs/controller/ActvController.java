@@ -47,8 +47,8 @@ public class ActvController {
      * @return 新增结果
      */
     @PostMapping("/add")
-    public ModelAndView add(@RequestBody Actv actv, HttpServletRequest request) {
-        return actvService.add(actv,request);
+    public ModelAndView add(@RequestBody Actv actv) {
+        return actvService.add(actv);
     }
 
     /**
