@@ -3,6 +3,7 @@ package com.crs.dao;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.crs.entity.Actv;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * @author LZ
@@ -11,5 +12,6 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface ActvMapper extends BaseMapper<Actv> {
 
+    Actv getActvList(@Param("actv") Actv actv);
 }
 
