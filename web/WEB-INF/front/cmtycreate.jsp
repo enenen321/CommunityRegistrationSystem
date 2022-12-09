@@ -158,7 +158,7 @@
                 <a class="blog-nav-item active">社团管理</a>
                 <ul class="menu" id="meu">
                     <li id="actv_report"><a href="${pageContext.request.contextPath }/base/homePage">社团活动报名</a></li>
-                    <li id="cmty_actv"><a href="${pageContext.request.contextPath }/base/homePage">社团活动列表</a></li>
+                    <li id="cmty_actv"><a href="${pageContext.request.contextPath }/actv/list/1">社团活动列表</a></li>
                     <li id="cmty_user"><a href="${pageContext.request.contextPath }/base/homePage">社团人员管理</a></li>
                     <li id="cmty_spend"><a href="${pageContext.request.contextPath }/base/homePage">社团经费审核</a></li>
                     <li id="report_review"><a href="${pageContext.request.contextPath }/base/homePage">人员报名审核</a></li>

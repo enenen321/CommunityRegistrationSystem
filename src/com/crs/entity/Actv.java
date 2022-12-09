@@ -1,5 +1,6 @@
 package com.crs.entity;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.crs.common.mybati.base.BaseEntity;
 import lombok.Data;
 
@@ -30,5 +31,15 @@ public class Actv extends BaseEntity {
      * 是否关闭
      */
     private Integer isClosed = 0;
+    /**
+     * 所属学院名称
+     */
+    @TableField(exist = false)
+    private String collName;
+    /**
+     * 所属社团名称
+     */
+    @TableField(exist = false)
+    private String cmtyName;
 }
 

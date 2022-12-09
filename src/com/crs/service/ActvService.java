@@ -2,6 +2,7 @@ package com.crs.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.crs.entity.Actv;
+import org.springframework.ui.Model;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -11,6 +12,11 @@ import javax.servlet.http.HttpServletRequest;
  * @date 2022-12-02 16:58:49
  */
 public interface ActvService extends IService<Actv> {
+
+    /**
+     * 社团活动列表
+     */
+    ModelAndView actvList(Integer pn, Model model,HttpServletRequest request);
 
     /**
      * 跳转到创建社团页面

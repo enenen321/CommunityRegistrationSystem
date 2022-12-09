@@ -4,14 +4,22 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.crs.dao.ActvMapper;
 import com.crs.entity.Actv;
 import com.crs.entity.SysCmty;
+import com.crs.entity.SysColl;
+import com.crs.entity.SysUser;
 import com.crs.service.ActvService;
 import com.crs.service.SysCmtyService;
+import com.crs.service.SysCollService;
+import com.crs.service.SysUserService;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -22,6 +30,43 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ActvServiceImpl extends ServiceImpl<ActvMapper, Actv> implements ActvService {
     private final SysCmtyService sysCmtyService;
+    private final SysUserService sysUserService;
+    private final SysCollService sysCollService;
+
+    @Override
+    public ModelAndView actvList(Integer pn,Model model,HttpServletRequest request) {
+        //如果是社团管理员展示所有学院的社团活动，如果不是，则根据用户所属学院展示
+        HttpSession session = request.getSession();
+        Long roleId = (Long) session.getAttribute("roleId");
+        Long userId = (Long) session.getAttribute("userId");
+        List<Actv> list;
+        List<Long> cmtyIds = new ArrayList<>();
+        if (roleId != 1){
+            //找到用户所属学院
+            SysUser user = sysUserService.getById(userId);
+            //根据学院找到对应社团
+            List<SysColl> collList = sysCollService.lambdaQuery().eq(SysColl::getId,user.getCollId()).list();
+            //社团id
+            collList.forEach(sysColl -> cmtyIds.add(sysColl.getId()));
+            //该学院的所有活动
+            //这句只针对其下一查询语句生效
+            PageHelper.startPage(pn,5);
+            list = this.lambdaQuery().eq(Actv::getIsClosed, 0).in(Actv::getCmtyId,cmtyIds).list();
+        }else{
+            PageHelper.startPage(pn,5);
+            list = this.lambdaQuery().eq(Actv::getIsClosed,0).list();
+        }
+        list.forEach(l->{
+            SysCmty cmty = sysCmtyService.getById(l.getCmtyId());
+            SysColl coll = sysCollService.getById(cmty.getCollId());
+            l.setCmtyName(cmty.getCmtyName());
+            l.setCollName(coll.getCollName());
+        });
+        PageInfo<Actv> actvPageInfo = new PageInfo<>(list);
+        model.addAttribute("pageInfo",actvPageInfo);
+        model.addAttribute("actvList",list);
+        return new ModelAndView("front/actvlist");
+    }
 
     @Override
     public ModelAndView createActv(HttpServletRequest request) {

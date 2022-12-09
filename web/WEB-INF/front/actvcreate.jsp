@@ -183,7 +183,7 @@
                 <a class="blog-nav-item active">社团管理</a>
                 <ul class="menu" id="meu">
                     <li id="actv_report"><a href="${pageContext.request.contextPath }/base/homePage">社团活动报名</a></li>
-                    <li id="cmty_actv"><a href="${pageContext.request.contextPath }/base/homePage">社团活动列表</a></li>
+                    <li id="cmty_actv"><a href="${pageContext.request.contextPath }/actv/list/1">社团活动列表</a></li>
                     <li id="cmty_user"><a href="${pageContext.request.contextPath }/base/homePage">社团人员管理</a></li>
                     <li id="cmty_spend"><a href="${pageContext.request.contextPath }/base/homePage">社团经费审核</a></li>
                     <li id="report_review"><a href="${pageContext.request.contextPath }/base/homePage">人员报名审核</a></li>
@@ -234,7 +234,7 @@
     </div>
 </div>
 
-<%--成功框--%>
+
 <button style="visibility: hidden" class="btn btn-primary btn-lg"
         data-toggle="modal" data-target="#myModal" id="dialog"></button>
 <!-- 模态框（Modal） -->
@@ -277,26 +277,26 @@
                 </label>
                 <select id="cmtyId" name="cmtyId" required style="margin-top: 10px;"  class="form-control">
                     <c:forEach items='<%=s.getAttribute("cmtyList")%>' var="cmty">
-                        <option value=${cmty.id}>${cmty.cmtyName}</option>
+                        <option style="font-family: 宋体" value=${cmty.id}>${cmty.cmtyName}</option>
                     </c:forEach>
                 </select>
                 <label  for="actvTitle" class="sr-only">
                     活动主题:
                 </label>
-                <input id="actv_title" style="margin-top: 10px; width: 56%;margin-left: 160px" type="text" name="actvTitle" id="actvTitle" required
+                <input id="actv_title" style="margin-top: 10px; width: 56%;margin-left: 160px;font-family: 宋体" type="text" name="actvTitle" id="actvTitle" required
                        class="form-control" placeholder="请填写活动主题" value="">
                 <label for="editor" class="sr-only">
                     活动内容:
                 </label>
                 <input type="hidden" name="pid" id="comment-pid"
                        value="0" size="22" tabindex="1">
-                <div id="editor" name="actvContent" style="width: 100%;height: 150px;">
+                <div id="editor" name="actvContent" style="width: 100%;height: 150px;font-family: 宋体">
                     <p></p>
                 </div>
-                <label style="margin-top: 50px; width: 96px;margin-left: 43px" for="deadline" class="sr-only">
+                <label style="margin-top: 50px; width: 96px;margin-left: 43px;" for="deadline" class="sr-only">
                     报名截止日期:
                 </label>
-                <input style="margin-top: 43px;" type="datetime-local" name="deadline" id="deadline" required
+                <input style="margin-top: 43px; font-family: 宋体" type="datetime-local" name="deadline" id="deadline" required
                        class="form-control" placeholder="请选择截至日期" value="">
                 <a style="margin-top: 10px; margin-left: 165px" href="javascript:addActv()" class="btn btn-lg btn-primary btn-block register-back" type="button">创建</a>
                 <button style="margin-top: 10px; margin-left: 175px" class="btn btn-lg btn-primary btn-block btn register-back" type="button" onclick="window.history.go(-1)">返回</button>
@@ -326,6 +326,10 @@
         var actvTitle = $("#actv_title").val();
         //获取活动内容
         var actvContent = editor.txt.text();
+        var length = actvContent.length;
+        if (length > 20){
+            return alert("活动内容限制二十字以内！");
+        }
         //获取截止日期
         var deadline = $("#deadline").val();
         var actv = JSON.stringify({"cmtyId":cmtyId,"actvTitle":actvTitle,"actvContent":actvContent,"deadline":deadline});

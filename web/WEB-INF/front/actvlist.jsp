@@ -36,10 +36,6 @@
             -webkit-box-orient:vertical;
             -webkit-line-clamp:5;
         }
-        /*a {*/
-        /*    !*text-decoration: none;*!*/
-        /*    color: black;*/
-        /*}*/
         /* li在这里只去掉既有样式 不规定宽度 */
         li {
             cursor: pointer;
@@ -70,6 +66,7 @@
         }
         /* 菜单缓慢下拉样式 ，隐藏撑出部分*/
         .menu {
+            z-index: 2;
             overflow: hidden;
             background-color: transparent;
             margin-top: 10px;
@@ -100,18 +97,45 @@
         .menu li a:hover{
             color: #fff;
         }
+        .crs_header{
+            margin-left: 260px;
+            margin-top: -61px;
+            float: left;
+            position: absolute;
+            color: black;
+        }
+        td{
+            font-family: 宋体;
+            height: 70px;
+            width: 169px;
+            padding: 5px;
+        }
+        tr{
+            border-top: 1px solid lightgray;
+            line-height: 30px;
+            text-align: center;
+        }
+        #actvlist{
+            height: 350px;
+        }
+        input{
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            height: 29px;
+            padding-left: 1px;
+        }
     </style>
 </head>
 <body>
-<% HttpSession s = request.getSession();%>
+    <% HttpSession s = request.getSession();%>
 <div class="blog-masthead">
-    <div class="container"  style="display: block;margin-bottom: 200px;">
+    <div class="container"  style="display: block;margin-bottom:70px;">
         <nav class="blog-nav">
             <div class="section">
-            <a class="blog-nav-item active" href="${pageContext.request.contextPath }/base/homePage">主页</a>
+                <a class="blog-nav-item" href="${pageContext.request.contextPath }/base/homePage">主页</a>
             </div>
             <div class="section">
-            <a class="blog-nav-item">社团管理</a>
+                <a class="blog-nav-item active">社团管理</a>
                 <ul class="menu" id="meu">
                     <li id="actv_report"><a href="${pageContext.request.contextPath }/base/homePage">社团活动报名</a></li>
                     <li id="cmty_actv"><a href="${pageContext.request.contextPath }/actv/list/1">社团活动列表</a></li>
@@ -125,16 +149,16 @@
             <%--普通用户不展示该选项--%>
             <%if (Integer.parseInt(s.getAttribute("roleId").toString()) == 1 || Integer.parseInt(s.getAttribute("roleId").toString()) == 2 || Integer.parseInt(s.getAttribute("roleId").toString()) == 3) {%>
             <div class="section">
-                <a class="blog-nav-item" href="${pageContext.request.contextPath }/user/userInfomation/<%=s.getAttribute("userId")%>">系统用户管理</a>
+                <a class="blog-nav-item" href="#">系统用户管理</a>
             </div>
             <div class="section">
-            <a class="blog-nav-item" href="${pageContext.request.contextPath }/user/userInfomation/<%=s.getAttribute("userId")%>">
-                系统日志
-            </a>
+                <a class="blog-nav-item" href="${pageContext.request.contextPath }/user/userInfomation/<%=s.getAttribute("userId")%>">
+                    系统日志
+                </a>
             </div>
             <%}%>
             <div class="section">
-            <a class="blog-nav-item" href="${pageContext.request.contextPath }/user/userInfomation/<%=s.getAttribute("userId")%>">个人管理</a>
+                <a class="blog-nav-item" href="${pageContext.request.contextPath }/user/userInfomation/<%=s.getAttribute("userId")%>">个人管理</a>
                 <ul class="menu">
                     <li><a href="${pageContext.request.contextPath }/sysCmty/createCmt">社团活动详情</a></li>
                     <li><a href="${pageContext.request.contextPath }/sysUser/detail/<%=s.getAttribute("userId")%>">个人信息</a></li>
@@ -142,14 +166,14 @@
                 </ul>
             </div>
             <div class="section navbar-right">
-            <a class="blog-nav-item " href="${pageContext.request.contextPath}/base/register-page">
-                注册
-            </a>
+                <a class="blog-nav-item " href="${pageContext.request.contextPath}/base/register-page">
+                    注册
+                </a>
             </div>
             <div class="section navbar-right">
-            <a  class="blog-nav-item " href="${pageContext.request.contextPath }/base/back">
-                退出
-            </a>
+                <a  class="blog-nav-item " href="${pageContext.request.contextPath }/base/back">
+                    退出
+                </a>
             </div>
             <%--登录用户--%>
             <div class="section navbar-right">
@@ -165,88 +189,126 @@
     </div>
 </div>
 
-
-<div class="onepage" id="pageone">
-    <div class="onepage-bg" id="onepagebg"></div>
-    <div class="container">
-        <div class="row">
-            <div class="title-text">
-                <div class="col-md-12 headfontsize">
-                    <h1 class="headh1content">
-                        SB社区<small> Fun Here</small><br>
-                    </h1>
-                    <h3>为世界再添一度饱和</h3>
-                    <p class="headtext">软件、方法、资源；想你所想，爱你所爱</p>
+    <button style="visibility: hidden" class="btn btn-primary btn-lg"
+            data-toggle="modal" data-target="#myModal" id="dialog"></button>
+    <!-- 模态框（Modal） -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">
+                        社团活动创建提示
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <%=s.getAttribute("msg")%>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" onclick="reset()"
+                            class="btn btn-default" data-dismiss="modal">
+                        确认
+                    </button>
                 </div>
             </div>
         </div>
     </div>
-</div>
-<div class="container" style="padding-top:50px;padding-bottom:50px;">
-    <div class="row">
-        <c:if test="${not empty article1}">
-            <div class="col-md-4">
-                <h4>
-                    <p class="line-limit-length">
-                            ${article1.title}
-                    </p>
-                </h4>
-                <p class="line-content-length">
-                        ${article1.content}
-                </p>
-                <p>
-                    <a class="btn btn-default"
-                       href="${pageContext.request.contextPath }/article/fireArticle/${article1.type}" role="button">
-                        更多内容&raquo;
-                    </a>
-                </p>
-            </div>
-        </c:if>
-        <c:if test="${not empty article2}">
-            <div class="col-md-4">
-                <h4>
-                    <p class="line-limit-length">
-                            ${article2.title}
-                    </p>
-                </h4>
-                <p class="line-content-length">
-                        ${article2.content}
-                </p>
-                <p>
-                    <a class="btn btn-default"
-                       href="${pageContext.request.contextPath }/article/fireArticle/${article2.type}" role="button">
-                        更多内容&raquo;
-                    </a>
-                </p>
-            </div>
-        </c:if>
-        <c:if test="${not empty article3}">
-            <div class="col-md-4">
-                <h4>
-                    <p class="line-limit-length">
-                            ${article3.title}
-                    </p>
-                </h4>
-                <p class="line-content-length">
-                        ${article3.content}
-                </p>
-                <p>
-                    <a class="btn btn-default"
-                       href="${pageContext.request.contextPath }/article/fireArticle/${article3.type}" role="button">
-                        更多内容&raquo;
-                    </a>
-                </p>
-            </div>
-        </c:if>
+
+    <h3 class="crs_header">>>&nbsp;社团管理</h3>
+
+<%--社团活动列表--%>
+    <div class="container">
+        <div class="search" style="padding-bottom: 40px">
+            <form action="" method="get" style="margin-left:100px;padding-left: 10px">
+                <label for="cmtyName">社团名称：</label>
+                <input class="" id="cmtyName" type="text" name="cmtyName" placeholder="按社团名称搜索"/>
+                <label for="actvTitle">活动主题：</label>
+                <input id="actvTitle" type="text" name="actvTitle" placeholder="按活动主题搜索"/>
+                <label for="collName">学院名称：</label>
+                <input id="collName" type="text" name="collName" placeholder="按学院名称搜索">
+                <button type="submit" class="btn-primary" style="margin-left: 20px;width: 40px">查询</button>
+            </form>
+        </div>
+        <div id="actvlist">
+            <table style="margin:0 auto;padding-left: 80px; border: 1px solid black " >
+                <thead style="background-color: #afd9ee">
+                    <tr>
+                        <td>活动主题</td>
+                        <td>活动内容</td>
+                        <td>所属社团</td>
+                        <td>所属学院</td>
+                        <td>截止日期</td>
+                        <td>操作</td>
+                    </tr>
+                </thead>
+                <tbody>
+                <c:forEach items="${actvList}" var="actv">
+                    <tr>
+                        <td>${actv.actvTitle}</td>
+                        <td>${actv.actvContent}</td>
+                        <td>${actv.cmtyName}</td>
+                        <td>${actv.collName}</td>
+                        <td>${actv.deadline}</td>
+                        <td><a href="#">申请</a></td>
+                    </tr>
+                </c:forEach>
+                </tbody>
+            </table>
+        </div>
+
+        <div style="padding-left: 130px; float: right;">
+            <nav aria-label="Page navigation" style="margin-top: 58px">
+                <ul class="pagination">
+                    <li>
+                        <a href="${pageContext.request.contextPath }/actv/list/1/">首页</a>
+                    </li>
+                    <!--上一页-->
+                    <li>
+                        <c:if test="${pageInfo.hasPreviousPage}">
+                            <a href="${pageContext.request.contextPath}/actv/list/${pageInfo.pageNum-1}/" aria-label="Previous">
+                                <span aria-hidden="true">«</span>
+                            </a>
+                        </c:if>
+                    </li>
+                    <!--循环遍历连续显示的页面，若是当前页就高亮显示，并且没有链接-->
+                    <c:forEach items="${pageInfo.navigatepageNums}" var="page_num">
+                        <c:if test="${page_num == pageInfo.pageNum}">
+                            <li class="active">
+                                <a href="${pageContext.request.contextPath}/actv/list/${page_num}/">${page_num}</a>
+                            </li>
+                        </c:if>
+                        <c:if test="${page_num != pageInfo.pageNum}">
+                            <li>
+                                <a href="${pageContext.request.contextPath}/actv/list/${page_num}/">${page_num}</a>
+                            </li>
+                        </c:if>
+                    </c:forEach>
+                    <!--下一页-->
+                    <li>
+                        <c:if test="${pageInfo.hasNextPage}">
+                            <a href="${pageContext.request.contextPath}/actv/list/${pageInfo.pageNum+1}/"
+                               aria-label="Next">
+                                <span aria-hidden="true">»</span>
+                            </a>
+                        </c:if>
+                    </li>
+                    <li>
+                        <a href="${pageContext.request.contextPath}/actv/list/${pageInfo.pages}/">尾页</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
     </div>
-</div>
 
 <%--图片选择框--%>
 <form id="form_face" enctype="multipart/form-data" style="width:auto;">
-    <input type="file" name="imgToUpload" id="imgToUpload" onchange="imgUpload();" style="display:none;"/>
+        <input type="file" name="imgToUpload" id="imgToUpload" onchange="imgUpload();" style="display:none;"/>
 </form>
 
-<script type="text/javascript">
+<script>
+
     /*图片选择弹窗*/
     function imgSelect(){
         document.getElementById("imgToUpload").click();
@@ -307,9 +369,7 @@
         $("#actv_create").remove();
     }
 </script>
-<footer class="blog-footer" style="padding-top: 0px;height:5px;">
-    <p>版权所有 XXXXXXXXXXXXXXXXXX</p>
+<footer class="blog-footer" style="padding-top:40px;height:5px;">
+     <p style="margin-top: -12px">版权所有 XXXXXXXXXXXXXXXXXX</p>
 </footer>
 </body>
-</html>
-

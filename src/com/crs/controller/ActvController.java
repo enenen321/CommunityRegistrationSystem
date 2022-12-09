@@ -1,10 +1,10 @@
 package com.crs.controller;
 
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.crs.entity.Actv;
 import com.crs.service.ActvService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -23,12 +23,21 @@ public class ActvController {
 
     /**
      * 分页查询
-     * @param actv 筛选条件
      * @return 查询结果
      */
-    @GetMapping("/list")
-    public ResponseEntity<Page<Actv>> queryByPage(Actv actv) {
-        return null;
+    @GetMapping("/list/{pn}")
+    public ModelAndView list(@PathVariable("pn") Integer pn, Model model,HttpServletRequest request) {
+        return actvService.actvList(pn,model,request);
+    }
+
+
+    /**
+     * 分页查询
+     * @return 查询结果
+     */
+    @GetMapping("/getList/{pn}")
+    public ModelAndView getList(@PathVariable("pn") Integer pn, Model model,HttpServletRequest request) {
+        return actvService.actvList(pn,model,request);
     }
 
     /**
@@ -83,5 +92,6 @@ public class ActvController {
     public ModelAndView createActvRest(HttpServletRequest request){
         return actvService.createActvReset(request);
     }
+
 }
 
