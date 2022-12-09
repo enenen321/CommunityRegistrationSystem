@@ -26,19 +26,10 @@ public class ActvController {
      * @return 查询结果
      */
     @GetMapping("/list/{pn}")
-    public ModelAndView list(@PathVariable("pn") Integer pn, Model model,HttpServletRequest request) {
-        return actvService.actvList(pn,model,request);
+    public ModelAndView list(@PathVariable("pn") Integer pn,Actv actv,Model model,HttpServletRequest request) {
+        return actvService.actvList(pn,actv,model,request);
     }
 
-
-    /**
-     * 分页查询
-     * @return 查询结果
-     */
-    @GetMapping("/getList/{pn}")
-    public ModelAndView getList(@PathVariable("pn") Integer pn, Model model,HttpServletRequest request) {
-        return actvService.actvList(pn,model,request);
-    }
 
     /**
      * 通过主键查询单条数据

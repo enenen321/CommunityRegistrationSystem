@@ -16,7 +16,7 @@ public interface ActvService extends IService<Actv> {
     /**
      * 社团活动列表
      */
-    ModelAndView actvList(Integer pn, Model model,HttpServletRequest request);
+    ModelAndView actvList(Integer pn,Actv actv, Model model,HttpServletRequest request);
 
     /**
      * 跳转到创建社团页面

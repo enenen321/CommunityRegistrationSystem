@@ -34,7 +34,7 @@ public class ActvServiceImpl extends ServiceImpl<ActvMapper, Actv> implements Ac
     private final SysCollService sysCollService;
 
     @Override
-    public ModelAndView actvList(Integer pn,Model model,HttpServletRequest request) {
+    public ModelAndView actvList(Integer pn,Actv actv,Model model,HttpServletRequest request) {
         //如果是社团管理员展示所有学院的社团活动，如果不是，则根据用户所属学院展示
         HttpSession session = request.getSession();
         Long roleId = (Long) session.getAttribute("roleId");
@@ -45,6 +45,7 @@ public class ActvServiceImpl extends ServiceImpl<ActvMapper, Actv> implements Ac
             //找到用户所属学院
             SysUser user = sysUserService.getById(userId);
             //根据学院找到对应社团
+            // TODO: 2022/12/9 这串语句需要用sql写 方便模糊查询
             List<SysColl> collList = sysCollService.lambdaQuery().eq(SysColl::getId,user.getCollId()).list();
             //社团id
             collList.forEach(sysColl -> cmtyIds.add(sysColl.getId()));
