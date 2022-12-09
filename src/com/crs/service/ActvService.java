@@ -20,7 +20,7 @@ public interface ActvService extends IService<Actv> {
     /**
      * 添加社团活动
      */
-    ModelAndView add(Actv dto);
+    ModelAndView add(Actv dto,HttpServletRequest request);
 
     /**
      * 请求完后清楚缓存跳转

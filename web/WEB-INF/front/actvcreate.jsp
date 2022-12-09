@@ -250,35 +250,7 @@
                 </h4>
             </div>
             <div class="modal-body">
-                创建成功！
-            </div>
-            <div class="modal-footer">
-                <button type="button" onclick="reset()"
-                        class="btn btn-default" data-dismiss="modal">
-                    确认
-                </button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<%--创建失败框--%>
-<button style="visibility: hidden" class="btn btn-primary btn-lg"
-        data-toggle="modal" data-target="#errorModel" id="dialog"></button>
-<!-- 模态框（Modal） -->
-<div class="modal fade" id="errorModel" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
-                    &times;
-                </button>
-                <h4 class="modal-title" id="myErrorLabel">
-                    社团活动创建提示
-                </h4>
-            </div>
-            <div class="modal-body">
-                未知异常，创建失败！
+                <%=s.getAttribute("msg")%>
             </div>
             <div class="modal-footer">
                 <button type="button" onclick="reset()"
@@ -339,6 +311,38 @@
 </form>
 
 <script type="text/javascript">
+    var msg = "<%=session.getAttribute("msg")%>";
+    if (msg != 'null') {
+        $(function () {
+            $("#myModal").modal({
+                keyboard: true
+            });
+        })};
+
+    function addActv(){
+        //获取社团id
+        var cmtyId = $("#cmtyId").val();
+        //获取活动主题
+        var actvTitle = $("#actv_title").val();
+        //获取活动内容
+        var actvContent = editor.txt.text();
+        //获取截止日期
+        var deadline = $("#deadline").val();
+        var actv = JSON.stringify({"cmtyId":cmtyId,"actvTitle":actvTitle,"actvContent":actvContent,"deadline":deadline});
+        $.ajax({
+            type: "post",
+            url: "${pageContext.request.contextPath}/actv/add",
+            contentType:"application/json;charset=utf-8",
+            data:actv,
+            success:function (){
+                history.go(0);
+            },
+            fail:function (){
+                history.go(0);
+            }
+        });
+    }
+
     /*图片选择弹窗*/
     function imgSelect(){
         document.getElementById("imgToUpload").click();
@@ -373,6 +377,9 @@
             data:formData,
             success:function (){
                 //刷新页面
+                history.go(0);
+            },
+            fail:function (){
                 history.go(0);
             }
         })
@@ -409,37 +416,6 @@
         var url = "${pageContext.request.contextPath }/actv/createActv-reset";
         window.location.href = url;
     }
-    function addActv(){
-        //获取社团id
-        var cmtyId = $("#cmtyId").val();
-        //获取活动主题
-        var actvTitle = $("#actv_title").val();
-        //获取活动内容
-        var actvContent = editor.txt.text();
-        //获取截止日期
-        var deadline = $("#deadline").val();
-        var actv = JSON.stringify({"cmtyId":cmtyId,"actvTitle":actvTitle,"actvContent":actvContent,"deadline":deadline});
-        $.ajax({
-            type: "post",
-            url: "${pageContext.request.contextPath}/actv/add",
-            contentType:"application/json;charset=utf-8",
-            data:actv,
-            success:function (){
-                $(function(){
-                    $("#myModal").modal({
-                        keyboard: true
-                    });
-                });
-            },
-            fail:function (){
-                $(function(){
-                    $("#errorModel").modal({
-                        keyboard: true
-                    });
-                });
-            }
-        });
-    }
 </script>
 
 <script type="text/javascript">
@@ -469,6 +445,6 @@
     editor.create();
 </script>
 <footer class="blog-footer" style="padding-top:40px;height:5px;">
-    <p style="margin-top: 113px">版权所有 XXXXXXXXXXXXXXXXXX</p>
+    <p style="margin-top: 87px">版权所有 XXXXXXXXXXXXXXXXXX</p>
 </footer>
 </body>

@@ -32,17 +32,28 @@ public class ActvServiceImpl extends ServiceImpl<ActvMapper, Actv> implements Ac
     }
 
     @Override
-    public ModelAndView add(Actv actv) {
-        boolean save = this.save(actv);
+    public ModelAndView add(Actv actv,HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        Actv one = this.lambdaQuery().eq(Actv::getActvTitle, actv.getActvTitle()).eq(Actv::getIsClosed, 0).one();
         ModelAndView modelAndView = new ModelAndView("front/actvcreate");
-        if (!save){
+        if (null != one){
+            session.setAttribute("msg","该主题活动已存在！");
             return modelAndView;
         }
+        boolean save = this.save(actv);
+        if (!save){
+            session.setAttribute("msg","未知异常，创建失败！");
+            return modelAndView;
+        }
+        session.setAttribute("msg","创建成功！");
         return modelAndView;
     }
 
     @Override
     public ModelAndView createActvReset(HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        session.removeAttribute("msg");
         return new ModelAndView("front/actvcreate");
     }
+
 }
