@@ -5,6 +5,8 @@ import com.crs.entity.Actv;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
+
 /**
  * @author LZ
  * @date 2022-12-02 16:58:49
@@ -12,6 +14,6 @@ import org.apache.ibatis.annotations.Param;
 @Mapper
 public interface ActvMapper extends BaseMapper<Actv> {
 
-    Actv getActvList(@Param("actv") Actv actv);
+    List<Actv> getActvList(@Param("actv") Actv actv, @Param("userId") Long userId, @Param("roleId") Long roleId,@Param("collId") Long collId);
 }
 

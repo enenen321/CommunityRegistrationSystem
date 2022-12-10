@@ -39,33 +39,36 @@ public class ActvServiceImpl extends ServiceImpl<ActvMapper, Actv> implements Ac
         HttpSession session = request.getSession();
         Long roleId = (Long) session.getAttribute("roleId");
         Long userId = (Long) session.getAttribute("userId");
-        List<Actv> list;
-        List<Long> cmtyIds = new ArrayList<>();
-        if (roleId != 1){
-            //找到用户所属学院
-            SysUser user = sysUserService.getById(userId);
-            //根据学院找到对应社团
-            // TODO: 2022/12/9 这串语句需要用sql写 方便模糊查询
-            List<SysColl> collList = sysCollService.lambdaQuery().eq(SysColl::getId,user.getCollId()).list();
-            //社团id
-            collList.forEach(sysColl -> cmtyIds.add(sysColl.getId()));
-            //该学院的所有活动
-            //这句只针对其下一查询语句生效
-            PageHelper.startPage(pn,5);
-            list = this.lambdaQuery().eq(Actv::getIsClosed, 0).in(Actv::getCmtyId,cmtyIds).list();
-        }else{
-            PageHelper.startPage(pn,5);
-            list = this.lambdaQuery().eq(Actv::getIsClosed,0).list();
-        }
-        list.forEach(l->{
-            SysCmty cmty = sysCmtyService.getById(l.getCmtyId());
-            SysColl coll = sysCollService.getById(cmty.getCollId());
-            l.setCmtyName(cmty.getCmtyName());
-            l.setCollName(coll.getCollName());
-        });
-        PageInfo<Actv> actvPageInfo = new PageInfo<>(list);
+        SysUser sysUser = sysUserService.getById(userId);
+        PageHelper.startPage(pn,5);
+        List<Actv> actvList = this.baseMapper.getActvList(actv, userId, roleId,sysUser.getCollId());
+//        List<Actv> list;
+//        List<Long> cmtyIds = new ArrayList<>();
+//        if (roleId != 1){
+//            //找到用户所属学院
+//            SysUser user = sysUserService.getById(userId);
+//            //根据学院找到对应社团
+//            // TODO: 2022/12/9 这串语句需要用sql写 方便模糊查询
+//            List<SysColl> collList = sysCollService.lambdaQuery().eq(SysColl::getId,user.getCollId()).list();
+//            //社团id
+//            collList.forEach(sysColl -> cmtyIds.add(sysColl.getId()));
+//            //该学院的所有活动
+//            //这句只针对其下一查询语句生效
+//            PageHelper.startPage(pn,5);
+//            list = this.lambdaQuery().eq(Actv::getIsClosed, 0).in(Actv::getCmtyId,cmtyIds).list();
+//        }else{
+//            PageHelper.startPage(pn,5);
+//            list = this.lambdaQuery().eq(Actv::getIsClosed,0).list();
+//        }
+//        list.forEach(l->{
+//            SysCmty cmty = sysCmtyService.getById(l.getCmtyId());
+//            SysColl coll = sysCollService.getById(cmty.getCollId());
+//            l.setCmtyName(cmty.getCmtyName());
+//            l.setCollName(coll.getCollName());
+//        });
+        PageInfo<Actv> actvPageInfo = new PageInfo<>(actvList);
         model.addAttribute("pageInfo",actvPageInfo);
-        model.addAttribute("actvList",list);
+        model.addAttribute("actvList",actvList);
         return new ModelAndView("front/actvlist");
     }
 

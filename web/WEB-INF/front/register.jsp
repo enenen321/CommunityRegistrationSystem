@@ -154,7 +154,7 @@
             </div>
             <div class="section navbar-right">
                 <a  class="blog-nav-item " href="${pageContext.request.contextPath }/base/back">
-                    注销
+                    退出
                 </a>
             </div>
             <%--登录用户--%>

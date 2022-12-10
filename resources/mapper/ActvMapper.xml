@@ -1,24 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.crs.dao.ActvMapper">
-    <select id="" resultType="com.crs.entity.Actv">
-        select * from actv left join sys_cmty sc on actv.cmty_id = sc.id
+    <select id="getActvList" resultType="com.crs.entity.Actv">
+        select actv.id,sc.cmty_name,sl.coll_name,actv.actv_content,actv.actv_title,actv.deadline from actv left join sys_cmty sc on actv.cmty_id = sc.id
         left join sys_coll sl on sl.id = sc.coll_id
         <where>
-            <if test="#{roleId} != 1">
+            <if test="roleId != 1">
                 and sl.id = #{collId}
             </if>
             <if test="actv.actvTitle != null and actv.actvTitle != ''">
-                and actv.actv_title = #{actv.actvTitle}
-            </if>
-            <if test="actv.actvContent != null and actv.actvContent != ''">
-                and actv.actv_content = #{actv.actvContent}
+                and actv.actv_title like concat('%',#{actv.actvTitle},'%')
             </if>
             <if test="actv.cmtyName != null and actv.cmtyName != ''">
-                and sc.cmty_name = #{actv.cmtyName}
+                and sc.cmty_name like concat('%',#{actv.cmtyName},'%')
             </if>
             <if test="actv.collName != null and actv.collName != ''">
-                and sc.coll_name = #{actv.collName}
+                and sl.coll_name like concat('%',#{actv.collName},'%')
             </if>
         </where>
     </select>
