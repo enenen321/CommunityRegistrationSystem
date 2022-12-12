@@ -78,11 +78,5 @@ public class ActvController {
     public ModelAndView createActv(HttpServletRequest request){
         return actvService.createActv(request);
     }
-
-    @GetMapping("createActv-reset")
-    public ModelAndView createActvRest(HttpServletRequest request){
-        return actvService.createActvReset(request);
-    }
-
 }
 

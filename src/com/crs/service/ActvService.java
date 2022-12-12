@@ -28,9 +28,4 @@ public interface ActvService extends IService<Actv> {
      */
     ModelAndView add(Actv dto,HttpServletRequest request);
 
-    /**
-     * 请求完后清楚缓存跳转
-     */
-    ModelAndView createActvReset(HttpServletRequest request);
-
 }

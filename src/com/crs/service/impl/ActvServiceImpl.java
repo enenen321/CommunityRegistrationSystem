@@ -73,11 +73,4 @@ public class ActvServiceImpl extends ServiceImpl<ActvMapper, Actv> implements Ac
         return modelAndView;
     }
 
-    @Override
-    public ModelAndView createActvReset(HttpServletRequest request) {
-        HttpSession session = request.getSession();
-        session.removeAttribute("msg");
-        return new ModelAndView("front/actvcreate");
-    }
-
 }
