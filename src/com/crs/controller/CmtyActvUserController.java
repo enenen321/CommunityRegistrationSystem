@@ -62,6 +62,7 @@ public class CmtyActvUserController {
         LambdaQueryWrapper<CmtyActvUser> eq = new QueryWrapper<CmtyActvUser>().lambda().eq(CmtyActvUser::getUserId, userId)
                 .eq(CmtyActvUser::getActvId, dto.getActvId()).eq(CmtyActvUser::getCmtyId, dto.getCmtyId());
         if (null == cmtyActvUserService.getOne(eq)) {
+            cmtyActvUser.setStatus(0);
             cmtyActvUserService.save(cmtyActvUser);
         }else{
             cmtyActvUserService.remove(eq);
