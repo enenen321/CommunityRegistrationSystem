@@ -254,7 +254,7 @@
                         <td><a style="cursor: pointer;" onclick="apply(${actv.cmtyId},${actv.id})">申请</a></td>
                         </c:if>
                         <c:if test="${actv.isApply == 1}">
-                        <td><a style="cursor: pointer;" onclick="apply(${actv.cmtyId},${actv.id})">取消申请</a></td>
+                        <td ><a style="cursor: pointer; pointer-events: none" onclick="apply(${actv.cmtyId},${actv.id})">取消申请</a></td>
                         </c:if>
                     </tr>
                 </c:forEach>
