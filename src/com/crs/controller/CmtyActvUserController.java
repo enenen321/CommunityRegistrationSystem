@@ -5,14 +5,10 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.crs.dto.ApplyDto;
 import com.crs.entity.CmtyActvUser;
-import com.crs.model.ActvModel;
-import com.crs.service.ActvService;
 import com.crs.service.CmtyActvUserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.ExtendedModelMap;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -27,7 +23,6 @@ import javax.servlet.http.HttpSession;
 public class CmtyActvUserController {
 
     private final CmtyActvUserService cmtyActvUserService;
-    private final ActvService actvService;
 
     /**
      * 分页查询
@@ -54,7 +49,7 @@ public class CmtyActvUserController {
      * @return 新增结果
      */
     @PostMapping("/add")
-    public ModelAndView add(ApplyDto dto, HttpServletRequest request) {
+    public void add(ApplyDto dto, HttpServletRequest request) {
         HttpSession session = request.getSession();
         Long userId = (Long) session.getAttribute("userId");
         CmtyActvUser cmtyActvUser = new CmtyActvUser();
@@ -67,7 +62,6 @@ public class CmtyActvUserController {
         }else{
             cmtyActvUserService.remove(eq);
         }
-        return actvService.actvList(1,new ActvModel(),new ExtendedModelMap(),request);
     }
 
     /**
