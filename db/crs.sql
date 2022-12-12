@@ -152,9 +152,6 @@ CREATE TABLE `sys_log`  (
 -- ----------------------------
 -- Records of sys_log
 -- ----------------------------
-INSERT INTO `sys_log` VALUES (1, '登录系统', 0, '{\"model\":{}}', 13, '/CommunityRegistrationSystem/base/crs', '0:0:0:0:0:0:0:1', NULL, '2022-12-12 09:45:00', 0, NULL, NULL, NULL);
-INSERT INTO `sys_log` VALUES (2, '登录系统', 0, '{\"model\":{}}', 8, '/CommunityRegistrationSystem/base/crs', '0:0:0:0:0:0:0:1', NULL, '2022-12-12 10:02:12', 0, NULL, NULL, NULL);
-INSERT INTO `sys_log` VALUES (3, '登录系统', 0, '{\"model\":{}}', 1366, '/CommunityRegistrationSystem/base/crs', '0:0:0:0:0:0:0:1', NULL, '2022-12-12 10:03:49', 0, NULL, NULL, NULL);
 
 -- ----------------------------
 -- Table structure for sys_menu
