@@ -172,10 +172,10 @@
             <div class="title-text">
                 <div class="col-md-12 headfontsize">
                     <h1 class="headh1content">
-                        SB社区<small> Fun Here</small><br>
+                        社团<small> CRS</small><br>
                     </h1>
-                    <h3>为世界再添一度饱和</h3>
-                    <p class="headtext">软件、方法、资源；想你所想，爱你所爱</p>
+                    <h3>社团分类、管理</h3>
+                    <p class="headtext">首页</p>
                 </div>
             </div>
         </div>
