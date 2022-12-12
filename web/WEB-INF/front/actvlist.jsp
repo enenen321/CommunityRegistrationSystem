@@ -250,7 +250,12 @@
                         <td>${actv.cmtyName}</td>
                         <td>${actv.collName}</td>
                         <td>${actv.deadline}</td>
-                        <td><a href="#">申请</a></td>
+                        <c:if test="${actv.isApply == 0}">
+                        <td><a style="cursor: pointer;" onclick="apply(${actv.cmtyId},${actv.id})">申请</a></td>
+                        </c:if>
+                        <c:if test="${actv.isApply == 1}">
+                        <td><a style="cursor: pointer;" onclick="apply(${actv.cmtyId},${actv.id})">取消申请</a></td>
+                        </c:if>
                     </tr>
                 </c:forEach>
                 </tbody>
@@ -367,6 +372,23 @@
         $("#cmty_create").remove();
         $("#actv_create").remove();
     }
+
+    function apply(cmtyId,actvId){
+        var formData = new FormData();
+        formData.append("cmtyId",cmtyId);
+        formData.append("actvId",actvId);
+        $.ajax({
+            url: "${pageContext.request.contextPath}/cmtyActvUser/add",
+            type:"post",
+            contentType:false,
+            processData:false,
+            data:formData,
+            success:function (){
+                history.go(0);
+            }
+        })
+    }
+
 </script>
 <footer class="blog-footer" style="padding-top:40px;height:5px;">
      <p style="margin-top: -12px">版权所有 XXXXXXXXXXXXXXXXXX</p>

@@ -2,6 +2,7 @@ package com.crs.controller;
 
 import com.crs.entity.Actv;
 import com.crs.service.ActvService;
+import com.crs.model.ActvModel;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
@@ -26,7 +27,7 @@ public class ActvController {
      * @return 查询结果
      */
     @GetMapping("/list/{pn}")
-    public ModelAndView list(@PathVariable("pn") Integer pn,Actv actv,Model model,HttpServletRequest request) {
+    public ModelAndView list(@PathVariable("pn") Integer pn, ActvModel actv, Model model, HttpServletRequest request) {
         return actvService.actvList(pn,actv,model,request);
     }
 

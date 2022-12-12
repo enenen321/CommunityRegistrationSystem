@@ -3,12 +3,11 @@ package com.crs.service.impl;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.crs.dao.ActvMapper;
 import com.crs.entity.Actv;
+import com.crs.entity.CmtyActvUser;
 import com.crs.entity.SysCmty;
 import com.crs.entity.SysUser;
-import com.crs.service.ActvService;
-import com.crs.service.SysCmtyService;
-import com.crs.service.SysCollService;
-import com.crs.service.SysUserService;
+import com.crs.service.*;
+import com.crs.model.ActvModel;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import lombok.RequiredArgsConstructor;
@@ -29,10 +28,10 @@ import java.util.List;
 public class ActvServiceImpl extends ServiceImpl<ActvMapper, Actv> implements ActvService {
     private final SysCmtyService sysCmtyService;
     private final SysUserService sysUserService;
-    private final SysCollService sysCollService;
+    private final CmtyActvUserService cmtyActvUserService;
 
     @Override
-    public ModelAndView actvList(Integer pn,Actv actv,Model model,HttpServletRequest request) {
+    public ModelAndView actvList(Integer pn, ActvModel actv, Model model, HttpServletRequest request) {
         //如果是社团管理员展示所有学院的社团活动，如果不是，则根据用户所属学院展示
         HttpSession session = request.getSession();
         session.removeAttribute("msg");
@@ -40,8 +39,15 @@ public class ActvServiceImpl extends ServiceImpl<ActvMapper, Actv> implements Ac
         Long userId = (Long) session.getAttribute("userId");
         SysUser sysUser = sysUserService.getById(userId);
         PageHelper.startPage(pn,5);
-        List<Actv> actvList = this.baseMapper.getActvList(actv, userId, roleId,sysUser.getCollId());
-        PageInfo<Actv> actvPageInfo = new PageInfo<>(actvList);
+        List<ActvModel> actvList = this.baseMapper.getActvList(actv, userId, roleId,sysUser.getCollId());
+        actvList.forEach(act->{
+            CmtyActvUser cmtyActvUser = cmtyActvUserService.lambdaQuery().eq(CmtyActvUser::getCmtyId, act.getCmtyId()).eq(CmtyActvUser::getActvId, act.getId())
+                    .eq(CmtyActvUser::getUserId, userId).one();
+            if (null != cmtyActvUser){
+                act.setIsApply(1);
+            }
+        });
+        PageInfo<ActvModel> actvPageInfo = new PageInfo<>(actvList);
         model.addAttribute("pageInfo",actvPageInfo);
         model.addAttribute("actvList",actvList);
         return new ModelAndView("front/actvlist");

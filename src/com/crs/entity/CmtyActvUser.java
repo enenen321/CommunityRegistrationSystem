@@ -2,12 +2,14 @@ package com.crs.entity;
 
 import com.crs.common.mybati.base.BaseEntity;
 import lombok.Data;
+import lombok.experimental.Accessors;
 
 /**
  * @author LZ
  * @date 2022-12-02 16:58:23
  */
 @Data
+@Accessors(chain = true)
 public class CmtyActvUser extends BaseEntity {
 
     /**
