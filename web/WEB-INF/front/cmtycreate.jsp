@@ -202,7 +202,7 @@
             </div>
             <%--头像--%>
             <div class="section navbar-right" style="margin-right: -3px">
-                <img onclick="imgSelect()" style="margin-top:20px;" title="点击更换头像" width="25px" height="25px" rel="icon" src="${pageContext.request.contextPath }/resource/images/avatars/<%=s.getAttribute("avatar")%>">
+                <img onclick="imgSelect()" style="margin-top:15px;" title="点击更换头像" width="25px" height="25px" rel="icon" src="${pageContext.request.contextPath }/resource/images/avatars/<%=s.getAttribute("avatar")%>">
             </div>
         </nav>
     </div>
