@@ -182,7 +182,6 @@
             <div class="section">
                 <a class="blog-nav-item active">社团管理</a>
                 <ul class="menu" id="meu">
-                    <li id="actv_report"><a href="${pageContext.request.contextPath }/base/homePage">社团活动报名</a></li>
                     <li id="cmty_actv"><a href="${pageContext.request.contextPath }/actv/list/1">社团活动列表</a></li>
                     <li id="cmty_user"><a href="${pageContext.request.contextPath }/base/homePage">社团人员管理</a></li>
                     <li id="cmty_spend"><a href="${pageContext.request.contextPath }/base/homePage">社团经费审核</a></li>
@@ -217,7 +216,7 @@
             </div>
             <div class="section navbar-right">
                 <a  class="blog-nav-item " href="${pageContext.request.contextPath }/base/back">
-                    注销
+                    退出
                 </a>
             </div>
             <%--登录用户--%>
@@ -251,6 +250,34 @@
             </div>
             <div class="modal-body">
                 <%=s.getAttribute("msg")%>
+            </div>
+            <div class="modal-footer">
+                <button type="button" onclick="reset()"
+                        class="btn btn-default" data-dismiss="modal">
+                    确认
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<button style="visibility: hidden" class="btn btn-primary btn-lg"
+        data-toggle="modal" data-target="#error" id="dialog"></button>
+<!-- 模态框（Modal） -->
+<div class="modal fade" id="error" tabindex="-1" role="dialog" aria-labelledby="errorLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title" id="errorLabel">
+                    社团活动创建提示
+                </h4>
+            </div>
+            <div class="modal-body">
+                活动内容限制二十字以内！
             </div>
             <div class="modal-footer">
                 <button type="button" onclick="reset()"
@@ -328,8 +355,12 @@
         var actvContent = editor.txt.text();
         var length = actvContent.length;
         if (length > 20){
-            return alert("活动内容限制二十字以内！");
-        }
+            $(function (){
+                $("#error").model({
+                   keyboard: true
+                });
+            })};
+
         //获取截止日期
         var deadline = $("#deadline").val();
         var actv = JSON.stringify({"cmtyId":cmtyId,"actvTitle":actvTitle,"actvContent":actvContent,"deadline":deadline});
