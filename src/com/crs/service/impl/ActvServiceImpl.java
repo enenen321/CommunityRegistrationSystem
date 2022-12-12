@@ -4,7 +4,6 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.crs.dao.ActvMapper;
 import com.crs.entity.Actv;
 import com.crs.entity.SysCmty;
-import com.crs.entity.SysColl;
 import com.crs.entity.SysUser;
 import com.crs.service.ActvService;
 import com.crs.service.SysCmtyService;
@@ -19,7 +18,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -42,30 +40,6 @@ public class ActvServiceImpl extends ServiceImpl<ActvMapper, Actv> implements Ac
         SysUser sysUser = sysUserService.getById(userId);
         PageHelper.startPage(pn,5);
         List<Actv> actvList = this.baseMapper.getActvList(actv, userId, roleId,sysUser.getCollId());
-//        List<Actv> list;
-//        List<Long> cmtyIds = new ArrayList<>();
-//        if (roleId != 1){
-//            //找到用户所属学院
-//            SysUser user = sysUserService.getById(userId);
-//            //根据学院找到对应社团
-//            // TODO: 2022/12/9 这串语句需要用sql写 方便模糊查询
-//            List<SysColl> collList = sysCollService.lambdaQuery().eq(SysColl::getId,user.getCollId()).list();
-//            //社团id
-//            collList.forEach(sysColl -> cmtyIds.add(sysColl.getId()));
-//            //该学院的所有活动
-//            //这句只针对其下一查询语句生效
-//            PageHelper.startPage(pn,5);
-//            list = this.lambdaQuery().eq(Actv::getIsClosed, 0).in(Actv::getCmtyId,cmtyIds).list();
-//        }else{
-//            PageHelper.startPage(pn,5);
-//            list = this.lambdaQuery().eq(Actv::getIsClosed,0).list();
-//        }
-//        list.forEach(l->{
-//            SysCmty cmty = sysCmtyService.getById(l.getCmtyId());
-//            SysColl coll = sysCollService.getById(cmty.getCollId());
-//            l.setCmtyName(cmty.getCmtyName());
-//            l.setCollName(coll.getCollName());
-//        });
         PageInfo<Actv> actvPageInfo = new PageInfo<>(actvList);
         model.addAttribute("pageInfo",actvPageInfo);
         model.addAttribute("actvList",actvList);
