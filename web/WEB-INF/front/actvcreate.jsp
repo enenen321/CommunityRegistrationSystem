@@ -262,33 +262,6 @@
 </div>
 
 
-<button style="visibility: hidden" class="btn btn-primary btn-lg"
-        data-toggle="modal" data-target="#error" id="dialog"></button>
-<!-- 模态框（Modal） -->
-<div class="modal fade" id="error" tabindex="-1" role="dialog" aria-labelledby="errorLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
-                    &times;
-                </button>
-                <h4 class="modal-title" id="errorLabel">
-                    社团活动创建提示
-                </h4>
-            </div>
-            <div class="modal-body">
-                活动内容限制二十字以内！
-            </div>
-            <div class="modal-footer">
-                <button type="button" onclick="reset()"
-                        class="btn btn-default" data-dismiss="modal">
-                    确认
-                </button>
-            </div>
-        </div>
-    </div>
-</div>
-
 <%--社团活动创建--%>
 <h3 class="crs_header">>>&nbsp;社团管理</h3>
 <div class="container" >
@@ -339,6 +312,7 @@
 
 <script type="text/javascript">
     var msg = "<%=session.getAttribute("msg")%>";
+    console.log(msg);
     if (msg != 'null') {
         $(function () {
             $("#myModal").modal({
@@ -355,12 +329,8 @@
         var actvContent = editor.txt.text();
         var length = actvContent.length;
         if (length > 20){
-            $(function (){
-                $("#error").model({
-                   keyboard: true
-                });
-            })};
-
+            return alert("活动内容限制二十字以内！");
+        }
         //获取截止日期
         var deadline = $("#deadline").val();
         var actv = JSON.stringify({"cmtyId":cmtyId,"actvTitle":actvTitle,"actvContent":actvContent,"deadline":deadline});
