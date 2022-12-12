@@ -35,6 +35,7 @@ public class ActvServiceImpl extends ServiceImpl<ActvMapper, Actv> implements Ac
     public ModelAndView actvList(Integer pn,Actv actv,Model model,HttpServletRequest request) {
         //如果是社团管理员展示所有学院的社团活动，如果不是，则根据用户所属学院展示
         HttpSession session = request.getSession();
+        session.removeAttribute("msg");
         Long roleId = (Long) session.getAttribute("roleId");
         Long userId = (Long) session.getAttribute("userId");
         SysUser sysUser = sysUserService.getById(userId);

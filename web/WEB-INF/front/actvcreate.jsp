@@ -418,7 +418,7 @@
     });
 
     function reset() {
-        var url = "${pageContext.request.contextPath }/actv/createActv-reset";
+        var url = "${pageContext.request.contextPath }/actv/list/1";
         window.location.href = url;
     }
 </script>
