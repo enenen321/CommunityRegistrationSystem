@@ -205,17 +205,17 @@
     <form class="form-signin" id="register" method="post" action="${pageContext.request.contextPath }/base/register">
         <h2 class="form-signin-heading" style="text-align:center; margin-top: 45px">用户注册</h2>
         <label class="sr-only" for="inputSno" style="margin-top: 9px">学号:</label>
-        <input style="margin-top: 10px" value="" type="text" name="sno" id="inputSno" required autofocus
+        <input style="margin-top: 10px;font-family: 宋体" value="" type="text" name="sno" id="inputSno" required autofocus
                class="form-control" placeholder="请填写学号">
         <label for="inputPhone" class="sr-only" style="margin-left: -32px">
             手机号:
         </label>
-        <input style="margin-top: 10px" type="phone" name="phone" id="inputPhone" required
+        <input style="margin-top: 10px;font-family: 宋体" type="phone" name="phone" id="inputPhone" required
                class="form-control" placeholder="请填写手机号" value="" pattern="^1((34[0-8])|(8\d{2})|(([35][0-35-9]|4[579]|66|7[35678]|9[1389])\d{1}))\d{7}$">
         <label for="inputUsername" class="sr-only" style="margin-left: -32px">
             用户名:
         </label>
-        <input style="margin-top: 10px" value="" type="text" name="username" id="inputUsername"
+        <input style="margin-top: 10px;font-family: 宋体" value="" type="text" name="username" id="inputUsername"
                class="form-control" placeholder="请填写用户名" required>
         <label for="inputPassword" class="sr-only">
             密码:
