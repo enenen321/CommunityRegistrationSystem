@@ -237,12 +237,17 @@
                         <td>${actv.cmtyName}</td>
                         <td>${actv.collName}</td>
                         <td>${actv.deadline}</td>
-                        <c:if test="${actv.isApply == 0}">
-                        <td><a style="cursor: pointer;" onclick="apply(${actv.cmtyId},${actv.id})">申请</a></td>
-                        </c:if>
-                        <c:if test="${actv.isApply == 1}">
-                        <td ><a style="cursor: pointer; pointer-events: none" onclick="apply(${actv.cmtyId},${actv.id})">取消申请</a></td>
-                        </c:if>
+                        <c:choose>
+                            <c:when test="${actv.isApply == 0 && sessionScope.roleId != 1 && sessionScope.roleId != 2 && sessionScope.roleId != 3}">
+                                <td><a style="cursor: pointer;" onclick="apply(${actv.cmtyId},${actv.id})">申请</a></td>
+                            </c:when>
+                            <c:when test="${actv.isApply == 1 && sessionScope.roleId != 1 && sessionScope.roleId != 2 && sessionScope.roleId != 3}">
+                                <td><a style="cursor: pointer;" onclick="apply(${actv.cmtyId},${actv.id})">取消申请</a></td>
+                            </c:when>
+                            <c:otherwise>
+                                <td><a style="cursor: pointer; pointer-events: none" onclick="">关闭活动</a></td>
+                            </c:otherwise>
+                        </c:choose>
                     </tr>
                 </c:forEach>
                 </tbody>
