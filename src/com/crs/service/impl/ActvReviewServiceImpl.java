@@ -61,6 +61,7 @@ public class ActvReviewServiceImpl extends ServiceImpl<ActvReviewMapper,ActvRevi
             }else{
                 actvReview.setStatus(2);
                 cmtyActvUser.setStatus(2);
+                cmtyActvUser.setReviewId(0L);
             }
             cmtyActvUserService.updateById(cmtyActvUser);
             //审批人状态为审核中
