@@ -27,6 +27,6 @@ public class ActvReview extends BaseEntity {
     /**
      * 审核状态
      */
-    private Integer stauts;
+    private Integer status;
 }
 

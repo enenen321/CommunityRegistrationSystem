@@ -18,4 +18,8 @@ public class ReviewVo extends ActvReview {
      * 活动主题
      */
     private String actvTitle;
+    /**
+     * 社团名称
+     */
+    private String cmtyName;
 }

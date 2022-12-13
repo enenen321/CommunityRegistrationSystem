@@ -49,7 +49,7 @@ CREATE TABLE `actv_review`  (
   `user_id` bigint(20) NULL DEFAULT NULL COMMENT '用户id',
   `actv_id` bigint(20) NULL DEFAULT NULL COMMENT '活动id',
   `review_id` bigint(20) NULL DEFAULT NULL COMMENT '审核人id',
-  `stauts` tinyint(1) NULL DEFAULT 0 COMMENT '审核状态',
+  `status` tinyint(1) NULL DEFAULT 0 COMMENT '审核状态',
   `created_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
   `is_deleted` tinyint(1) NULL DEFAULT 0 COMMENT '是否已删除',
   `updated_time` datetime NULL DEFAULT NULL COMMENT '更新时间',

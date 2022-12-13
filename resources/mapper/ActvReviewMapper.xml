@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.crs.dao.ActvReviewMapper">
-
+<select id="reviewList" resultType="com.crs.vo.ReviewVo">
+    select ar.id,su.username,actv.actv_title,sc.cmty_name from actv_review ar left join sys_user su on ar.user_id = su.id left join actv on ar.actv_id = actv.id left join
+    sys_cmty sc on actv.cmty_id = sc.id
+<where>
+    ar.review_id = #{userId} and ar.status = 1
+</where>
+</select>
 
 </mapper>

@@ -37,7 +37,7 @@ public class CmtyActvUserServiceImpl extends ServiceImpl<CmtyActvUserMapper,Cmty
             this.save(cmtyActvUser);
             //添加第一步审核人（社团管理员）
             ActvReview actvReview = new ActvReview();
-            actvReview.setActvId(dto.getActvId()).setReviewId(1L).setStauts(1).setUserId(userId);
+            actvReview.setActvId(dto.getActvId()).setReviewId(1L).setStatus(1).setUserId(userId);
             actvReviewService.save(actvReview);
         }else{
             this.remove(eq);

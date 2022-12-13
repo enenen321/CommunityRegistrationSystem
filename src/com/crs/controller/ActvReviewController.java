@@ -3,9 +3,17 @@ package com.crs.controller;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.crs.entity.ActvReview;
 import com.crs.service.ActvReviewService;
+import com.crs.vo.ReviewVo;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+import java.util.List;
 
 /**
  * @author LZ
@@ -67,6 +75,26 @@ public class ActvReviewController {
     @DeleteMapping("/delete")
     public ResponseEntity<Boolean> deleteById(Long id) {
         return null;
+    }
+
+    /**
+     * 跳转到审核页面
+     */
+    @GetMapping("/reviewList/{pn}")
+    public ModelAndView reviewList(@PathVariable("pn") Integer pn,HttpServletRequest request){
+        HttpSession session = request.getSession();
+        Long userId = (Long) session.getAttribute("userId");
+        PageHelper.startPage(pn,5);
+        List<ReviewVo> reviewVos = actvReviewService.reviewList(request, userId);
+        PageInfo<ReviewVo> reviewVoPageInfo = new PageInfo<>(reviewVos);
+        session.setAttribute("pageInfo",reviewVoPageInfo);
+        session.setAttribute("reviewVos",reviewVos);
+        return new ModelAndView("front/reviewlist");
+    }
+
+    @PostMapping("/check")
+    public void check(Integer result,Integer actvReviewId){
+
     }
 
 }
