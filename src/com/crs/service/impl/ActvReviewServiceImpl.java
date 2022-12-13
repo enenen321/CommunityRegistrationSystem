@@ -36,7 +36,6 @@ public class ActvReviewServiceImpl extends ServiceImpl<ActvReviewMapper,ActvRevi
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void check(ReviewDto dto, HttpServletRequest request) {
-        System.out.println(dto);
         HttpSession session = request.getSession();
         Long userId = (Long) session.getAttribute("userId");
         //查询条件
@@ -60,6 +59,7 @@ public class ActvReviewServiceImpl extends ServiceImpl<ActvReviewMapper,ActvRevi
                 actvReview.setReviewId(3L);
                 cmtyActvUser.setReviewId(3L);
             }else{
+                actvReview.setStatus(2);
                 cmtyActvUser.setStatus(2);
             }
             cmtyActvUserService.updateById(cmtyActvUser);
