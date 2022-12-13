@@ -10,8 +10,9 @@ import com.crs.entity.CmtyActvUser;
 import com.crs.service.ActvReviewService;
 import com.crs.service.CmtyActvUserService;
 import com.crs.vo.ReviewVo;
-import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -22,9 +23,10 @@ import java.util.List;
  * @date 2022-12-02 16:58:33
  */
 @Service
-@RequiredArgsConstructor
 public class ActvReviewServiceImpl extends ServiceImpl<ActvReviewMapper,ActvReview> implements ActvReviewService {
-    private final CmtyActvUserService cmtyActvUserService;
+
+    @Autowired
+    private CmtyActvUserService cmtyActvUserService;
 
     @Override
     public List<ReviewVo> reviewList(HttpServletRequest request, Long userId) {
@@ -32,34 +34,47 @@ public class ActvReviewServiceImpl extends ServiceImpl<ActvReviewMapper,ActvRevi
     }
 
     @Override
-    public void check(ReviewDto dto,HttpServletRequest request) {
+    @Transactional(rollbackFor = Exception.class)
+    public void check(ReviewDto dto, HttpServletRequest request) {
+        System.out.println(dto);
         HttpSession session = request.getSession();
         Long userId = (Long) session.getAttribute("userId");
         //查询条件
-        LambdaQueryWrapper<CmtyActvUser> eq = new QueryWrapper<CmtyActvUser>().lambda().eq(CmtyActvUser::getCmtyId, dto.getCmtyId())
-                .eq(CmtyActvUser::getActvId, dto.getActvId())
-                .eq(CmtyActvUser::getUserId, userId);
+        LambdaQueryWrapper<ActvReview> eq = new QueryWrapper<ActvReview>().lambda().eq(ActvReview::getReviewId, userId).eq(ActvReview::getActvId, dto.getActvId())
+                .eq(ActvReview::getUserId, dto.getApplyUserId());
         //1 表示同意  0 不同意
         if (1 == dto.getIsAgree()) {
+            CmtyActvUser cmtyActvUser = cmtyActvUserService.getById(dto.getCmtyActvUserId());
             //修改该审批人审批状态为已完成
-            ActvReview actvReview = this.getById(dto.getActvReviewId());
+            ActvReview actvReview = this.getOne(eq);
             actvReview.setStatus(2);
-            this.updateById(actvReview);
-            //下一个审批人
-            if (actvReview.getReviewId() == 1){
-                actvReview.setReviewId(2L);
-            }else {
-                actvReview.setReviewId(3L);
-            }
-            CmtyActvUser cmtyActvUser = cmtyActvUserService.getOne(eq);
             cmtyActvUser.setStatus(1);
+            this.updateById(actvReview);
+            actvReview.setStatus(1);
+            actvReview.setId(null);
+            //下一个审批人
+            if (userId == 1){
+                actvReview.setReviewId(2L);
+                cmtyActvUser.setReviewId(2L);
+            }else if (userId == 2){
+                actvReview.setReviewId(3L);
+                cmtyActvUser.setReviewId(3L);
+            }else{
+                cmtyActvUser.setStatus(2);
+            }
             cmtyActvUserService.updateById(cmtyActvUser);
             //审批人状态为审核中
-            actvReview.setStatus(1);
             this.save(actvReview);
         //不同意操作
         }else{
-
+            ActvReview actvReview = this.getOne(eq);
+            actvReview.setStatus(2);
+            actvReview.setReason(dto.getReason());
+            this.updateById(actvReview);
+            CmtyActvUser cmtyActvUser = cmtyActvUserService.getById(dto.getCmtyActvUserId());
+            cmtyActvUser.setStatus(3);
+            cmtyActvUser.setReason(dto.getReason());
+            cmtyActvUserService.updateById(cmtyActvUser);
         }
 
     }

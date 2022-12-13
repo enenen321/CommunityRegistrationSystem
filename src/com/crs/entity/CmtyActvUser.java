@@ -28,5 +28,13 @@ public class CmtyActvUser extends BaseEntity {
      * 审核状态 0-未审核；1-已审核
      */
     private Integer status;
+    /**
+     * 不同意原因
+     */
+    private String reason;
+    /**
+     * 当前审核人
+     */
+    private Long reviewId;
 }
 

@@ -19,6 +19,6 @@ public interface ActvReviewService extends IService<ActvReview> {
     /**
      * 审核操作
      */
-    void check(ReviewDto dto,HttpServletRequest request);
+    void check(ReviewDto dto, HttpServletRequest request);
 
 }

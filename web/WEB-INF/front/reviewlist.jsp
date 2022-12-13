@@ -222,7 +222,7 @@
                     <td>${review.actvTitle}</td>
                     <td>${review.cmtyName}</td>
                     <td>${review.username}</td>
-                    <td><a href="#">同意</a> | <a href="#">不同意</a></td>
+                    <td><a style="cursor: pointer;" onclick="review(${review.cmtyId},${review.actvId},${review.id},${review.userId},1)">同意</a> | <a style="cursor: pointer;" onclick="review(${review.cmtyId},${review.actvId},${review.id},${review.userId},0)">不同意</a></td>
                 </tr>
             </c:forEach>
             </tbody>
@@ -346,6 +346,25 @@
         formData.append("actvId",actvId);
         $.ajax({
             url: "${pageContext.request.contextPath}/cmtyActvUser/add",
+            type:"post",
+            contentType:false,
+            processData:false,
+            data:formData,
+            success:function (){
+                history.go(0);
+            }
+        })
+    }
+
+    function review(cmtyId,actvId,cmtyActvUserId,userId,isAgree){
+        var formData = new FormData();
+        formData.append("cmtyId",cmtyId);
+        formData.append("actvId",actvId);
+        formData.append("cmtyActvUserId",cmtyActvUserId);
+        formData.append("applyUserId",userId);
+        formData.append("isAgree",isAgree);
+        $.ajax({
+            url:"${pageContext.request.contextPath}/actvReview/check",
             type:"post",
             contentType:false,
             processData:false,

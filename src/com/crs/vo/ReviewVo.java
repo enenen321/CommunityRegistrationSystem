@@ -22,4 +22,8 @@ public class ReviewVo extends ActvReview {
      * 社团名称
      */
     private String cmtyName;
+    /**
+     * 社团id
+     */
+    private Long cmtyId;
 }

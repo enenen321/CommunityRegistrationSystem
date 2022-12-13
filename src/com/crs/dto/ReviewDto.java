@@ -10,9 +10,9 @@ import lombok.Data;
 public class ReviewDto {
 
     /**
-     * actv_review表id
+     * cmty_actv_user表id
      */
-    private Long actvReviewId;
+    private Long cmtyActvUserId;
     /**
      * 是否同意 1 同意 0 不同意
      */
@@ -29,4 +29,8 @@ public class ReviewDto {
      * 活动id
      */
     private Long actvId;
+    /**
+     * 申请用户id
+     */
+    private Long applyUserId;
 }

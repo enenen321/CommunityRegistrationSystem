@@ -29,7 +29,7 @@ public class CmtyActvUserServiceImpl extends ServiceImpl<CmtyActvUserMapper,Cmty
         HttpSession session = request.getSession();
         Long userId = (Long) session.getAttribute("userId");
         CmtyActvUser cmtyActvUser = new CmtyActvUser();
-        cmtyActvUser.setActvId(dto.getActvId()).setCmtyId(dto.getCmtyId()).setUserId(userId);
+        cmtyActvUser.setActvId(dto.getActvId()).setCmtyId(dto.getCmtyId()).setUserId(userId).setReviewId(1L);
         LambdaQueryWrapper<CmtyActvUser> eq = new QueryWrapper<CmtyActvUser>().lambda().eq(CmtyActvUser::getUserId, userId)
                 .eq(CmtyActvUser::getActvId, dto.getActvId()).eq(CmtyActvUser::getCmtyId, dto.getCmtyId());
         if (null == this.getOne(eq)) {

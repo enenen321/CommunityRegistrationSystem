@@ -116,11 +116,11 @@
         }
         .select2-container--default .select2-selection--single .select2-selection__arrow{
             top: 15px;
-           right: -35px;
+           right: -15px;
         }
         .select2-container--open .select2-dropdown--below{
             margin-left:35px;
-            width: 296px;
+            max-width: 297px;
             border: 1px solid #ccc;
             -webkit-box-sizing: border-box;
             -moz-box-sizing: border-box;

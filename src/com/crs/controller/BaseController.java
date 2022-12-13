@@ -83,7 +83,7 @@ public class BaseController {
         }
         //该角色的待办事项
         List<ReviewVo> reviewVos = new ArrayList<>();
-        List<ActvReview> reviewList = actvReviewService.lambdaQuery().eq(ActvReview::getReviewId, sysUser.getId()).list();
+        List<ActvReview> reviewList = actvReviewService.lambdaQuery().eq(ActvReview::getReviewId, sysUser.getId()).eq(ActvReview::getStatus,1).list();
         reviewList.forEach(review->{
             ReviewVo reviewVo = new ReviewVo();
             BeanUtil.copyProperties(review,reviewVo);

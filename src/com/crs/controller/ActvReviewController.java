@@ -1,6 +1,7 @@
 package com.crs.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.crs.dto.ReviewDto;
 import com.crs.entity.ActvReview;
 import com.crs.service.ActvReviewService;
 import com.crs.vo.ReviewVo;
@@ -93,8 +94,8 @@ public class ActvReviewController {
     }
 
     @PostMapping("/check")
-    public void check(Integer result,Integer actvReviewId){
-
+    public void check(ReviewDto dto,HttpServletRequest request){
+        actvReviewService.check(dto,request);
     }
 
 }

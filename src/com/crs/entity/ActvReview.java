@@ -28,5 +28,9 @@ public class ActvReview extends BaseEntity {
      * 审核状态
      */
     private Integer status;
+    /**
+     * 不同意原因
+     */
+    private String reason;
 }
 
