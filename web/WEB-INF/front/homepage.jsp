@@ -23,30 +23,12 @@
             margin: 0;
             padding: 0;
         }
-        .line-limit-length {
-            max-width: 600px;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-        }
-        .line-content-length {
-            overflow:hidden;
-            text-overflow:ellipsis;
-            display:-webkit-box;
-            -webkit-box-orient:vertical;
-            -webkit-line-clamp:5;
-        }
-        /*a {*/
-        /*    !*text-decoration: none;*!*/
-        /*    color: black;*/
-        /*}*/
         /* li在这里只去掉既有样式 不规定宽度 */
         li {
             cursor: pointer;
             line-height: 30px;
             text-underline-style: single;
             text-underline-color: black;
-            list-style: none;
         }
         /* 菜单选择器，标识菜单的头，浮动只需要在每个section里做就行 */
         .section {
@@ -99,6 +81,9 @@
         }
         .menu li a:hover{
             color: #fff;
+        }
+        .row{
+            margin-right: -47px;
         }
     </style>
 </head>
@@ -165,6 +150,36 @@
 </div>
 
 
+<div class="container">
+    <div class="row" style="padding-top: 60px;">
+        <div class="col-sm-8 blog-main">
+            <div class="blog-post">
+                <h3 class="blog-post-title" style="padding-bottom:15px">
+
+                </h3>
+                <p class="blog-post-meta">
+                    <a href="#"></a>
+                </p>
+                <p></p>
+                <hr>
+            </div>
+        </div>
+        <%if (Integer.parseInt(s.getAttribute("roleId").toString()) == 1 || Integer.parseInt(s.getAttribute("roleId").toString()) == 2 || Integer.parseInt(s.getAttribute("roleId").toString()) == 3) {%>
+        <div class="col-sm-3 col-sm-offset-1">
+            <div class="sidebar-module sidebar-module-inset" style=" margin-right: -52px;margin-top:-135px">
+                <h4 style="text-align: center">待办事项</h4>
+                <ul class="list-unstyled" style="list-style-type: disc">
+                    <c:forEach items='<%=s.getAttribute("reviewList")%>' var="review" varStatus="status">
+                        <li>${review.username}申请加入'${review.actvTitle}'主题活动 <a href="#">查看详情</a></li>
+                    </c:forEach>
+                </ul>
+            </div>
+        </div>
+        <%}%>
+    </div>
+</div>
+
+
 <div class="onepage" id="pageone">
     <div class="onepage-bg" id="onepagebg"></div>
     <div class="container">
@@ -181,64 +196,7 @@
         </div>
     </div>
 </div>
-<div class="container" style="padding-top:50px;padding-bottom:50px;">
-    <div class="row">
-        <c:if test="${not empty article1}">
-            <div class="col-md-4">
-                <h4>
-                    <p class="line-limit-length">
-                            ${article1.title}
-                    </p>
-                </h4>
-                <p class="line-content-length">
-                        ${article1.content}
-                </p>
-                <p>
-                    <a class="btn btn-default"
-                       href="${pageContext.request.contextPath }/article/fireArticle/${article1.type}" role="button">
-                        更多内容&raquo;
-                    </a>
-                </p>
-            </div>
-        </c:if>
-        <c:if test="${not empty article2}">
-            <div class="col-md-4">
-                <h4>
-                    <p class="line-limit-length">
-                            ${article2.title}
-                    </p>
-                </h4>
-                <p class="line-content-length">
-                        ${article2.content}
-                </p>
-                <p>
-                    <a class="btn btn-default"
-                       href="${pageContext.request.contextPath }/article/fireArticle/${article2.type}" role="button">
-                        更多内容&raquo;
-                    </a>
-                </p>
-            </div>
-        </c:if>
-        <c:if test="${not empty article3}">
-            <div class="col-md-4">
-                <h4>
-                    <p class="line-limit-length">
-                            ${article3.title}
-                    </p>
-                </h4>
-                <p class="line-content-length">
-                        ${article3.content}
-                </p>
-                <p>
-                    <a class="btn btn-default"
-                       href="${pageContext.request.contextPath }/article/fireArticle/${article3.type}" role="button">
-                        更多内容&raquo;
-                    </a>
-                </p>
-            </div>
-        </c:if>
-    </div>
-</div>
+
 
 <%--图片选择框--%>
 <form id="form_face" enctype="multipart/form-data" style="width:auto;">

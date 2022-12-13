@@ -1,7 +1,5 @@
 package com.crs.controller;
 
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.crs.dto.ApplyDto;
 import com.crs.entity.CmtyActvUser;
@@ -11,7 +9,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 /**
  * @author LZ
@@ -50,18 +47,7 @@ public class CmtyActvUserController {
      */
     @PostMapping("/add")
     public void add(ApplyDto dto, HttpServletRequest request) {
-        HttpSession session = request.getSession();
-        Long userId = (Long) session.getAttribute("userId");
-        CmtyActvUser cmtyActvUser = new CmtyActvUser();
-        cmtyActvUser.setActvId(dto.getActvId()).setCmtyId(dto.getCmtyId()).setUserId(userId);
-        LambdaQueryWrapper<CmtyActvUser> eq = new QueryWrapper<CmtyActvUser>().lambda().eq(CmtyActvUser::getUserId, userId)
-                .eq(CmtyActvUser::getActvId, dto.getActvId()).eq(CmtyActvUser::getCmtyId, dto.getCmtyId());
-        if (null == cmtyActvUserService.getOne(eq)) {
-            cmtyActvUser.setStatus(0);
-            cmtyActvUserService.save(cmtyActvUser);
-        }else{
-            cmtyActvUserService.remove(eq);
-        }
+        cmtyActvUserService.add(dto,request);
     }
 
     /**

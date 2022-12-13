@@ -8,12 +8,9 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.crs.common.annotation.SystemLog;
 import com.crs.dto.LoginFormDto;
 import com.crs.dto.RegisterDto;
-import com.crs.entity.SysColl;
-import com.crs.entity.SysUser;
-import com.crs.entity.SysUserRole;
-import com.crs.service.SysCollService;
-import com.crs.service.SysUserRoleService;
-import com.crs.service.SysUserService;
+import com.crs.entity.*;
+import com.crs.service.*;
+import com.crs.vo.ReviewVo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,6 +21,8 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author LZ
@@ -37,6 +36,8 @@ public class BaseController {
     private final SysUserService sysUserService;
     private final SysUserRoleService sysUserRoleService;
     private final SysCollService sysCollService;
+    private final ActvReviewService actvReviewService;
+    private final ActvService actvService;
 
 
     /**
@@ -80,9 +81,22 @@ public class BaseController {
             session.setAttribute("msg","密码错误");
             return modelAndView;
         }
+        //该角色的待办事项
+        List<ReviewVo> reviewVos = new ArrayList<>();
+        List<ActvReview> reviewList = actvReviewService.lambdaQuery().eq(ActvReview::getReviewId, sysUser.getId()).list();
+        reviewList.forEach(review->{
+            ReviewVo reviewVo = new ReviewVo();
+            BeanUtil.copyProperties(review,reviewVo);
+            SysUser user = sysUserService.getById(review.getUserId());
+            Actv actv = actvService.getById(review.getActvId());
+            reviewVo.setUsername(user.getUsername());
+            reviewVo.setActvTitle(actv.getActvTitle());
+            reviewVos.add(reviewVo);
+        });
         //查找角色id
         SysUserRole role = sysUserRoleService.lambdaQuery().eq(SysUserRole::getUserId, sysUser.getId()).one();
         SysColl coll = sysCollService.getById(sysUser.getCollId());
+        session.setAttribute("reviewList",reviewVos);
         session.setAttribute("roleId",role.getRoleId());
         session.setAttribute("avatar",sysUser.getAvatar());
         session.setAttribute("username",sysUser.getUsername());

@@ -1,7 +1,10 @@
 package com.crs.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.crs.dto.ApplyDto;
 import com.crs.entity.CmtyActvUser;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * @author LZ
@@ -9,5 +12,6 @@ import com.crs.entity.CmtyActvUser;
  */
 public interface CmtyActvUserService extends IService<CmtyActvUser> {
 
+    void add(ApplyDto dto, HttpServletRequest request);
 
 }

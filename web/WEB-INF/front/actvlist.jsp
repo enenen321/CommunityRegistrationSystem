@@ -23,19 +23,6 @@
             margin: 0;
             padding: 0;
         }
-        .line-limit-length {
-            max-width: 600px;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-        }
-        .line-content-length {
-            overflow:hidden;
-            text-overflow:ellipsis;
-            display:-webkit-box;
-            -webkit-box-orient:vertical;
-            -webkit-line-clamp:5;
-        }
         /* li在这里只去掉既有样式 不规定宽度 */
         li {
             cursor: pointer;
