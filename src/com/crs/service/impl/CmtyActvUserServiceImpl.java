@@ -39,6 +39,8 @@ public class CmtyActvUserServiceImpl extends ServiceImpl<CmtyActvUserMapper,Cmty
             ActvReview actvReview = new ActvReview();
             actvReview.setActvId(dto.getActvId()).setReviewId(1L).setStauts(1).setUserId(userId);
             actvReviewService.save(actvReview);
+        }else{
+            this.remove(eq);
         }
     }
 }
