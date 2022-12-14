@@ -45,6 +45,8 @@ public class ActvServiceImpl extends ServiceImpl<ActvMapper, Actv> implements Ac
                     .eq(CmtyActvUser::getUserId, userId).one();
             if (null != cmtyActvUser){
                 act.setIsApply(1);
+                act.setStatus(cmtyActvUser.getStatus());
+                act.setReason(cmtyActvUser.getReason());
             }
         });
         PageInfo<ActvModel> actvPageInfo = new PageInfo<>(actvList);

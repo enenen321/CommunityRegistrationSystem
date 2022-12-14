@@ -25,5 +25,13 @@ public class ActvModel extends Actv {
      * 是否已报名
      */
     private Integer isApply = 0;
+    /**
+     * 审核状态
+     */
+    private Integer status;
+    /**
+     * 原因
+     */
+    private String reason;
 
 }

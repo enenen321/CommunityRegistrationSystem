@@ -226,7 +226,7 @@
                         <td>所属社团</td>
                         <td>所属学院</td>
                         <td>截止日期</td>
-                        <td>操作</td>
+                        <td>操作/只读</td>
                     </tr>
                 </thead>
                 <tbody>
@@ -242,7 +242,22 @@
                                 <td><a style="cursor: pointer;" onclick="apply(${actv.cmtyId},${actv.id})">申请</a></td>
                             </c:when>
                             <c:when test="${actv.isApply == 1 && sessionScope.roleId != 1 && sessionScope.roleId != 2 && sessionScope.roleId != 3}">
-                                <td><a style="cursor: pointer;" onclick="apply(${actv.cmtyId},${actv.id})">取消申请</a></td>
+                                <%--申请后无法取消申请--%>
+<%--                                <td><a style="cursor: pointer;pointer-events: none" onclick="apply(${actv.cmtyId},${actv.id})">取消申请</a></td>--%>
+                              <c:choose>
+                                <c:when test="${actv.status == 1}">
+                                    <td><a style="cursor: pointer;pointer-events: none" href="#">审核中</a></td>
+                                </c:when>
+                                <c:when test="${actv.status == 2}">
+                                    <td><a style="cursor: pointer;pointer-events: none" href="#">审核通过</a></td>
+                                </c:when>
+                                <c:when test="${actv.status == 3}">
+                                    <td><a style="cursor: pointer;pointer-events: none" href="#">审核不通过</a></td>
+                                </c:when>
+                                <c:otherwise>
+                                    <td><a style="cursor: pointer;pointer-events: none" href="#">未审核</a></td>
+                                </c:otherwise>
+                              </c:choose>
                             </c:when>
                             <c:otherwise>
                                 <td><a style="cursor: pointer; pointer-events: none" onclick="">关闭活动</a></td>
