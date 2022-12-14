@@ -36,7 +36,6 @@ public class BaseController {
     private final SysUserRoleService sysUserRoleService;
     private final SysCollService sysCollService;
     private final ActvReviewService actvReviewService;
-    private final ActvService actvService;
 
 
     /**

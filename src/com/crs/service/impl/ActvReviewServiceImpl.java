@@ -97,7 +97,6 @@ public class ActvReviewServiceImpl extends ServiceImpl<ActvReviewMapper,ActvRevi
         //该角色的待办事项
         List<ReviewVo> reviewVos = new ArrayList<>();
         List<ActvReview> reviewList = this.lambdaQuery().eq(ActvReview::getReviewId, userId).eq(ActvReview::getStatus,1).list();
-        System.out.println(reviewList);
         reviewList.forEach(review->{
             ReviewVo reviewVo = new ReviewVo();
             BeanUtil.copyProperties(review,reviewVo);

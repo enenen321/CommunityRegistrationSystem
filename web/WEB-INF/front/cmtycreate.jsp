@@ -102,7 +102,7 @@
         }
         .crs_header{
             margin-left: 260px;
-            margin-top: -90px;
+            margin-top: -91px;
             float: left;
             position: absolute;
             color: black;
