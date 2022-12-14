@@ -11,7 +11,7 @@
  Target Server Version : 50739
  File Encoding         : 65001
 
- Date: 12/12/2022 11:36:57
+ Date: 14/12/2022 10:13:48
 */
 
 SET NAMES utf8mb4;
@@ -45,18 +45,19 @@ CREATE TABLE `actv`  (
 -- ----------------------------
 DROP TABLE IF EXISTS `actv_review`;
 CREATE TABLE `actv_review`  (
-  `id` bigint(20) NOT NULL,
-  `user_id` bigint(20) NULL DEFAULT NULL COMMENT '用户id',
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `user_id` bigint(20) NULL DEFAULT NULL COMMENT '申请用户id',
   `actv_id` bigint(20) NULL DEFAULT NULL COMMENT '活动id',
+  `reason` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '不同意原因',
   `review_id` bigint(20) NULL DEFAULT NULL COMMENT '审核人id',
-  `status` tinyint(1) NULL DEFAULT 0 COMMENT '审核状态',
+  `status` tinyint(1) NULL DEFAULT 0 COMMENT '审核状态 1-审核中；2-已审核',
   `created_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
   `is_deleted` tinyint(1) NULL DEFAULT 0 COMMENT '是否已删除',
   `updated_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
   `created_user` bigint(255) NULL DEFAULT NULL COMMENT '创建人',
   `updated_user` bigint(20) NULL DEFAULT NULL COMMENT '更新人',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of actv_review
@@ -70,8 +71,10 @@ CREATE TABLE `cmty_actv_user`  (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `cmty_id` bigint(20) NULL DEFAULT NULL COMMENT '社团id',
   `actv_id` bigint(20) NULL DEFAULT NULL COMMENT '活动id',
+  `review_id` bigint(20) NULL DEFAULT NULL COMMENT '当前审核人',
   `user_id` bigint(20) NULL DEFAULT NULL COMMENT '用户id',
-  `status` tinyint(1) NULL DEFAULT NULL COMMENT '审核状态 0-未审核；1-已审核',
+  `reason` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '不同意原因',
+  `status` tinyint(1) NULL DEFAULT NULL COMMENT '审核状态 0-未审核；1-审核中；2-审核通过；3-不通过',
   `created_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
   `is_deleted` tinyint(1) NULL DEFAULT 0 COMMENT '是否已删除',
   `updated_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
@@ -147,7 +150,7 @@ CREATE TABLE `sys_log`  (
   `created_user` bigint(255) NULL DEFAULT NULL COMMENT '创建人',
   `updated_user` bigint(20) NULL DEFAULT NULL COMMENT '更新人',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_log
@@ -238,12 +241,14 @@ CREATE TABLE `sys_user`  (
   `created_user` bigint(255) NULL DEFAULT NULL COMMENT '创建人',
   `updated_user` bigint(20) NULL DEFAULT NULL COMMENT '更新人',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_user
 -- ----------------------------
 INSERT INTO `sys_user` VALUES (1, '000000', 'admin', 'default.png', 1, '274f84705249467593036dd547e05225', 'd564742c826b48d7838e9655c5e204ee', '13711111111', '2022-12-06 16:57:23', 0, NULL, NULL, NULL);
+INSERT INTO `sys_user` VALUES (2, '000001', '辅导员', 'default.png', 1, 'dbbc2458c72596e7', '0fa84a60c2c84a0d8814466b5054e794', '13566666666', '2022-12-12 11:59:25', 0, NULL, NULL, NULL);
+INSERT INTO `sys_user` VALUES (3, '000002', '社团团长', 'default.png', 1, 'bae9e874cb1ad75f', 'f359956dbcdf49159888bd95a30d6672', '13711111116', '2022-12-13 09:05:10', 0, NULL, NULL, NULL);
 
 -- ----------------------------
 -- Table structure for sys_user_role
@@ -259,11 +264,13 @@ CREATE TABLE `sys_user_role`  (
   `created_user` bigint(255) NULL DEFAULT NULL COMMENT '创建人',
   `updated_user` bigint(20) NULL DEFAULT NULL COMMENT '更新人',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_user_role
 -- ----------------------------
 INSERT INTO `sys_user_role` VALUES (1, 1, 1, '2022-12-06 11:47:37', 0, NULL, NULL, NULL);
+INSERT INTO `sys_user_role` VALUES (2, 2, 3, '2022-12-12 11:59:25', 0, NULL, NULL, NULL);
+INSERT INTO `sys_user_role` VALUES (3, 3, 2, '2022-12-13 09:05:10', 0, NULL, NULL, NULL);
 
 SET FOREIGN_KEY_CHECKS = 1;
