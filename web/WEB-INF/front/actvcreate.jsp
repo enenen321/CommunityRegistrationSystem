@@ -110,7 +110,7 @@
         }
         .select2-container--default .select2-selection--single .select2-selection__arrow{
             top: 15px;
-            right: 45px;
+            right: 69px;
         }
         .select2-container--open .select2-dropdown--below{
             margin-left:162px;
