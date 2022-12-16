@@ -83,6 +83,7 @@ public class ActvReviewController {
      * 跳转到审核页面
      */
     @GetMapping("/reviewList/{pn}")
+    @SystemLog(message = "查看待审核列表")
     public ModelAndView reviewList(@PathVariable("pn") Integer pn,HttpServletRequest request){
         HttpSession session = request.getSession();
         Long userId = (Long) session.getAttribute("userId");
