@@ -1,6 +1,7 @@
 package com.crs.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.crs.common.annotation.SystemLog;
 import com.crs.dto.ReviewDto;
 import com.crs.entity.ActvReview;
 import com.crs.service.ActvReviewService;
@@ -94,6 +95,7 @@ public class ActvReviewController {
     }
 
     @PostMapping("/check")
+    @SystemLog(message = "审核申请")
     public void check(ReviewDto dto,HttpServletRequest request){
         actvReviewService.check(dto,request);
     }

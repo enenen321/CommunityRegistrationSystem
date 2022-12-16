@@ -47,8 +47,8 @@ public class SysCmtyController {
      * @param sysCmty 实体
      * @return 新增结果
      */
-    @SystemLog(message = "创建社团")
     @PostMapping("/add")
+    @SystemLog(message = "创建社团")
     public ModelAndView add(SysCmty sysCmty,HttpServletRequest request) {
         return sysCmtyService.add(sysCmty,request);
     }

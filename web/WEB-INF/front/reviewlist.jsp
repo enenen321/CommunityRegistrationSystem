@@ -339,22 +339,6 @@
         $("#actv_create").remove();
     }
 
-    function apply(cmtyId,actvId){
-        var formData = new FormData();
-        formData.append("cmtyId",cmtyId);
-        formData.append("actvId",actvId);
-        $.ajax({
-            url: "${pageContext.request.contextPath}/cmtyActvUser/add",
-            type:"post",
-            contentType:false,
-            processData:false,
-            data:formData,
-            success:function (){
-                history.go(0);
-            }
-        })
-    }
-
     function review(cmtyId,actvId,cmtyActvUserId,userId,isAgree){
         var formData = new FormData();
         formData.append("cmtyId",cmtyId);

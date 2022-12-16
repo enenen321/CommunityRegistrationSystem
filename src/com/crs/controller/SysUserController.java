@@ -1,5 +1,6 @@
 package com.crs.controller;
 
+import com.crs.common.annotation.SystemLog;
 import com.crs.entity.SysUser;
 import com.crs.model.UserListModel;
 import com.crs.service.SysUserService;
@@ -28,6 +29,7 @@ public class SysUserController {
      * @return 查询结果
      */
     @GetMapping("/list/{pn}")
+    @SystemLog(message = "查看用户列表")
     public ModelAndView queryByPage(@PathVariable("pn") Integer pn, UserListModel userModel, HttpServletRequest request) {
         return sysUserService.userList(pn,userModel,request);
     }

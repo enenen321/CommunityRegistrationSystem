@@ -1,5 +1,6 @@
 package com.crs.controller;
 
+import com.crs.common.annotation.SystemLog;
 import com.crs.entity.Actv;
 import com.crs.service.ActvService;
 import com.crs.model.ActvModel;
@@ -27,6 +28,7 @@ public class ActvController {
      * @return 查询结果
      */
     @GetMapping("/list/{pn}")
+    @SystemLog(message = "查看活动列表")
     public ModelAndView list(@PathVariable("pn") Integer pn, ActvModel actv, Model model, HttpServletRequest request) {
         return actvService.actvList(pn,actv,model,request);
     }
@@ -48,6 +50,7 @@ public class ActvController {
      * @return 新增结果
      */
     @PostMapping("/add")
+    @SystemLog(message = "添加社团活动")
     public ModelAndView add(@RequestBody Actv actv,HttpServletRequest request) {
         return actvService.add(actv,request);
     }

@@ -1,6 +1,7 @@
 package com.crs.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.crs.common.annotation.SystemLog;
 import com.crs.dto.ApplyDto;
 import com.crs.entity.CmtyActvUser;
 import com.crs.service.CmtyActvUserService;
@@ -46,6 +47,7 @@ public class CmtyActvUserController {
      * @return 新增结果
      */
     @PostMapping("/add")
+    @SystemLog(message = "申请社团活动")
     public void add(ApplyDto dto, HttpServletRequest request) {
         cmtyActvUserService.add(dto,request);
     }
