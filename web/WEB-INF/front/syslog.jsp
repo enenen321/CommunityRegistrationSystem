@@ -14,31 +14,14 @@
     <link href="${pageContext.request.contextPath }/resource/css/bootstrap.css" rel="stylesheet">
     <link rel="stylesheet" href="${pageContext.request.contextPath }/resource/css/img.css" type="text/css">
     <link href="${pageContext.request.contextPath }/resource/css/blog.css" rel="stylesheet">
-    <link href="${pageContext.request.contextPath}/resource/css/select2.css" rel="stylesheet">
     <script src="${pageContext.request.contextPath }/resource/js/jquery-3.2.1.js"></script>
     <script src="${pageContext.request.contextPath }/resource/js/bootstrap.js"></script>
-    <script src="${pageContext.request.contextPath}/resource/js/select2.min.js"></script>
-    <script src="${pageContext.request.contextPath }/resource/js/wangEditor.min.js"></script>
-    <script src="${pageContext.request.contextPath }/resource/js/wangEditor-fullscreen-plugin.js"></script>
     <title>社团活动报名系统</title>
     <style>
         /*默认通配符*/
         * {
             margin: 0;
             padding: 0;
-        }
-        .line-limit-length {
-            max-width: 600px;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-        }
-        .line-content-length {
-            overflow:hidden;
-            text-overflow:ellipsis;
-            display:-webkit-box;
-            -webkit-box-orient:vertical;
-            -webkit-line-clamp:5;
         }
         /* li在这里只去掉既有样式 不规定宽度 */
         li {
@@ -101,80 +84,39 @@
         .menu li a:hover{
             color: #fff;
         }
-        /*下拉框样式*/
-        .select2-container .select2-selection--single{
-            height: 40px;
-            width: 467px;
-            margin-left: 162px;
-            margin-top: 10px;
-        }
-        .select2-container--default .select2-selection--single .select2-selection__arrow{
-            top: 15px;
-            right: 69px;
-        }
-        .select2-container--open .select2-dropdown--below{
-            margin-left:162px;
-            max-width: 467px;
-            border: 1px solid #ccc;
-            -webkit-box-sizing: border-box;
-            -moz-box-sizing: border-box;
-            box-sizing: border-box;
-        }
-
-        .select2-container .select2-selection--single .select2-selection__rendered{
-            margin-top: 3px;
-            padding-left: 17px;
-        }
-        .select2-container--default .select2-selection--single .select2-selection__placeholder{
-            font-size: 15px;
-            margin-left: -4px;
-        }
-        .register-back{
-            float: left;
-            display: inline-block;
-            width: 15%;
-            margin-bottom: 0px;
-        }
         .crs_header{
             margin-left: 260px;
-            margin-top: -91px;
+            margin-top: -61px;
             float: left;
             position: absolute;
             color: black;
         }
-        h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6{
-            margin-top: 1px;
-            margin-left: 347px;
+        td{
+            font-family: 宋体;
+            height: 70px;
+            width: 171px;
+            padding: 5px;
         }
-        .w-e-toolbar{
-            margin-left: 160px;
-            margin-top: 10px;
-            width: 469px;
+        tr{
+            border-top: 1px solid lightgray;
+            line-height: 30px;
+            text-align: center;
         }
-        .w-e-text-container{
-            width: 469px;
-            margin-left: 160px;
+        #actvlist{
+            height: 350px;
         }
-        .w-e-text p{
-            line-height: 1px;
+        input{
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            height: 29px;
+            padding-left: 1px;
         }
-
-        @media screen and (-webkit-min-device-pixel-ratio: 0) {
-            input[type="datetime-local"].form-control {
-                margin-left: 158px;
-                width: 250px;
-            }
-        }
-        .sr-only{
-            margin-left: 70px;
-        }
-
     </style>
 </head>
-<body style="padding-top:0px;">
+<body>
 <% HttpSession s = request.getSession();%>
 <div class="blog-masthead">
-    <div class="container"  style="margin-bottom: 100px;">
+    <div class="container"  style="display: block;margin-bottom:70px;">
         <nav class="blog-nav">
             <div class="section">
                 <a class="blog-nav-item" href="${pageContext.request.contextPath }/base/homePage">主页</a>
@@ -184,7 +126,7 @@
                 <ul class="menu" id="meu">
                     <li id="cmty_actv"><a href="${pageContext.request.contextPath }/actv/list/1">社团活动列表</a></li>
                     <li id="cmty_user"><a href="${pageContext.request.contextPath }/base/homePage">社团人员管理</a></li>
-                    <li id="report_review"><a href="${pageContext.request.contextPath}/actvReview/reviewList/1">人员报名审核</a></li>
+                    <li id="report_review"><a href="${pageContext.request.contextPath }/actvReview/reviewList/1">人员报名审核</a></li>
                     <li id="actv_create"><a href="${pageContext.request.contextPath }/actv/createActv">社团活动创建</a></li>
                     <li id="cmty_create"><a href="${pageContext.request.contextPath }/sysCmty/createCmt">社团创建</a></li>
                 </ul>
@@ -192,24 +134,24 @@
             <%--普通用户不展示该选项--%>
             <%if (Integer.parseInt(s.getAttribute("roleId").toString()) == 1 || Integer.parseInt(s.getAttribute("roleId").toString()) == 2 || Integer.parseInt(s.getAttribute("roleId").toString()) == 3) {%>
             <div class="section">
+                <a class="blog-nav-item" href="${pageContext.request.contextPath }/sysUser/list/1">系统用户管理</a>
+            </div>
+            <div class="section">
                 <a class="blog-nav-item" href="${pageContext.request.contextPath }/sysLog/list/1">
                     系统日志
                 </a>
-            </div>
-            <div class="section">
-                <a class="blog-nav-item" href="${pageContext.request.contextPath }/sysUser/list/1">系统用户管理</a>
             </div>
             <%}%>
             <div class="section">
                 <a class="blog-nav-item" href="${pageContext.request.contextPath }/user/userInfomation/<%=s.getAttribute("userId")%>">个人管理</a>
                 <ul class="menu">
-                    <li href="#">社团活动详情</li>
-                    <li href="#">个人信息</li>
-                    <li href="#">参与的社团</li>
+                    <li><a href="${pageContext.request.contextPath }/sysCmty/createCmt">社团活动详情</a></li>
+                    <li><a href="${pageContext.request.contextPath }/sysUser/detail/<%=s.getAttribute("userId")%>">个人信息</a></li>
+                    <li><a href="${pageContext.request.contextPath }/sysCmty/createCmt">参与的社团</a></li>
                 </ul>
             </div>
             <div class="section navbar-right">
-                <a class="blog-nav-item" href="${pageContext.request.contextPath}/base/register-page">
+                <a class="blog-nav-item " href="${pageContext.request.contextPath}/base/register-page">
                     注册
                 </a>
             </div>
@@ -226,12 +168,11 @@
             </div>
             <%--头像--%>
             <div class="section navbar-right" style="margin-right: -3px">
-                <img onclick="imgSelect()" style="margin-top:15px;" title="点击更换头像" width="25px" height="25px" rel="icon" src="${pageContext.request.contextPath }/resource/images/avatars/<%=s.getAttribute("avatar")%>">
+                <img id="img" onclick="imgSelect()" style="margin-top:15px;" title="点击更换头像" width="25px" height="25px" rel="icon" src="${pageContext.request.contextPath }/resource/images/avatars/<%=s.getAttribute("avatar")%>">
             </div>
         </nav>
     </div>
 </div>
-
 
 <button style="visibility: hidden" class="btn btn-primary btn-lg"
         data-toggle="modal" data-target="#myModal" id="dialog"></button>
@@ -260,47 +201,81 @@
     </div>
 </div>
 
+<h3 class="crs_header">>>&nbsp;系统日志</h3>
 
-<%--社团活动创建--%>
-<h3 class="crs_header">>>&nbsp;社团管理</h3>
-<div class="container" >
-    <div id="comment-place">
-        <div class="comment-post" id="comment-post">
-            <h3>
-                <i class="fa fa-commenting-o fa-fw" style="margin-left: 50px"></i>
-                社团活动创建 <i class="icon-comment-alt"></i>
-            </h3>
-            <form class="form-horizontal" role="form" id="comment-form" style="margin-left: 100px">
-                <label for="cmtyId" class="sr-only">
-                    社团名称:
-                </label>
-                <select id="cmtyId" name="cmtyId" required style="margin-top: 10px;"  class="form-control">
-                    <c:forEach items='<%=s.getAttribute("cmtyList")%>' var="cmty">
-                        <option style="font-family: 宋体" value=${cmty.id}>${cmty.cmtyName}</option>
-                    </c:forEach>
-                </select>
-                <label  for="actvTitle" class="sr-only">
-                    活动主题:
-                </label>
-                <input id="actv_title" style="margin-top: 10px; width: 56%;margin-left: 160px;font-family: 宋体" type="text" name="actvTitle" id="actvTitle" required
-                       class="form-control" placeholder="请填写活动主题" value="">
-                <label for="editor" class="sr-only">
-                    活动内容:
-                </label>
-                <input type="hidden" name="pid" id="comment-pid"
-                       value="0" size="22" tabindex="1">
-                <div id="editor" name="actvContent" style="width: 100%;height: 150px;font-family: 宋体">
-                    <p></p>
-                </div>
-                <label style="margin-top: 50px; width: 96px;margin-left: 43px;" for="deadline" class="sr-only">
-                    报名截止日期:
-                </label>
-                <input style="margin-top: 43px; font-family: 宋体" type="datetime-local" name="deadline" id="deadline" required
-                       class="form-control" placeholder="请选择截至日期" value="">
-                <a style="margin-top: 10px; margin-left: 165px" href="javascript:addActv()" class="btn btn-lg btn-primary btn-block register-back" type="button">创建</a>
-                <button style="margin-top: 10px; margin-left: 175px" class="btn btn-lg btn-primary btn-block btn register-back" type="button" onclick="window.history.go(-1)">返回</button>
-            </form>
-        </div>
+<%--社团活动列表--%>
+<div class="container">
+    <div class="search" style="padding-bottom: 40px">
+        <form action="" method="get" style="margin-left:117px;padding-left: 10px">
+            <label for="ip">IP地址：</label>
+            <input id="ip" type="text" name="ip" placeholder="按IP地址搜索"/>
+            <button type="submit" class="btn-primary" style="margin-left: 20px;width: 40px">查询</button>
+        </form>
+    </div>
+    <div id="actvlist">
+        <table style="margin:0 auto;padding-left: 80px; border: 1px solid black " >
+            <thead style="background-color: #afd9ee">
+            <tr>
+                <td>访问信息</td>
+                <td>来源IP</td>
+                <td>是否正常</td>
+                <td>创建时间</td>
+            </tr>
+            </thead>
+            <tbody>
+            <c:forEach items="${sysLogs}" var="sysLog">
+                <tr>
+                    <td>${sysLog.message}</td>
+                    <td>${sysLog.ip}</td>
+                    <td>${sysLog.status}</td>
+                    <td>${sysLog.createdTime}</td>
+                </tr>
+            </c:forEach>
+            </tbody>
+        </table>
+    </div>
+
+    <div style="padding-left: 130px; float: right;">
+        <nav aria-label="Page navigation" style="margin-top: 58px">
+            <ul class="pagination" style="font-family: 宋体">
+                <li>
+                    <a href="${pageContext.request.contextPath }/sysLog/list/1/">首页</a>
+                </li>
+                <!--上一页-->
+                <li>
+                    <c:if test="${pageInfo.hasPreviousPage}">
+                        <a href="${pageContext.request.contextPath}/sysLog/list/${pageInfo.pageNum-1}/" aria-label="Previous">
+                            <span aria-hidden="true">«</span>
+                        </a>
+                    </c:if>
+                </li>
+                <!--循环遍历连续显示的页面，若是当前页就高亮显示，并且没有链接-->
+                <c:forEach items="${pageInfo.navigatepageNums}" var="page_num">
+                    <c:if test="${page_num == pageInfo.pageNum}">
+                        <li>
+                            <a href="${pageContext.request.contextPath}/sysLog/list/${page_num}/">${page_num}</a>
+                        </li>
+                    </c:if>
+                    <c:if test="${page_num != pageInfo.pageNum}">
+                        <li>
+                            <a href="${pageContext.request.contextPath}/sysLog/list/${page_num}/">${page_num}</a>
+                        </li>
+                    </c:if>
+                </c:forEach>
+                <!--下一页-->
+                <li>
+                    <c:if test="${pageInfo.hasNextPage}">
+                        <a href="${pageContext.request.contextPath}/sysLog/list/${pageInfo.pageNum+1}/"
+                           aria-label="Next">
+                            <span aria-hidden="true">»</span>
+                        </a>
+                    </c:if>
+                </li>
+                <li>
+                    <a href="${pageContext.request.contextPath}/sysLog/list/${pageInfo.pages}">尾页</a>
+                </li>
+            </ul>
+        </nav>
     </div>
 </div>
 
@@ -309,43 +284,7 @@
     <input type="file" name="imgToUpload" id="imgToUpload" onchange="imgUpload();" style="display:none;"/>
 </form>
 
-<script type="text/javascript">
-    var msg = "<%=session.getAttribute("msg")%>";
-    console.log(msg);
-    if (msg != 'null') {
-        $(function () {
-            $("#myModal").modal({
-                keyboard: true
-            });
-        })};
-
-    function addActv(){
-        //获取社团id
-        var cmtyId = $("#cmtyId").val();
-        //获取活动主题
-        var actvTitle = $("#actv_title").val();
-        //获取活动内容
-        var actvContent = editor.txt.text();
-        var length = actvContent.length;
-        if (length > 20){
-            return alert("活动内容限制二十字以内！");
-        }
-        //获取截止日期
-        var deadline = $("#deadline").val();
-        var actv = JSON.stringify({"cmtyId":cmtyId,"actvTitle":actvTitle,"actvContent":actvContent,"deadline":deadline});
-        $.ajax({
-            type: "post",
-            url: "${pageContext.request.contextPath}/actv/add",
-            contentType:"application/json;charset=utf-8",
-            data:actv,
-            success:function (){
-                history.go(0);
-            },
-            fail:function (){
-                history.go(0);
-            }
-        });
-    }
+<script>
 
     /*图片选择弹窗*/
     function imgSelect(){
@@ -380,18 +319,13 @@
             processData:false,
             data:formData,
             success:function (){
-                //刷新页面
-                history.go(0);
-            },
-            fail:function (){
+                //刷新页面显示头像
                 history.go(0);
             }
         })
 
     }
-
-
-        /*删除li*/
+    /*删除li*/
     var roleId = <%=s.getAttribute("roleId")%>;
     if (roleId != 1 && roleId != 2 && roleId != 3){
         $("#cmty_user").remove();
@@ -412,43 +346,8 @@
         $("#actv_create").remove();
     }
 
-    $("#cmtyId").select2({
-        placeholder:"按社团名称搜索"
-    });
-
-    function reset() {
-        var url = "${pageContext.request.contextPath }/actv/list/1";
-        window.location.href = url;
-    }
-</script>
-
-<script type="text/javascript">
-    var E = window.wangEditor
-    var editor = new E('#editor')
-    // 自定义菜单配置
-    editor.customConfig.menus = [
-        'bold', // 粗体
-        'italic', // 斜体
-        'underline', // 下划线
-        'list', // 列表
-        'emoticon', // 表情
-    ];
-    // debug模式下，有 JS 错误会以throw Error方式提示出来
-    editor.customConfig.debug = true;
-    // 关闭粘贴样式的过滤
-    editor.customConfig.pasteFilterStyle = false;
-    // 自定义处理粘贴的文本内容
-    editor.customConfig.pasteTextHandle = function(content) {
-        // content 即粘贴过来的内容（html 或 纯文本），可进行自定义处理然后返回
-        return content + '<p>在粘贴内容后面追加一行</p>'
-    };
-    // 插入网络图片的回调
-    editor.customConfig.linkImgCallback = function(url) {
-    };
-    editor.customConfig.zIndex = 100;
-    editor.create();
 </script>
 <footer class="blog-footer" style="padding-top:40px;height:5px;">
-    <p style="margin-top: 87px">版权所有 XXXXXXXXXXXXXXXXXX</p>
+    <p style="margin-top: -12px">版权所有 XXXXXXXXXXXXXXXXXX</p>
 </footer>
 </body>

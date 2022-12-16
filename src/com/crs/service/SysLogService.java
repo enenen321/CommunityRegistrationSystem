@@ -2,7 +2,9 @@ package com.crs.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.crs.entity.SysLog;
-import org.springframework.stereotype.Service;
+import org.springframework.web.servlet.ModelAndView;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * @author LZ
@@ -10,5 +12,6 @@ import org.springframework.stereotype.Service;
  */
 public interface SysLogService extends IService<SysLog> {
 
+    ModelAndView logList(Integer pn, SysLog sysLog, HttpServletRequest request);
 }
 

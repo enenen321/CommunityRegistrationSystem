@@ -1,6 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.crs.dao.SysUserMapper">
-
+<select id="userList" resultType="com.crs.model.UserListModel">
+    select su.id,su.username,su.avatar,su.phone,sc.coll_name,su.sno from sys_user su left join sys_coll sc on su.coll_id = sc.id
+<where>
+    <if test="userModel.username != null and userModel.username !=''">
+        and su.username like concat('%',#{userModel.username},'%')
+    </if>
+    <if test="userModel.sno != null and userModel.sno !=''">
+        and su.username like concat('%',#{userModel.username},'%')
+    </if>
+    <if test="userModel.phone != null and userModel.phone !=''">
+        and su.phone like concat('%',#{userModel.phone},'%')
+    </if>
+    <if test="userModel.collName != null and userModel.collName !=''">
+        and sc.coll_name like concat('%',#{userModel.collName},'%')
+    </if>
+</where>
+</select>
 
 </mapper>

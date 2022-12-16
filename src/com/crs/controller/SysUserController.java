@@ -1,6 +1,7 @@
 package com.crs.controller;
 
 import com.crs.entity.SysUser;
+import com.crs.model.UserListModel;
 import com.crs.service.SysUserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -23,13 +24,12 @@ public class SysUserController {
     /**
      * 分页查询
      *
-     * @param sysUser 筛选条件
+     * @param userModel 筛选条件
      * @return 查询结果
      */
-    @GetMapping("/list")
-    public ModelAndView queryByPage(SysUser sysUser) {
-
-        return new ModelAndView();
+    @GetMapping("/list/{pn}")
+    public ModelAndView queryByPage(@PathVariable("pn") Integer pn, UserListModel userModel, HttpServletRequest request) {
+        return sysUserService.userList(pn,userModel,request);
     }
 
     /**

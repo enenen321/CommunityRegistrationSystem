@@ -1,14 +1,13 @@
 package com.crs.controller;
 
 
-
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.crs.entity.SysLog;
 import com.crs.service.SysLogService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-import javax.annotation.Resource;
+
+import javax.servlet.http.HttpServletRequest;
 import java.io.Serializable;
 import java.util.List;
 
@@ -26,13 +25,11 @@ public class SysLogController{
     /**
      * 分页查询所有数据
      *
-     * @param page 分页对象
-     * @param sysLog 查询实体
      * @return 所有数据
      */
-    @GetMapping("/list")
-    public ModelAndView selectAll(Page<SysLog> page, SysLog sysLog) {
-        return null;
+    @GetMapping("/list/{pn}")
+    public ModelAndView selectAll(@PathVariable("pn") Integer pn, SysLog sysLog, HttpServletRequest request) {
+        return sysLogService.logList(pn,sysLog,request);
     }
 
     /**

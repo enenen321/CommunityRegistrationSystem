@@ -3,7 +3,11 @@ package com.crs.dao;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.crs.entity.SysUser;
+import com.crs.model.UserListModel;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
  * @author LZ
@@ -12,5 +16,9 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface SysUserMapper extends BaseMapper<SysUser> {
 
+    /**
+     * 查询所有用户信息
+     */
+    List<UserListModel> userList(@Param("userModel") UserListModel userModel);
 }
 

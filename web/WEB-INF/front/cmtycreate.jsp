@@ -159,8 +159,7 @@
                 <ul class="menu" id="meu">
                     <li id="cmty_actv"><a href="${pageContext.request.contextPath }/actv/list/1">社团活动列表</a></li>
                     <li id="cmty_user"><a href="${pageContext.request.contextPath }/base/homePage">社团人员管理</a></li>
-                    <li id="cmty_spend"><a href="${pageContext.request.contextPath }/base/homePage">社团经费审核</a></li>
-                    <li id="report_review"><a href="${pageContext.request.contextPath }/base/homePage">人员报名审核</a></li>
+                    <li id="report_review"><a href="${pageContext.request.contextPath }/actvReview/reviewList/1">人员报名审核</a></li>
                     <li id="actv_create"><a href="${pageContext.request.contextPath }/actv/createActv">社团活动创建</a></li>
                     <li id="cmty_create"><a href="${pageContext.request.contextPath }/sysCmty/createCmt">社团创建</a></li>
                 </ul>
@@ -168,12 +167,12 @@
             <%--普通用户不展示该选项--%>
             <%if (Integer.parseInt(s.getAttribute("roleId").toString()) == 1 || Integer.parseInt(s.getAttribute("roleId").toString()) == 2 || Integer.parseInt(s.getAttribute("roleId").toString()) == 3) {%>
             <div class="section">
-                <a class="blog-nav-item" href="${pageContext.request.contextPath }/user/userInfomation/<%=s.getAttribute("userId")%>">
+                <a class="blog-nav-item" href="${pageContext.request.contextPath }/sysLog/list/1">
                     系统日志
                 </a>
             </div>
             <div class="section">
-                <a class="blog-nav-item" href="${pageContext.request.contextPath }/user/userInfomation/<%=s.getAttribute("userId")%>">系统用户管理</a>
+                <a class="blog-nav-item" href="${pageContext.request.contextPath }/sysUser/list/1">系统用户管理</a>
             </div>
             <%}%>
             <div class="section">

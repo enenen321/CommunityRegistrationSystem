@@ -6,13 +6,19 @@ import cn.hutool.core.io.IoUtil;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.crs.dao.SysUserMapper;
 import com.crs.entity.SysUser;
+import com.crs.model.UserListModel;
 import com.crs.service.SysUserService;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.*;
+import java.util.List;
 
 
 /**
@@ -67,6 +73,17 @@ public class SysUserServiceImpl  extends ServiceImpl<SysUserMapper, SysUser> imp
                 .setId(userId);
         this.updateById(sysUser);
         session.setAttribute("avatar",avatar);
+    }
+
+    @Override
+    public ModelAndView userList(Integer pn, UserListModel userModel, HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        PageHelper.startPage(pn,5);
+        List<UserListModel> userListModels = this.baseMapper.userList(userModel);
+        PageInfo<UserListModel> pageInfo = new PageInfo(userListModels);
+        session.setAttribute("pageInfo",pageInfo);
+        session.setAttribute("users",userListModels);
+        return new ModelAndView("front/sysuser");
     }
 
 }
