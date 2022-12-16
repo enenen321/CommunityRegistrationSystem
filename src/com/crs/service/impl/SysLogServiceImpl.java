@@ -27,7 +27,8 @@ public class SysLogServiceImpl extends ServiceImpl<SysLogMapper, SysLog> impleme
     public ModelAndView logList(Integer pn, SysLog sysLog, HttpServletRequest request) {
         HttpSession session = request.getSession();
         PageHelper.startPage(pn,5);
-        List<SysLog> list = this.list(new QueryWrapper<SysLog>().lambda().like(null != sysLog.getIp(), SysLog::getIp, sysLog.getIp()));
+        List<SysLog> list = this.list(new QueryWrapper<SysLog>().lambda().like(null != sysLog.getIp(), SysLog::getIp, sysLog.getIp())
+                .orderByDesc(SysLog::getCreatedTime));
         PageInfo<SysLog> pageInfo = new PageInfo<>(list);
         session.setAttribute("pageInfo",pageInfo);
         session.setAttribute("sysLogs",list);
