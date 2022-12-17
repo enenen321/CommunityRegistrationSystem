@@ -30,15 +30,15 @@ import java.util.Map;
 public class SysLogAspect {
     private Logger logger=  LoggerFactory.getLogger(SysLogAspect.class);
 
-    private ThreadLocal<Map<String,Object>> threadLocal=new ThreadLocal<>();
+    private ThreadLocal<Map<String,Object>> threadLocal = new ThreadLocal<>();
 
-    private static final String REQUEST_PARAMS="REQUEST_PARAMS";
+    private static final String REQUEST_PARAMS = "REQUEST_PARAMS";
 
-    private static final String START_TIME="START_TIME";
+    private static final String START_TIME = "START_TIME";
 
-    private static final Integer UNNORMAL=1;
+    private static final Integer ABNORMAL = 1;
 
-    private static final Integer NORMAL=0;
+    private static final Integer NORMAL = 0;
 
     private final SysLogService sysLogService;
 
@@ -67,12 +67,12 @@ public class SysLogAspect {
     @Before(value = "annotationLog() && @annotation(sysLog)")
     private void doBefore(JoinPoint joinPoint, SystemLog sysLog){
         Long startTime = System.currentTimeMillis();
-        Map<String,Object> map=new HashMap<>(3);
+        Map<String,Object> map = new HashMap<>(3);
         //记录调用开始时间
         map.put(START_TIME,startTime);
-        StringBuilder requestStr=new StringBuilder();
+        StringBuilder requestStr = new StringBuilder();
         Object[] args = joinPoint.getArgs();
-        if (args.length>0){
+        if (args.length > 0){
             for (Object arg:args){
                 requestStr.append(arg.toString());
             }
@@ -92,9 +92,8 @@ public class SysLogAspect {
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
         //访问ip
         String remoteAddr = request.getRemoteAddr();
-        Map<String,Object> threadInfo = threadLocal.get();
         //写入数据库
-        insert(sysLog.message(), (String)threadInfo.getOrDefault(REQUEST_PARAMS, ""), "",request.getRequestURL().toString(),remoteAddr,UNNORMAL,null,throwable.toString());
+        insert(sysLog.message(), "",request.getRequestURL().toString(),remoteAddr,ABNORMAL,null,throwable.toString());
         threadLocal.remove();
         logger.error("interface:{},error==>{}",sysLog.message(),throwable);
     }
@@ -102,14 +101,13 @@ public class SysLogAspect {
     /**
      * 写入数据库
      * @param message 接口message
-     * @param rgs 请求URL
      * @param result 返回结果
      * @param status 状态 是否异常
      * @param url 请求url
      * @param ip 访问ip
      * @param exception 异常信息
      */
-    private void insert(String message,String rgs,String result,String url,String ip,Integer status,Long time,String exception){
+    private void insert(String message,String result,String url,String ip,Integer status,Long time,String exception){
         SysLog sysLogEntity =new SysLog();
         sysLogEntity.setMessage(message);
         sysLogEntity.setStatus(status);
@@ -134,9 +132,9 @@ public class SysLogAspect {
         Map<String,Object> threadInfo = threadLocal.get();
         Long start = (Long) threadInfo.get(START_TIME);
         //接口调用时长
-        Long time =System.currentTimeMillis()-start;
+        Long time =System.currentTimeMillis() - start;
         //写入数据库
-        insert(sysLog.message(),(String)threadInfo.getOrDefault(REQUEST_PARAMS,""), JSONUtil.toJsonStr(res),request.getRequestURL().toString(),remoteAddr,NORMAL,time,null);
+        insert(sysLog.message(),JSONUtil.toJsonStr(res),request.getRequestURL().toString(),remoteAddr,NORMAL,time,null);
         threadLocal.remove();
         logger.info("interface:{}调用完成,result:{},time:{}ms", "《"+sysLog.message()+"》",res,time);
     }
