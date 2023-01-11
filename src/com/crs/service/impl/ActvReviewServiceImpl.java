@@ -6,14 +6,8 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.crs.dao.ActvReviewMapper;
 import com.crs.dto.ReviewDto;
-import com.crs.entity.Actv;
-import com.crs.entity.ActvReview;
-import com.crs.entity.CmtyActvUser;
-import com.crs.entity.SysUser;
-import com.crs.service.ActvReviewService;
-import com.crs.service.ActvService;
-import com.crs.service.CmtyActvUserService;
-import com.crs.service.SysUserService;
+import com.crs.entity.*;
+import com.crs.service.*;
 import com.crs.vo.ReviewVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -37,6 +31,8 @@ public class ActvReviewServiceImpl extends ServiceImpl<ActvReviewMapper,ActvRevi
     private  SysUserService sysUserService;
     @Autowired
     private  ActvService actvService;
+    @Autowired
+    private SysCmtyService sysCmtyService;
 
     @Override
     public List<ReviewVo> reviewList(HttpServletRequest request, Long userId) {
@@ -64,7 +60,8 @@ public class ActvReviewServiceImpl extends ServiceImpl<ActvReviewMapper,ActvRevi
             actvReview.setStatus(1);
             actvReview.setId(null);
             //下一个审批人
-            if (userId == 3){
+            SysCmty sysCmty = sysCmtyService.getById(dto.getCmtyId());
+            if (userId.equals(sysCmty.getManagerId())){
                 actvReview.setReviewId(2L);
                 cmtyActvUser.setReviewId(2L);
                 this.save(actvReview);
