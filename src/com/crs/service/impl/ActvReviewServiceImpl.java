@@ -64,13 +64,13 @@ public class ActvReviewServiceImpl extends ServiceImpl<ActvReviewMapper,ActvRevi
             actvReview.setStatus(1);
             actvReview.setId(null);
             //下一个审批人
-            if (userId == 1){
+            if (userId == 3){
                 actvReview.setReviewId(2L);
                 cmtyActvUser.setReviewId(2L);
                 this.save(actvReview);
             }else if (userId == 2){
-                actvReview.setReviewId(3L);
-                cmtyActvUser.setReviewId(3L);
+                actvReview.setReviewId(1L);
+                cmtyActvUser.setReviewId(1L);
                 this.save(actvReview);
             //通过后状态为已通过，审核人id变为0
             }else{
