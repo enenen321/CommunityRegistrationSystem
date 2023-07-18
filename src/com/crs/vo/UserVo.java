@@ -18,4 +18,16 @@ public class UserVo {
      * 用户名称
      */
     private String username;
+    /**
+     * 学号
+     */
+    private String sno;
+    /**
+     * 所属学院
+     */
+    private String collName;
+    /**
+     * 电话号码
+     */
+    private String phone;
 }

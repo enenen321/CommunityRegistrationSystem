@@ -1,13 +1,17 @@
 package com.crs.service.impl;
 
 
+import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.io.IoUtil;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.crs.dao.SysUserMapper;
+import com.crs.entity.SysColl;
 import com.crs.entity.SysUser;
 import com.crs.model.UserListModel;
+import com.crs.service.SysCollService;
 import com.crs.service.SysUserService;
+import com.crs.vo.UserVo;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import lombok.RequiredArgsConstructor;
@@ -28,6 +32,8 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class SysUserServiceImpl  extends ServiceImpl<SysUserMapper, SysUser> implements SysUserService {
+
+    private final SysCollService sysCollService;
 
     public void upload(MultipartFile multipartFile,Long userId, HttpServletRequest request){
         //图片后缀
@@ -84,6 +90,18 @@ public class SysUserServiceImpl  extends ServiceImpl<SysUserMapper, SysUser> imp
         session.setAttribute("pageInfo",pageInfo);
         session.setAttribute("users",userListModels);
         return new ModelAndView("front/sysuser");
+    }
+
+    @Override
+    public ModelAndView userDetail(Long userId,HttpServletRequest request) {
+        SysUser sysUser = this.getById(userId);
+        UserVo vo = new UserVo();
+        BeanUtil.copyProperties(sysUser,vo);
+        SysColl coll = sysCollService.getById(sysUser.getCollId());
+        vo.setCollName(coll.getCollName());
+        request.setAttribute("avatar",sysUser.getAvatar());
+        request.setAttribute("userdetail",vo);
+        return new ModelAndView("front/userdetail");
     }
 
 }

@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+
 import javax.servlet.http.HttpServletRequest;
 /**
  * @author LZ
@@ -80,6 +81,11 @@ public class SysUserController {
     @PostMapping("/upload-file")
     public void upload(MultipartFile file,Long userId,HttpServletRequest request){
         sysUserService.upload(file,userId,request);
+    }
+
+    @GetMapping("/detail/{userId}")
+    public ModelAndView userDetail(@PathVariable("userId")Long userId,HttpServletRequest request){
+        return sysUserService.userDetail(userId,request);
     }
 }
 

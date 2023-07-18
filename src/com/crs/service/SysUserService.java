@@ -29,4 +29,10 @@ public interface SysUserService extends IService<SysUser> {
      */
     ModelAndView userList(Integer pn, UserListModel userModel, HttpServletRequest request);
 
+
+    /**
+     * 获取个人信息
+     */
+    ModelAndView userDetail(Long userId,HttpServletRequest request);
+
 }

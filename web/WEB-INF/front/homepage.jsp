@@ -117,7 +117,7 @@
             </div>
             <%}%>
             <div class="section">
-            <a class="blog-nav-item" href="${pageContext.request.contextPath }/user/userInfomation/<%=s.getAttribute("userId")%>">个人管理</a>
+            <a class="blog-nav-item" href="#">个人管理</a>
                 <ul class="menu">
                     <li><a href="${pageContext.request.contextPath }/sysCmty/createCmt">社团活动详情</a></li>
                     <li><a href="${pageContext.request.contextPath }/sysUser/detail/<%=s.getAttribute("userId")%>">个人信息</a></li>
